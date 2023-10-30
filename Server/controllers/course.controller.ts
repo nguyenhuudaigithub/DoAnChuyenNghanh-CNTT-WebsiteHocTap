@@ -141,39 +141,40 @@ export const getAllCourses = CatchAsyncError(
   }
 );
 
-// //Nhận nội dung khóa học - chỉ dành cho người dùng hợp lệ    5 15
-// export const getCourseByUser = CatchAsyncError(
-//   async (req: Request, res: Response, next: NextFunction) => {
-//     try {
-//       const userCourseList = req.user?.courses;
-//       const courseId = req.params.id;
+//Nhận nội dung khóa học - chỉ dành cho người dùng hợp lệ    5 15
+export const getCourseByUser = CatchAsyncError(
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const userCourseList = req.user?.courses;
+      const courseId = req.params.id;
 
-//       const courseExists = userCourseList?.find(
-//         (course: any) => course._id.toSting() === courseId
-//       );
+      
+      const courseExists = userCourseList?.find(
+        (course: any) => course._id.toString() === courseId
+      );
 
-//       if (!courseExists) {
-//         return next(
-//           new ErrorHandler(
-//             "Bạn không đủ điều kiện truy cập khóa học này !",
-//             404
-//           )
-//         );
-//       }
+      if (!courseExists) {
+        return next(
+          new ErrorHandler(
+            "Bạn không đủ điều kiện truy cập khóa học này !",
+            404
+          )
+        );
+      }
 
-//       const course = await CourseModel.findById(courseId);
+      const course = await CourseModel.findById(courseId);
 
-//       const content = course?.courseData;
+      const content = course?.courseData;
 
-//       res.status(200).json({
-//         success: true,
-//         content,
-//       });
-//     } catch (error: any) {
-//       return next(new ErrorHandler(error.message, 500));
-//     }
-//   }
-// );
+      res.status(200).json({
+        success: true,
+        content,
+      });
+    } catch (error: any) {
+      return next(new ErrorHandler(error.message, 500));
+    }
+  }
+);
 
 // // Thêm câu hỏi trong khóa học 5 26
 // interface IAddQuestionData {

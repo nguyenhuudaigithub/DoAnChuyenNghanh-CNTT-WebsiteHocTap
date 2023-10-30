@@ -5,31 +5,32 @@ import express from "express";
 // //   addReplyToReview,
 // } from "../controllers/course.controller";
 import {
-  editCourse,
-  getAllCourses,
-  getSingleCourse,
-  uploadCourse,
-//   getSingleCourse,
-//   getAllCourses,
-//   getCourseByUser,
-//   addQuestion,
-//   addAnwser,
+    editCourse,
+    getAllCourses,
+    getCourseByUser,
+    getSingleCourse,
+    uploadCourse,
+    //   getSingleCourse,
+    //   getAllCourses,
+    //   getCourseByUser,
+    //   addQuestion,
+    //   addAnwser,
 } from "../controllers/course.controller";
 import { authorizeRoles, isAutheticated } from "../middleware/auth";
 const courseRouter = express.Router();
 
 courseRouter.post(
-  "/create-course",
-  isAutheticated,
-  authorizeRoles("admin"),
-  uploadCourse
+    "/create-course",
+    isAutheticated,
+    authorizeRoles("admin"),
+    uploadCourse
 );
 
 courseRouter.put(
-  "/edit-course/:id",
-  isAutheticated,
-  authorizeRoles("admin"),
-  editCourse
+    "/edit-course/:id",
+    isAutheticated,
+    authorizeRoles("admin"),
+    editCourse
 );
 // courseRouter.put(
 //   "/get-courses",
@@ -48,7 +49,7 @@ courseRouter.get("/get-course/:id", getSingleCourse);
 
 courseRouter.get("/get-courses", getAllCourses);
 
-// courseRouter.get("/get-course-content/:id", isAutheticated, getCourseByUser);
+courseRouter.get("/get-course-content/:id",isAutheticated, getCourseByUser);
 
 // courseRouter.put("/add-question", isAutheticated, addQuestion);
 
