@@ -7,6 +7,9 @@ import jwt, { JwtPayload, Secret } from "jsonwebtoken";
 import ejs from "ejs";
 import path from "path";
 import senMail from "../utils/sendMail";
+import { sendToken } from "../utils/jwt";
+
+
 // Đăng ký tài khoản
 interface IRegistrantionBody {
     name: string;
@@ -127,8 +130,61 @@ export const activateUser = CatchAsyncError(
         }
     }
 );
+// Đăng nhập
+interface ILoginRequest {
+  email: string;
+  password: string;
+}
 
+export const loginUser = CatchAsyncError(
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { email, password } = req.body as ILoginRequest;
 
+      if (!email || !password) {
+        return next(new ErrorHandler("Vui lòng nhập email và mật khẩu !", 400));
+      }
+
+      const user = await userModel.findOne({ email }).select("+password");
+      if (!user) {
+        return next(
+          new ErrorHandler("Email hoặc mật khẩu không hợp lệ !", 400)
+        );
+      }
+
+      const isPasswordMatch = await user.comparePassword(password); // so sánh mật khẩu
+      if (!isPasswordMatch) {
+        return next(
+          new ErrorHandler("Email hoặc mật khẩu không hợp lệ !", 400)
+        );
+      }
+
+      sendToken(user, 200, res);
+    } catch (error: any) {
+      return next(new ErrorHandler(error.message, 400));
+    }
+  }
+);
+
+// Đăng xuất
+export const logoutUser = CatchAsyncError(
+  (req: Request, res: Response, next: NextFunction) => {
+    try {
+      res.cookie("access_token", "", { maxAge: 1 });
+      res.cookie("refresh_token", "", { maxAge: 1 });
+
+    //   const userId = req.user?._id || "";
+    //   redis.del(userId);
+
+      res.status(200).json({
+        success: true,
+        message: "Đăng xuất thành công.",
+      });
+    } catch (error: any) {
+      return next(new ErrorHandler(error.message, 400));
+    }
+  }
+);
 
 
 
@@ -279,61 +335,8 @@ export const activateUser = CatchAsyncError(
 //   }
 // );
 
-// // Đăng nhập
-// interface ILoginRequest {
-//   email: string;
-//   password: string;
-// }
 
-// export const loginUser = CatchAsyncError(
-//   async (req: Request, res: Response, next: NextFunction) => {
-//     try {
-//       const { email, password } = req.body as ILoginRequest;
 
-//       if (!email || !password) {
-//         return next(new ErrorHandler("Vui lòng nhập email và mật khẩu !", 400));
-//       }
-
-//       const user = await userModel.findOne({ email }).select("+password");
-//       if (!user) {
-//         return next(
-//           new ErrorHandler("Email hoặc mật khẩu không hợp lệ !", 400)
-//         );
-//       }
-
-//       const isPasswordMatch = await user.comparePassword(password); // so sánh mật khẩu
-//       if (!isPasswordMatch) {
-//         return next(
-//           new ErrorHandler("Email hoặc mật khẩu không hợp lệ !", 400)
-//         );
-//       }
-
-//       sendToken(user, 200, res);
-//     } catch (error: any) {
-//       return next(new ErrorHandler(error.message, 400));
-//     }
-//   }
-// );
-
-// // Đăng xuất
-// export const logoutUser = CatchAsyncError(
-//   (req: Request, res: Response, next: NextFunction) => {
-//     try {
-//       res.cookie("access_token", "", { maxAge: 1 });
-//       res.cookie("refresh_token", "", { maxAge: 1 });
-
-//       const userId = req.user?._id || "";
-//       redis.del(userId);
-
-//       res.status(200).json({
-//         success: true,
-//         message: "Đăng xuất thành công.",
-//       });
-//     } catch (error: any) {
-//       return next(new ErrorHandler(error.message, 400));
-//     }
-//   }
-// );
 
 // // Cập nhật access token
 // export const updateAccessToken = CatchAsyncError(
