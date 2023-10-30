@@ -6,6 +6,8 @@ import express from "express";
 // } from "../controllers/course.controller";
 import {
   editCourse,
+  getAllCourses,
+  getSingleCourse,
   uploadCourse,
 //   getSingleCourse,
 //   getAllCourses,
@@ -42,9 +44,9 @@ courseRouter.put(
 //   deleteCourse
 // );
 
-// courseRouter.get("/get-course/:id", getSingleCourse);
+courseRouter.get("/get-course/:id", getSingleCourse);
 
-// courseRouter.get("/get-courses", getAllCourses);
+courseRouter.get("/get-courses", getAllCourses);
 
 // courseRouter.get("/get-course-content/:id", isAutheticated, getCourseByUser);
 
