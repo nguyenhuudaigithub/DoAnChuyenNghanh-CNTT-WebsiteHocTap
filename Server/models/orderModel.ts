@@ -10,12 +10,12 @@ const orderSchema = new Schema<IOder>(
   {
     courseId: {
       type: String,
-      required: true,
+      required: true
     },
 
     userId: {
       type: String,
-      required: true,
+      required: true
     },
 
     payment_info: {
