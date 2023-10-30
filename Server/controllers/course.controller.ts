@@ -340,119 +340,119 @@ export const addAnwser = CatchAsyncError(
 //     }
 //   }
 // );
-// // Thêm đánh giá trong khóa học 5 51
-// interface IAddAnswerData {
-//   review: string;
-//   courseId: string;
-//   rating: number;
-//   userId: string;
-// }
+// Thêm đánh giá trong khóa học 5 51
+interface IAddAnswerData {
+  review: string;
+  courseId: string;
+  rating: number;
+  userId: string;
+}
 
-// export const addReview = CatchAsyncError(
-//   async (req: Request, res: Response, next: NextFunction) => {
-//     try {
-//       const userCourseList = req.user?.courses;
-//       const courseId = req.params.id;
+export const addReview = CatchAsyncError(
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const userCourseList = req.user?.courses;
+      const courseId = req.params.id;
 
-//       // kiểm tra xem courseId đã tồn tại trong userCourseList chưa dựa trên _id
-//       const courseExists = userCourseList?.some(
-//         (course: any) => course._id.toSting() === courseId.toString()
-//       );
-//       if (!courseExists) {
-//         return next(
-//           new ErrorHandler(
-//             "Bạn không đủ điều kiện để truy cập khóa học này !",
-//             404
-//           )
-//         );
-//       }
+      // kiểm tra xem courseId đã tồn tại trong userCourseList chưa dựa trên _id
+      const courseExists = userCourseList?.some(
+        (course: any) => course._id.toString() === courseId.toString()
+      );
+      if (!courseExists) {
+        return next(
+          new ErrorHandler(
+            "Bạn không đủ điều kiện để truy cập khóa học này !",
+            404
+          )
+        );
+      }
 
-//       const course = await CourseModel.findById(courseId);
+      const course = await CourseModel.findById(courseId);
 
-//       const { review, rating } = req.body as IAddAnswerData;
+      const { review, rating } = req.body as IAddAnswerData;
 
-//       const reviewData: any = {
-//         user: req.user,
-//         comment: review,
-//         rating,
-//       };
+      const reviewData: any = {
+        user: req.user,
+        comment: review,
+        rating,
+      };
 
-//       course?.reviews.push(reviewData);
+      course?.reviews.push(reviewData);
 
-//       let avg = 0;
+      let avg = 0;
 
-//       course?.reviews.forEach((rev: any) => {
-//         avg += rev.rating;
-//       });
+      course?.reviews.forEach((rev: any) => {
+        avg += rev.rating;
+      });
 
-//       if (course) {
-//         course.ratings = avg / course.reviews.length; // 2 bài đánh:1 bài giá 5 sao, 1 bài đánh giá 4 sao thì = 9/2 = 4.5 sao
-//       }
+      if (course) {
+        course.ratings = avg / course.reviews.length; // 2 bài đánh:1 bài giá 5 sao, 1 bài đánh giá 4 sao thì = 9/2 = 4.5 sao
+      }
 
-//       await course?.save();
+      await course?.save();
 
-//       const notification = {
-//         title: "Đã nhận được đánh giá.",
-//         message: `${req.user?.name} đưa ra đánh giá trong ${course?.name}`,
-//       };
+      const notification = {
+        title: "Đã nhận được đánh giá.",
+        message: `${req.user?.name} đưa ra đánh giá trong ${course?.name}`,
+      };
 
-//       // Thông báo
+      // Thông báo
 
-//       res.status(200).json({
-//         success: true,
-//         course,
-//       });
-//     } catch (error: any) {
-//       return next(new ErrorHandler(error.message, 500));
-//     }
-//   }
-// );
+      res.status(200).json({
+        success: true,
+        course,
+      });
+    } catch (error: any) {
+      return next(new ErrorHandler(error.message, 500));
+    }
+  }
+);
 
-// // Thêm câu trả lời trong bài đánh giá
-// interface IAddReviewData {
-//   comment: string;
-//   courseId: string;
-//   reviewId: string;
-// }
+// Thêm câu trả lời trong bài đánh giá
+interface IAddReviewData {
+  comment: string;
+  courseId: string;
+  reviewId: string;
+}
 
-// export const addReplyToReview = CatchAsyncError(
-//   async (req: Request, res: Response, next: NextFunction) => {
-//     try {
-//       const { comment, courseId, reviewId } = req.body as IAddReviewData;
+export const addReplyToReview = CatchAsyncError(
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { comment, courseId, reviewId } = req.body as IAddReviewData;
 
-//       const course = await CourseModel.findById(courseId);
+      const course = await CourseModel.findById(courseId);
 
-//       if (!course) {
-//         return next(new ErrorHandler("Không tìm thấy khóa học !", 404));
-//       }
+      if (!course) {
+        return next(new ErrorHandler("Không tìm thấy khóa học !", 404));
+      }
 
-//       const review = course?.reviews?.find(
-//         (rev: any) => rev._id.toString() === reviewId
-//       );
+      const review = course?.reviews?.find(
+        (rev: any) => rev._id.toString() === reviewId
+      );
 
-//       if (!review) {
-//         return next(new ErrorHandler("Không tìm thấy đánh giá !", 404));
-//       }
+      if (!review) {
+        return next(new ErrorHandler("Không tìm thấy đánh giá !", 404));
+      }
 
-//       const replyData: any = {
-//         user: req.user,
-//         comment,
-//       };
+      const replyData: any = {
+        user: req.user,
+        comment,
+      };
 
-//       if (!review.commentReplies) {
-//         review.commentReplies = [];
-//       }
+      if (!review.commentReplies) {
+        review.commentReplies = [];
+      }
 
-//       review.commentReplies?.push(replyData);
+      review.commentReplies?.push(replyData);
 
-//       await course?.save();
+      await course?.save();
 
-//       res.status(200).json({
-//         success: true,
-//         course,
-//       });
-//     } catch (error: any) {
-//       return next(new ErrorHandler(error.message, 500));
-//     }
-//   }
-// );
+      res.status(200).json({
+        success: true,
+        course,
+      });
+    } catch (error: any) {
+      return next(new ErrorHandler(error.message, 500));
+    }
+  }
+);
