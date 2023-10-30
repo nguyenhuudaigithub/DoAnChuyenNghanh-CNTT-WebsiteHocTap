@@ -26,12 +26,14 @@
     "ioredis": "^5.3.2",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^7.6.3",
+    "node-cron": "^3.0.2",
     "nodemailer": "^6.9.7",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.2.2"
   },
   "devDependencies": {
     "@types/ejs": "^3.1.4",
+    "@types/node-cron": "^3.0.10",
     "@types/nodemailer": "^6.4.13"
   }
 }
