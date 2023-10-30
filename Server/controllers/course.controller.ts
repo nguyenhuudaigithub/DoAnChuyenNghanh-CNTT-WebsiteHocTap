@@ -5,6 +5,11 @@ import cloudinary from "cloudinary";
 import { createCourse } from "../services/course.service";
 import CourseModel from "../models/course.model";
 import { redis } from "../utils/redis";
+import mongoose from "mongoose";
+import path from "path";
+import senMail from "../utils/sendMail";
+import ejs from "ejs";
+import sendMail from "../utils/sendMail";
 // import { createCourse, getAllCoursesService } from "../services/course.service";
 // import CourseModel from "../models/course.model";
 // import { redis } from "../utils/redis";
@@ -79,236 +84,231 @@ export const editCourse = CatchAsyncError(
 
 //Nhận khóa học duy nhất - mà không cần mua
 export const getSingleCourse = CatchAsyncError(
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const courseId = req.params.id;
+    async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const courseId = req.params.id;
 
-      const isCacheExist = await redis.get(courseId);
+            const isCacheExist = await redis.get(courseId);
 
-      if (isCacheExist) {
-        const course = JSON.parse(isCacheExist);
-        res.status(200).json({
-          success: true,
-          course,
-        });
-      } else {
-        const course = await CourseModel.findById(req.params.id).select(
-          "-courseData.videoUrl -courseData.suggestion -courseData.questions -courseData.links"
-        );
+            if (isCacheExist) {
+                const course = JSON.parse(isCacheExist);
+                res.status(200).json({
+                    success: true,
+                    course,
+                });
+            } else {
+                const course = await CourseModel.findById(req.params.id).select(
+                    "-courseData.videoUrl -courseData.suggestion -courseData.questions -courseData.links"
+                );
 
-        console.log('');
+                console.log('');
 
-        await redis.set(courseId, JSON.stringify(course));
+                await redis.set(courseId, JSON.stringify(course));
 
-        res.status(200).json({
-          success: true,
-          course,
-        });
-      }
-    } catch (error: any) {
-      return next(new ErrorHandler(error.message, 500));
+                res.status(200).json({
+                    success: true,
+                    course,
+                });
+            }
+        } catch (error: any) {
+            return next(new ErrorHandler(error.message, 500));
+        }
     }
-  }
 );
 
 // Nhận tất cả các khóa học - mà không cần mua          4 57
 export const getAllCourses = CatchAsyncError(
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const isCacheExist = await redis.get("allCourses");
+    async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const isCacheExist = await redis.get("allCourses");
 
-      if (isCacheExist) {
-        const course = JSON.parse(isCacheExist);
-        res.status(200).json({
-          success: true,
-          course,
-        });
-      } else {
-        const course = await CourseModel.find().select(
-          "-courseData.videoUrl -courseData.suggestion -courseData.questions -courseData.links"
-        );
+            if (isCacheExist) {
+                const course = JSON.parse(isCacheExist);
+                res.status(200).json({
+                    success: true,
+                    course,
+                });
+            } else {
+                const course = await CourseModel.find().select(
+                    "-courseData.videoUrl -courseData.suggestion -courseData.questions -courseData.links"
+                );
 
-        await redis.set("allCourses", JSON.stringify(course));
+                await redis.set("allCourses", JSON.stringify(course));
 
-        res.status(200).json({
-          success: true,
-          course,
-        });
-      }
-    } catch (error: any) {
-      return next(new ErrorHandler(error.message, 500));
+                res.status(200).json({
+                    success: true,
+                    course,
+                });
+            }
+        } catch (error: any) {
+            return next(new ErrorHandler(error.message, 500));
+        }
     }
-  }
 );
 
 //Nhận nội dung khóa học - chỉ dành cho người dùng hợp lệ    5 15
 export const getCourseByUser = CatchAsyncError(
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const userCourseList = req.user?.courses;
-      const courseId = req.params.id;
+    async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const userCourseList = req.user?.courses;
+            const courseId = req.params.id;
 
-      
-      const courseExists = userCourseList?.find(
-        (course: any) => course._id.toString() === courseId
-      );
 
-      if (!courseExists) {
-        return next(
-          new ErrorHandler(
-            "Bạn không đủ điều kiện truy cập khóa học này !",
-            404
-          )
-        );
-      }
+            const courseExists = userCourseList?.find(
+                (course: any) => course._id.toString() === courseId
+            );
 
-      const course = await CourseModel.findById(courseId);
+            if (!courseExists) {
+                return next(
+                    new ErrorHandler(
+                        "Bạn không đủ điều kiện truy cập khóa học này !",
+                        404
+                    )
+                );
+            }
 
-      const content = course?.courseData;
+            const course = await CourseModel.findById(courseId);
 
-      res.status(200).json({
-        success: true,
-        content,
-      });
-    } catch (error: any) {
-      return next(new ErrorHandler(error.message, 500));
+            const content = course?.courseData;
+
+            res.status(200).json({
+                success: true,
+                content,
+            });
+        } catch (error: any) {
+            return next(new ErrorHandler(error.message, 500));
+        }
     }
-  }
 );
 
-// // Thêm câu hỏi trong khóa học 5 26
-// interface IAddQuestionData {
-//   question: string;
-//   courseId: string;
-//   contentId: string;
-// }
+// Thêm câu hỏi trong khóa học 5 26
+interface IAddQuestionData {
+    question: string;
+    courseId: string;
+    contentId: string;
+}
 
-// export const addQuestion = CatchAsyncError(
-//   async (req: Request, res: Response, next: NextFunction) => {
-//     try {
-//       const { question, courseId, contentId }: IAddQuestionData = req.body;
-//       const course = await CourseModel.findById(courseId);
+export const addQuestion = CatchAsyncError(
+    async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const { question, courseId, contentId }: IAddQuestionData = req.body;
+            const course = await CourseModel.findById(courseId);
 
-//       if (!mongoose.Types.ObjectId.isValid(contentId)) {
-//         return next(new ErrorHandler("Content ID không hợp lệ", 400));
-//       }
+            if (!mongoose.Types.ObjectId.isValid(contentId)) {
+                return next(new ErrorHandler("Content ID không hợp lệ", 400));
+            }
 
-//       const courseContent = course?.courseData?.find((item: any) =>
-//         item._id.equals(contentId)
-//       );
+            const courseContent = course?.courseData?.find((item: any) =>
+                item._id.equals(contentId)
+            );
 
-//       if (!courseContent) {
-//         return next(new ErrorHandler("Content ID không hợp lệ", 400));
-//       }
+            if (!courseContent) {
+                return next(new ErrorHandler("Content ID không hợp lệ", 400));
+            }
 
-//       // Tạo một đối tượng câu hỏi mới
-//       const newQuestion: any = {
-//         user: req.user,
-//         question,
-//         questionReplies: [],
-//       };
+            // Tạo một đối tượng câu hỏi mới
+            const newQuestion: any = {
+                user: req.user,
+                question,
+                questionReplies: [],
+            };
 
-//       //Thêm câu hỏi này vào nội dung khóa học của chúng tôi
-//       courseContent.questions.push(newQuestion);
+            //Thêm câu hỏi này vào nội dung khóa học của chúng tôi
+            courseContent.questions.push(newQuestion);
 
-//       await NotificationModel.create({
-//         user: req.user?._id,
-//         title: "Câu hỏi mới nhận được",
-//         message: `Bạn có một câu hỏi mới từ ${courseContent.title}`,
-//       });
+            //   await NotificationModel.create({
+            //     user: req.user?._id,
+            //     title: "Câu hỏi mới nhận được",
+            //     message: `Bạn có một câu hỏi mới từ ${courseContent.title}`,
+            //   });
 
-//       //Lưu khóa học cập nhật
-//       await course?.save();
+            //Lưu khóa học cập nhật
+            await course?.save();
 
-//       res.status(200).json({
-//         success: true,
-//         course,
-//       });
-//     } catch (error: any) {
-//       return next(new ErrorHandler(error.message, 500));
-//     }
-//   }
-// );
+            res.status(200).json({
+                success: true,
+                course,
+            });
+        } catch (error: any) {
+            return next(new ErrorHandler(error.message, 500));
+        }
+    }
+);
 
-// // Thêm câu trả lời trong câu hỏi khóa học 5 26
-// interface IAddAnswerData {
-//   answer: string;
-//   courseId: string;
-//   contentId: string;
-//   questionId: string;
-// }
+// Thêm câu trả lời trong câu hỏi khóa học 5 26
+interface IAddAnswerData {
+    answer: string;
+    courseId: string;
+    contentId: string;
+    questionId: string;
+}
 
-// export const addAnwser = CatchAsyncError(
-//   async (req: Request, res: Response, next: NextFunction) => {
-//     try {
-//       const { answer, courseId, contentId, questionId }: IAddAnswerData =
-//         req.body;
-//       const course = await CourseModel.findById(courseId);
+export const addAnwser = CatchAsyncError(
+    async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const { answer, courseId, contentId, questionId }: IAddAnswerData = req.body;
+            const course = await CourseModel.findById(courseId);
 
-//       if (!mongoose.Types.ObjectId.isValid(contentId)) {
-//         return next(new ErrorHandler("Content ID không hợp lệ", 400));
-//       }
+            if (!mongoose.Types.ObjectId.isValid(contentId)) {
+                return next(new ErrorHandler("Content ID không hợp lệ", 400));
+            }
 
-//       const courseContent = course?.courseData?.find((item: any) =>
-//         item._id.equals(contentId)
-//       );
+            const courseContent = course?.courseData.find((item: any) =>
+                item._id.equals(contentId)
+            );
 
-//       if (!courseContent) {
-//         return next(new ErrorHandler("Content ID không hợp lệ", 400));
-//       }
+            if (!courseContent) {
+                return next(new ErrorHandler("Content ID không hợp lệ", 400));
+            }
 
-//       const question = courseContent?.questions?.find((item: any) =>
-//         item._id.equals(questionId)
-//       );
+            const question = courseContent?.questions?.find((item: any) =>
+                item._id.equals(questionId)
+            );
 
-//       if (!question) {
-//         return next(new ErrorHandler("Question Id không hợp lệ", 400));
-//       }
+            if (!question) {
+                return next(new ErrorHandler("Question Id không hợp lệ", 400));
+            }
 
-//       // Tạo đối tượng trả lời mới
-//       const newAnswer: any = {
-//         user: req.user,
-//         answer,
-//       };
+            // Tạo đối tượng trả lời mới
+            const newAnswer: any = {
+                user: req.user,
+                answer,
+            }
 
-//       //  Thêm câu trả lời này vào nội dung khóa học của chúng tôi
-//       question.questionReplies?.push(newAnswer);
+            //  Thêm câu trả lời này vào nội dung khóa học của chúng tôi
+            question.questionReplies?.push(newAnswer);
 
-//       await course?.save();
+            await course?.save();
 
-//       if (req.user?._id === question.user._id) {
-//         //Tạo thông báo
-//         await NotificationModel.create({
-//           user: req.user?._id,
-//           title: "Mới nhận được câu trả lời cho câu hỏi.",
-//           message: `Bạn có một câu trả lời trong ${courseContent.title}`,
-//         });
-//       } else {
-//         const data = {
-//           name: question.user.name,
-//           title: courseContent.title,
-//         };
-//         const html = await ejs.renderFile(
-//           path.join(__dirname, "../mails/question_reply.ejs"),
-//           data
-//         );
+            if (req.user?._id === question.user._id) {
 
-//         try {
-//           await senMail({
-//             email: question.user.email,
-//             subject: "Trả lời câu hỏi",
-//             template: "question_reply.ejs",
-//             data,
-//           });
-//         } catch (error: any) {
-//           return next(new ErrorHandler(error.message, 500));
-//         }
-//       }
-//     } catch (error: any) {
-//       return next(new ErrorHandler(error.message, 500));
-//     }
-//   }
-// );
+            } else {
+                const data = {
+                    name: question.user.name,
+                    title: courseContent.title,
+                }
+                const html = await ejs.renderFile(path.join(__dirname, "../mails/question-reply.ejs"), data);
+
+                try {
+                    await sendMail({
+                        email: question.user.email,
+                        subject: "Tra loi cau hoi",
+                        template: "question-reply.ejs",
+                        data,
+                    });
+                } catch (error: any) {
+                    return next(new ErrorHandler(error.message, 500))
+                }
+            }
+            res.status(200).json({
+                success: true,
+                course,
+            });
+        } catch (error: any) {
+            return next(new ErrorHandler(error.message, 500));
+        }
+    }
+);
 // // get all courses -- only for admin
 // export const getAllCourses = CatchAsyncError(
 //   async (req: Request, res: Response, next: NextFunction) => {

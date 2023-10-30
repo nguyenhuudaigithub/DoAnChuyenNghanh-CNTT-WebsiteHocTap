@@ -5,6 +5,8 @@ import express from "express";
 // //   addReplyToReview,
 // } from "../controllers/course.controller";
 import {
+    addAnwser,
+    addQuestion,
     editCourse,
     getAllCourses,
     getCourseByUser,
@@ -51,9 +53,9 @@ courseRouter.get("/get-courses", getAllCourses);
 
 courseRouter.get("/get-course-content/:id",isAutheticated, getCourseByUser);
 
-// courseRouter.put("/add-question", isAutheticated, addQuestion);
+courseRouter.put("/add-question", isAutheticated, addQuestion);
 
-// courseRouter.put("/add-anwser", isAutheticated, addAnwser);
+courseRouter.put("/add-anwser", isAutheticated, addAnwser);
 
 // courseRouter.put("/add-review/:id", isAutheticated, addReview);
 
