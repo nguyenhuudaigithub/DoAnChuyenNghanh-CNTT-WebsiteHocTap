@@ -8,127 +8,128 @@ import ejs from "ejs";
 import path from "path";
 import senMail from "../utils/sendMail";
 import { sendToken } from "../utils/jwt";
+import { redis } from "../utils/redis";
 
 
 // Đăng ký tài khoản
 interface IRegistrantionBody {
-    name: string;
-    email: string;
-    password: string;
-    avatar?: string;
+  name: string;
+  email: string;
+  password: string;
+  avatar?: string;
 }
 
 export const registrantionUser = CatchAsyncError(
-    async (req: Request, res: Response, next: NextFunction) => {
-        try {
-            const { name, email, password } = req.body;
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { name, email, password } = req.body;
 
-            const isEmailExist = await userModel.findOne({ email });
-            if (isEmailExist) {
-                return next(new ErrorHandler("Email đã tồn tại", 400));
-            }
+      const isEmailExist = await userModel.findOne({ email });
+      if (isEmailExist) {
+        return next(new ErrorHandler("Email đã tồn tại", 400));
+      }
 
-            const user: IRegistrantionBody = {
-                name,
-                email,
-                password,
-            };
+      const user: IRegistrantionBody = {
+        name,
+        email,
+        password,
+      };
 
-            const activationToken = createActivationToken(user);
+      const activationToken = createActivationToken(user);
 
-            const activationCode = activationToken.activationCode;
+      const activationCode = activationToken.activationCode;
 
-            const data = { user: { name: user.name }, activationCode };
+      const data = { user: { name: user.name }, activationCode };
 
-            const html = await ejs.renderFile(
-                path.join(__dirname, "../mails/activation-mail.ejs"),
-                data
-            );
+      const html = await ejs.renderFile(
+        path.join(__dirname, "../mails/activation-mail.ejs"),
+        data
+      );
 
-            try {
-                await senMail({
-                    email: user.email,
-                    subject: "Kích hoạt tài khoản của bạn.",
-                    template: "activation-mail.ejs",
-                    data,
-                });
+      try {
+        await senMail({
+          email: user.email,
+          subject: "Kích hoạt tài khoản của bạn.",
+          template: "activation-mail.ejs",
+          data,
+        });
 
-                res.status(201).json({
-                    success: true,
-                    message: `Vui lòng kiểm tra email ${user.email} để kích hoạt tài khoản.`,
-                    activationToken: activationToken.token,
-                });
-            } catch (error: any) {
-                return next(new ErrorHandler(error.message, 400));
-            }
-        } catch (error: any) {
-            return next(new ErrorHandler(error.message, 400));
-        }
+        res.status(201).json({
+          success: true,
+          message: `Vui lòng kiểm tra email ${user.email} để kích hoạt tài khoản.`,
+          activationToken: activationToken.token,
+        });
+      } catch (error: any) {
+        return next(new ErrorHandler(error.message, 400));
+      }
+    } catch (error: any) {
+      return next(new ErrorHandler(error.message, 400));
     }
+  }
 );
 interface IActivationToken {
-    token: string;
-    activationCode: string;
+  token: string;
+  activationCode: string;
 }
 export const createActivationToken = (user: any): IActivationToken => {
-    const activationCode = Math.floor(100 + Math.random() * 9000).toString();
+  const activationCode = Math.floor(100 + Math.random() * 9000).toString();
 
-    const token = jwt.sign(
-        {
-            user,
-            activationCode,
-        },
-        process.env.ACTIVATION_SECRET as Secret,
-        {
-            expiresIn: "5m",
-        }
-    );
-    return { token, activationCode };
+  const token = jwt.sign(
+    {
+      user,
+      activationCode,
+    },
+    process.env.ACTIVATION_SECRET as Secret,
+    {
+      expiresIn: "5m",
+    }
+  );
+  return { token, activationCode };
 };
 
 //  Kích hoạt người dùng
 
 interface IActivationRequest {
-    activation_token: string;
-    activation_code: string;
+  activation_token: string;
+  activation_code: string;
 }
 
 export const activateUser = CatchAsyncError(
-    async (req: Request, res: Response, next: NextFunction) => {
-        try {
-            const { activation_token, activation_code } =
-                req.body as IActivationRequest;
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { activation_token, activation_code } =
+        req.body as IActivationRequest;
 
-            const newUser: { user: IUser; activationCode: string } = jwt.verify(
-                activation_token,
-                process.env.ACTIVATION_SECRET as string
-            ) as { user: IUser; activationCode: string };
+      const newUser: { user: IUser; activationCode: string } = jwt.verify(
+        activation_token,
+        process.env.ACTIVATION_SECRET as string
+      ) as { user: IUser; activationCode: string };
 
-            if (newUser.activationCode != activation_code) {
-                return next(new ErrorHandler("Mã kích hoạt không hợp lệ !", 400));
-            }
+      if (newUser.activationCode != activation_code) {
+        return next(new ErrorHandler("Mã kích hoạt không hợp lệ !", 400));
+      }
 
-            const { name, email, password } = newUser.user;
+      const { name, email, password } = newUser.user;
 
-            const existUser = await userModel.findOne({ email });
+      const existUser = await userModel.findOne({ email });
 
-            if (existUser) {
-                return next(new ErrorHandler("Email đã tồn tại !", 400));
-            }
+      if (existUser) {
+        return next(new ErrorHandler("Email đã tồn tại !", 400));
+      }
 
-            const user = await userModel.create({
-                name,
-                email,
-                password,
-            });
+      const user = await userModel.create({
+        name,
+        email,
+        password,
+      });
 
-            res.status(201).json({
-                success: true,
-            });
-        } catch (error: any) {
-            return next(new ErrorHandler(error.message, 400));
-        }
+      res.status(201).json({
+        success: true,
+      });
+    } catch (error: any) {
+      return next(new ErrorHandler(error.message, 400));
     }
+  }
 );
 // Đăng nhập
 interface ILoginRequest {
@@ -173,8 +174,8 @@ export const logoutUser = CatchAsyncError(
       res.cookie("access_token", "", { maxAge: 1 });
       res.cookie("refresh_token", "", { maxAge: 1 });
 
-    //   const userId = req.user?._id || "";
-    //   redis.del(userId);
+      const userId = req.user?._id || "";
+      redis.del(userId);
 
       res.status(200).json({
         success: true,
@@ -191,149 +192,6 @@ export const logoutUser = CatchAsyncError(
 
 
 
-// require("dotenv").config();
-// import userModel, { IUser } from "../models/user.model";
-// import ErrorHandler from "../utils/ErrorHandler";
-// import jwt, { JwtPayload, Secret } from "jsonwebtoken";
-// import ejs from "ejs";
-// import path from "path";
-// import senMail from "../utils/sendMail";
-// import { Request, Response, NextFunction } from "express";
-// import { CatchAsyncError } from "../middleware/catchAsyncErrors";
-// // import {
-// //   accessTokenOptions,
-// //   refreshTokenOptions,
-// //   sendToken,
-// // } from "../utils/jwt";
-// import { redis } from "../utils/redis";
-// // import {
-// //   getAllUsersService,
-// //   getUserById,
-// //   updateUserRoleService,
-// // } from "../services/user.service";
-// // import cloudinary from "cloudinary";
-
-// // Đăng ký tài khoản
-// interface IRegistrantionBody {
-//   name: string;
-//   email: string;
-//   password: string;
-//   avatar?: string;
-// }
-
-// export const registrantionUser = CatchAsyncError(
-//   async (req: Request, res: Response, next: NextFunction) => {
-//     try {
-//       const { name, email, password } = req.body;
-
-//       const isEmailExist = await userModel.findOne({ email });
-//       if (isEmailExist) {
-//         return next(new ErrorHandler("Email đã tồn tại", 400));
-//       }
-
-//       const user: IRegistrantionBody = {
-//         name,
-//         email,
-//         password,
-//       };
-
-//       const activationToken = createActivationToken(user);
-
-//       const activationCode = activationToken.activationCode;
-
-//       const data = { user: { name: user.name }, activationCode };
-
-//       const html = await ejs.renderFile(
-//         path.join(__dirname, "../mails/activation-mail.ejs"),
-//         data
-//       );
-
-//       try {
-//         await senMail({
-//           email: user.email,
-//           subject: "Kích hoạt tài khoản của bạn.",
-//           template: "activation-mail.ejs",
-//           data,
-//         });
-
-//         res.status(201).json({
-//           success: true,
-//           message: `Vui lòng kiểm tra email ${user.email} để kích hoạt tài khoản.`,
-//           activationToken: activationToken.token,
-//         });
-//       } catch (error: any) {
-//         return next(new ErrorHandler(error.message, 400));
-//       }
-//     } catch (error: any) {
-//       return next(new ErrorHandler(error.message, 400));
-//     }
-//   }
-// );
-
-// interface IActivationToken {
-//   token: string;
-//   activationCode: string;
-// }
-
-//   export const createActivationToken = (user: any): IActivationToken => {
-//     const activationCode = Math.floor(100 + Math.random() * 9000).toString();
-
-//     const token = jwt.sign(
-//       {
-//         user,
-//         activationCode,
-//       },
-//       process.env.ACTIVATION_SECRET as Secret,
-//       {
-//         expiresIn: "5m",
-//       }
-//     );
-//     return { token, activationCode };
-//   };
-
-// //  Kích hoạt người dùng
-// interface IActivationRequest {
-//   activation_token: string;
-//   activation_code: string;
-// }
-
-// export const activateUser = CatchAsyncError(
-//   async (req: Request, res: Response, next: NextFunction) => {
-//     try {
-//       const { activation_token, activation_code } =
-//         req.body as IActivationRequest;
-
-//       const newUser: { user: IUser; activationCode: string } = jwt.verify(
-//         activation_token,
-//         process.env.ACTIVATION_SECRET as string
-//       ) as { user: IUser; activationCode: string };
-
-//       if (newUser.activationCode != activation_code) {
-//         return next(new ErrorHandler("Mã kích hoạt không hợp lệ !", 400));
-//       }
-
-//       const { name, email, password } = newUser.user;
-
-//       const existUser = await userModel.findOne({ email });
-
-//       if (existUser) {
-//         return next(new ErrorHandler("Email đã tồn tại !", 400));
-//       }
-
-//       const user = await userModel.create({
-//         name,
-//         email,
-//         password,
-//       });
-
-//       res.status(201).json({
-//         success: true,
-//       });
-//     } catch (error: any) {
-//       return next(new ErrorHandler(error.message, 400));
-//     }
-//   }
-// );
 
 
 
