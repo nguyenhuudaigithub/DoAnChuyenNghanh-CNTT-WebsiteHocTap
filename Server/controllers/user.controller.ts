@@ -7,10 +7,18 @@ import jwt, { JwtPayload, Secret } from "jsonwebtoken";
 import ejs from "ejs";
 import path from "path";
 import senMail from "../utils/sendMail";
-import { accessTokenOptions, refreshTokenOptions, sendToken } from "../utils/jwt";
+import {
+  accessTokenOptions,
+  refreshTokenOptions,
+  sendToken,
+} from "../utils/jwt";
 import { redis } from "../utils/redis";
-import { getAllUsersService, getUserById, updateUserRoleService } from "../services/user.service";
-import cloudinary from "cloudinary"
+import {
+  getAllUsersService,
+  getUserById,
+  updateUserRoleService,
+} from "../services/user.service";
+import cloudinary from "cloudinary";
 
 // Đăng ký tài khoản
 interface IRegistrantionBody {
@@ -287,17 +295,9 @@ interface IUpdateUserInfo {
 export const updateUserInfo = CatchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { email, name } = req.body as IUpdateUserInfo;
+      const { name } = req.body as IUpdateUserInfo;
       const userId = req.user?._id;
       const user = await userModel.findById(userId);
-
-      if (email && user) {
-        const isEmailExist = await userModel.findOne({ email });
-        if (isEmailExist) {
-          return next(new ErrorHandler("Email already exist", 500));
-        }
-        user.email = email;
-      }
 
       if (name && user) {
         user.name = name;
@@ -454,7 +454,5 @@ export const deleteUser = CatchAsyncError(
     }
   }
 );
-
-
 
 //Xong server 3:45 AM 31/10/2023
