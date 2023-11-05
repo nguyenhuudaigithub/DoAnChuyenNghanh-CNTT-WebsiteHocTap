@@ -233,7 +233,12 @@ const AllUsers: FC<Props> = ({ isTeam }) => {
                     placeholder="Nhập email..."
                     className={`${styles.input}`}
                   />
-                  <select name="" id="" className={`${styles.input} mt-6`}>
+                  <select
+                    name=""
+                    id=""
+                    className={`${styles.input} mt-6`}
+                    onChange={(e) => setRole(e.target.value)}
+                  >
                     <option value="admin" className="text-black">
                       Admin
                     </option>

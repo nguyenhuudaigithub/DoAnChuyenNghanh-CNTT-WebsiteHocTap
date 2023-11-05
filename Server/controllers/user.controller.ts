@@ -443,7 +443,7 @@ export const updateUserRole = CatchAsyncError(
         const id = isUserExist._id;
         updateUserRoleService(id, res, role);
       } else {
-        res.status(400).json({
+        res.status(400).json({ 
           success: false,
           message: "User not found",
         });
