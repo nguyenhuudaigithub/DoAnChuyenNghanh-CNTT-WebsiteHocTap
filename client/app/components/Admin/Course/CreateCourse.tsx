@@ -100,14 +100,16 @@ const CreateCourse = (props: Props) => {
       totalVideos: courseContentData.length,
       benefits: formattedBenefits,
       prerequisites: formattedPrerequisites,
-      courseContent: formattedCourseContentData,
+      courseData: formattedCourseContentData,
     };
 
     setCourseData(data);
   };
 
   const handleCourseCreate = async (e: any) => {
+    handleSubmit();
     const data = courseData;
+    console.log(data);
     if(!isLoading){
       await createCourse(data);
     }
