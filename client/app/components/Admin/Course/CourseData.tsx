@@ -59,7 +59,7 @@ const CourseData: FC<Props> = ({
     <div className='w-[80%] m-auto mt-24 block'>
       <div>
         <label className={`${styles.label} text-[20px]`} htmlFor='email'>
-          What are the benefits for students in this course?
+          Lợi ích của học viên khi tham gia khóa học này là gì?
         </label>
         <br />
         {benefits.map((benefit: any, index: number) => (
@@ -67,7 +67,7 @@ const CourseData: FC<Props> = ({
             type='text'
             key={index}
             name='Benefit'
-            placeholder='Benefit'
+            placeholder='Lợi ích'
             required
             className={`${styles.input} my-2`}
             value={benefit.title}
@@ -81,7 +81,7 @@ const CourseData: FC<Props> = ({
       </div>
       <div>
         <label className={`${styles.label} text-[20px]`} htmlFor='email'>
-          What are the prerequisites for students in this course?
+          Điều kiện tiên quyết đối với học viên trong khóa học này là gì?
         </label>
         <br />
         {prerequisites.map((prerequisite: any, index: number) => (
@@ -89,7 +89,7 @@ const CourseData: FC<Props> = ({
             type='text'
             key={index}
             name='Prerequisites'
-            placeholder='Prerequisites'
+            placeholder='Điều kiện tiên quyết'
             required
             className={`${styles.input} my-2`}
             value={prerequisite.title}
@@ -106,16 +106,15 @@ const CourseData: FC<Props> = ({
           className='w-full 800px:w-[180px] flex items-center justify-center h-[40px] bg-[#37a39a] text-center text-[#fff] rounded mt-8 cursor-pointer'
           onClick={() => prevButton()}
         >
-          Prev
+          Trở lại
         </div>
         <div
           className='w-full 800px:w-[180px] flex items-center justify-center h-[40px] bg-[#37a39a] text-center text-[#fff] rounded mt-8 cursor-pointer'
           onClick={() => handleOptions()}
         >
-          Next
+          Tiếp tục
         </div>
-      </div>
-      |
+      </div>     
     </div>
   );
 };

@@ -19,6 +19,7 @@ import {
   updateUserRoleService,
 } from "../services/user.service";
 import cloudinary from "cloudinary";
+import { error } from "console";
 
 // Đăng ký tài khoản
 interface IRegistrantionBody {
@@ -240,10 +241,11 @@ export const updateAccessToken = CatchAsyncError(
       res.cookie("refresh_token", refreshToken, refreshTokenOptions);
 
       await redis.set(user._id, JSON.stringify(user), "EX", 604800); // 7days
-      res.status(200).json({
-        status: "success",
-        accessToken,
-      });
+      // res.status(200).json({
+      //   status: "success",
+      //   accessToken,
+      // });
+      next();
     } catch (error: any) {
       return next(new ErrorHandler(error.message, 400));
     }
@@ -421,12 +423,31 @@ export const getAllUsers = CatchAsyncError(
     }
   }
 );
+
+// export const getAdminAllCourses = CatchAsyncError(
+//   async (req: Request, res: Response, next: NextFunction) => {
+//     try {
+//       getAllUsersService(res);
+//     } catch (error: any) {
+//       return next(new ErrorHandler(error.message, 400));
+//     }
+//   }
+// );
 //update user role -- only for admin
 export const updateUserRole = CatchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { id, role } = req.body;
-      updateUserRoleService(id, res, role);
+      const { email, role } = req.body;
+      const isUserExist = await userModel.findOne(email);
+      if (isUserExist) {
+        const id = isUserExist._id;
+        updateUserRoleService(id, res, role);
+      } else {
+        res.status(400).json({
+          success: false,
+          message: "User not found",
+        });
+      }
     } catch (error: any) {
       return next(new ErrorHandler(error.message, 400));
     }

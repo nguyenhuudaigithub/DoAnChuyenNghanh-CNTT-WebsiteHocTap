@@ -127,7 +127,7 @@ const AdminSidebar = () => {
               >
                 <Link href='/'>
                   <h3 className='text-[25px] font—Poppins uppercase dark:text-white text-black'>
-                    ELearning
+                    NetSkillD - Admin
                   </h3>
                 </Link>
                 <IconButton
@@ -176,7 +176,7 @@ const AdminSidebar = () => {
 
           <Box paddingLeft={isCollapsed ? undefined : '10%'}>
             <Item
-              title='Dashboard'
+              title='Bảng Điều Khiển'
               to='/admin'
               icon={<HomeOutlinedIcon />}
               selected={selected}
@@ -188,11 +188,11 @@ const AdminSidebar = () => {
               sx={{ m: '15px 0 5px 25px' }}
               className='!text-[18px] text-black dark:text-[#ffffffc1] capitalize !font-[400]'
             >
-              {!isCollapsed && 'Data'}
+              {!isCollapsed && 'Dữ Liệu'}
             </Typography>
 
             <Item
-              title='Users'
+              title='Người Dùng'
               to='/admin/users'
               icon={<GroupsIcon />}
               selected={selected}
@@ -200,7 +200,7 @@ const AdminSidebar = () => {
             />
 
             <Item
-              title='Invoices'
+              title='Hóa Đơn'
               to='/admin/invoices'
               icon={<ReceiptOutlinedIcon />}
               selected={selected}
@@ -212,11 +212,11 @@ const AdminSidebar = () => {
               sx={{ m: '15px 0 5px 25px' }}
               className='!text-[18px] text-black dark:text-[#ffffffc1] capitalize !font-[400]'
             >
-              {!isCollapsed && 'Content'}
+              {!isCollapsed && 'Nội Dung'}
             </Typography>
 
             <Item
-              title='Users'
+              title='Tạo Khóa Học'
               to='/admin/create-course'
               icon={<VideoCallIcon />}
               selected={selected}
@@ -224,53 +224,53 @@ const AdminSidebar = () => {
             />
 
             <Item
-              title='Live Courses'
+              title='Khóa Học Trực Tuyến'
               to='/admin/courses'
               icon={<OndemandVideoIcon />}
               selected={selected}
               setSelected={setSelected}
             />
 
-            <Typography
+            {/* <Typography
               variant='h5'
               sx={{ m: '15px 0 5px 25px' }}
               className='!text-[18px] text-black dark:text-[#ffffffc1] capitalize !font-[400]'
             >
-              {!isCollapsed && 'Customization'}
+              {!isCollapsed && 'Tùy Chỉnh'}
             </Typography>
 
             <Item
-              title='Hero'
+              title='Bố Cục'
               to='/admin/hero'
               icon={<WebIcon />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
-              title='FAQ'
+              title='Câu Hỏi'
               to='/faq'
               icon={<QuizIcon />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
-              title='Categories'
+              title='Danh Mục'
               to='/admin/categories'
               icon={<WysiwygIcon />}
               selected={selected}
               setSelected={setSelected}
-            />
+            /> */}
 
             <Typography
               variant='h5'
               sx={{ m: '15px 0 5px 25px' }}
               className='!text-[18px] text-black dark:text-[#ffffffc1] capitalize !font-[400]'
             >
-              {!isCollapsed && 'Controllers'}
+              {!isCollapsed && 'Điều Khiển'}
             </Typography>
 
             <Item
-              title='Manage Team'
+              title='Quản Lý Nhóm'
               to='/admin/team'
               icon={<PeopleOutlinedIcon />}
               selected={selected}

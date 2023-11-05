@@ -63,7 +63,7 @@ const CourseInformation: FC<Props> = ({
     <div className='w-[80%] m-auto mt-24'>
       <form onSubmit={handleSubmit} className={`${styles.label}`}>
         <div>
-          <label htmlFor=''>Course Name</label>
+          <label htmlFor=''>Tên Khóa Học</label>
           <input
             type='name'
             name=''
@@ -73,20 +73,20 @@ const CourseInformation: FC<Props> = ({
               setCourseInfo({ ...courseInfo, name: e.target.value })
             }
             id='name'
-            placeholder='Course Name'
+            placeholder='Tên Khóa Học'
             className={`${styles.input}`}
           />
         </div>
         <br />
 
         <div className='mb-5'>
-          <label className={`${styles.label}`}>Course Description</label>
+          <label className={`${styles.label}`}>Mô Tả Khóa Học</label>
           <textarea
             name=''
             id=''
             cols={30}
             rows={8}
-            placeholder='Write something...'
+            placeholder='Viết mô tả khóa học...'
             className={`${styles.input} !h-min !py-2`}
             value={courseInfo.description}
             onChange={(e: any) =>
@@ -98,7 +98,7 @@ const CourseInformation: FC<Props> = ({
 
         <div className='w-full flex justify-between'>
           <div className='w-[45%]'>
-            <label className={`${styles.label}`}>Course Prices</label>
+            <label className={`${styles.label}`}>Giá Khóa Học</label>
             <input
               type='number'
               name=''
@@ -114,7 +114,7 @@ const CourseInformation: FC<Props> = ({
           </div>
           <div className='w-[50%]'>
             <label className={`${styles.label} w-[50%]`}>
-              Estimated Prices (optional){' '}
+              Giá Ước Tính (tùy chọn){' '}
             </label>
             <input
               type='number'
@@ -134,7 +134,7 @@ const CourseInformation: FC<Props> = ({
 
         <div>
           <label className={`${styles.label}`} htmlFor='email'>
-            Course Tags
+            Thẻ Khóa Học
           </label>
           <input
             type='text'
@@ -152,7 +152,7 @@ const CourseInformation: FC<Props> = ({
         <br />
         <div className='w-full flex justify-between'>
           <div className='w-[45%]'>
-            <label className={`${styles.label}`}>Course Level</label>
+            <label className={`${styles.label}`}>Cấp Độ Khóa Học</label>
             <input
               type='text'
               name=''
@@ -167,7 +167,7 @@ const CourseInformation: FC<Props> = ({
             />
           </div>
           <div className='w-[50%]'>
-            <label className={`${styles.label}`}>Demo Url</label>
+            <label className={`${styles.label}`}>URL Thử Nghiệm</label>
             <input
               type='text'
               name=''
@@ -208,7 +208,7 @@ const CourseInformation: FC<Props> = ({
               />
             ) : (
               <span className='text-black dark:text-white'>
-                Drag and drop your thumbnail here or click to browse
+                Kéo và thả hình thu nhỏ của bạn vào đây hoặc nhấp để duyệt
               </span>
             )}
           </label>
@@ -217,8 +217,8 @@ const CourseInformation: FC<Props> = ({
         <div className='w-full flex items-center justify-end'>
           <input
             type='submit'
-            value='Next'
-            className='w-full 800px:w-[180pxl h-[40pxl Ibg-[#37a39a] text-center text-[#fff] rounded mt-8 cursor-pointer'
+            value='Tiếp tục'
+            className='w-full 800px:w-[180px] flex items-center justify-center h-[40px] bg-[#37a39a] text-center text-[#fff] rounded mt-8 cursor-pointer'
           />
         </div>
         <br />
