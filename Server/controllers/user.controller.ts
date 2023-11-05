@@ -438,7 +438,7 @@ export const updateUserRole = CatchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { email, role } = req.body;
-      const isUserExist = await userModel.findOne(email);
+      const isUserExist = await userModel.findOne({ email: email });
       if (isUserExist) {
         const id = isUserExist._id;
         updateUserRoleService(id, res, role);
@@ -453,6 +453,7 @@ export const updateUserRole = CatchAsyncError(
     }
   }
 );
+
 
 //delete user - only for admin
 
