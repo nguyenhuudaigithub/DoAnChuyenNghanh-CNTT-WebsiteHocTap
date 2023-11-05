@@ -1,3 +1,4 @@
+// Trang cuối cùng - Trang xem trước bố cục và hiện thị của khóa học
 import React, { FC } from "react";
 import CoursePlayer from "../../../utils/CoursePlayer";
 import { styles } from "../../styles/style";
@@ -28,6 +29,7 @@ const CoursePreview: FC<Props> = ({
   };
 
   const createCourse = () => {
+    console.log(courseData);
     handleCourseCreate();
   };
 
@@ -42,37 +44,40 @@ const CoursePreview: FC<Props> = ({
         </div>
         <div className="flex items-center">
           <h1 className="pt-5 text-[25px]">
-            {courseData?.price === 0 ? "Free" : courseData?.price + "$"}
+            {courseData?.price === 0 ? "Miễn Phí" : courseData?.price + "VNĐ"}
           </h1>
           <h5 className="pl-3 text-[20px] mt-2 line-through opacity-80">
-            {courseData?.estimatedPrice} $
+            {courseData?.estimatedPrice} VNĐ
           </h5>
           <h4 className="pl-5 pt-4 text-[22px]">
-            {discountPercentengePrice}% Off
+            Giảm {discountPercentengePrice} %
           </h4>
         </div>
         <div className="flex items-center">
           <div
-            className={`${styles.button} !w-[180px] my-3 font-Poppins !bg-[crimson] cursor-not-allowed`}
+            className={`${styles.button} my-3 font-Poppins h-12 !bg-[crimson] cursor-not-allowed !w-[200px]`}
           >
-            {courseData?.price > 0 ? "Mua Ngay" : "Free"}
+            {courseData?.price > 0
+              ? `Mua Ngay ${courseData?.price} VNĐ`
+              : "Miễn Phí"}
           </div>
         </div>
+
         <div className="flex items-center">
           <input
             type="text"
             name=""
             id=""
             placeholder="Mã giảm giá..."
-            className={`${styles.input} 1500px:!w-[50%] 1100px:w-[60%] ml-3 mt-0`}
+            className={`${styles.input} 1500px:!w-[50%] 1100px:w-[60%] ml-3 mt-0 h-12`}
           />
           <div
-            className={`${styles.button} !w-[120px] my-3 ml-4 font-Poppins cursor-pointer`}
+            className={`${styles.button} mt-6 !w-[120px] my-3 ml-4 font-Poppins cursor-pointer h-12`}
           >
             Áp dụng
           </div>
         </div>
-        <p className="pb-1">Bao gồm mã nguồn</p>
+        <p className="pb-1 mt-3">Bao gồm mã nguồn</p>
         <p className="pb-1">Quyền truy cập trọn đời</p>
         <p className="pb-1">Giấy chứng nhận hoàn thành</p>
         <p className="pb-3 800px:pb-1">Hỗ trợ cao cấp</p>
@@ -140,7 +145,7 @@ const CoursePreview: FC<Props> = ({
           className="w-full 800px:w-[180px] flex items-center justify-center h-[40px] bg-[#37a39a] text-center text-[#fff] rounded mt-8 cursor-pointer"
           onClick={() => createCourse()}
         >
-          Sau
+          Hoàn Tất
         </div>
       </div>
     </div>

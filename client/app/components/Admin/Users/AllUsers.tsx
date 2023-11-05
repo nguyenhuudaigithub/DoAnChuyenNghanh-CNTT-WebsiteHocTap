@@ -28,7 +28,7 @@ const AllUsers: FC<Props> = ({ isTeam }) => {
   const [userId, setUserId] = useState("");
 
   const [updateUserRole, { error: updateError, isSuccess }] =
-    useUpdateUserRoleMutation();
+    useUpdateUserRoleMutation(); 
 
   const { isLoading, error, data, refetch } = useGetAllUsersQuery(
     {},

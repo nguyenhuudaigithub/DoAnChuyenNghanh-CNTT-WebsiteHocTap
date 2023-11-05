@@ -1,3 +1,4 @@
+// Hiện thị toàn bộ khóa học
 import React, { useState, useEffect } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import { Box, Button, Modal } from "@mui/material";
@@ -70,7 +71,7 @@ const AllCourses = (props: Props) => {
     },
   ];
   const rows: any = [];
-
+// Lấy ra thông tin của tất cả khóa học
   {
     data &&
       data.course.forEach((item: any) => {

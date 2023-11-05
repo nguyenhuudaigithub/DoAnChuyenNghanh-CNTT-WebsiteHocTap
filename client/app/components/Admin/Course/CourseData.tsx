@@ -1,3 +1,4 @@
+// Trang thứ 2 của tạo ra khóa học, nói đến lợi ích và điều kiện
 import React, { FC } from 'react';
 import { styles } from '../../styles/style';
 import { AddCircleIcon } from '../sidebar/Icon';
@@ -51,7 +52,7 @@ const CourseData: FC<Props> = ({
     ) {
       setActive(active + 1);
     } else {
-      toast.error('Please fill the fields for go to next!');
+      toast.error('Vui lòng điền vào các trường để chuyển đến tiếp theo!');
     }
   };
 

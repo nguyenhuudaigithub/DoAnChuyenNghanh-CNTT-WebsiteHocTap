@@ -1,3 +1,4 @@
+//Hiện thị tuần tự các bước xử lý khi nhấn vào nút tiếp theo, và tạo khóa học
 "use client";
 
 import React, { useEffect, useState } from "react";
@@ -18,7 +19,7 @@ const CreateCourse = (props: Props) => {
 
   useEffect(() => {
     if (isSuccess) {
-      toast.success("Course created successfully");
+      toast.success("Khóa học được tạo thành công");
       redirect("/admin/courses");
     }
 
@@ -108,7 +109,6 @@ const CreateCourse = (props: Props) => {
   const handleCourseCreate = async (e: any) => {
     const data = courseData;
     if(!isLoading){
-      console.log(data);
       await createCourse(data);
     }
   };
@@ -116,6 +116,7 @@ const CreateCourse = (props: Props) => {
   return (
     <div className="w-full flex min-h-screen">
       <div className="w-[80%]">
+        {/* Thông tin chung về khóa học */}
         {active === 0 && (
           <CourseInformation
             courseInfo={courseInfo}
@@ -124,6 +125,7 @@ const CreateCourse = (props: Props) => {
             setActive={setActive}
           />
         )}
+        {/* Dữ liệu của khóa học, lợi ích và điều kiện */}
         {active === 1 && (
           <CourseData
             benefits={benefits}
@@ -134,6 +136,7 @@ const CreateCourse = (props: Props) => {
             setActive={setActive}
           />
         )}
+        {/* Nội dung bên trong của khóa học */}
         {active === 2 && (
           <CourseContent
             active={active}
@@ -143,6 +146,7 @@ const CreateCourse = (props: Props) => {
             handleSubmit={handleSubmit}
           />
         )}
+        {/* Xử lý khóa học */}
         {active === 3 && (
           <CoursePreview
             active={active}

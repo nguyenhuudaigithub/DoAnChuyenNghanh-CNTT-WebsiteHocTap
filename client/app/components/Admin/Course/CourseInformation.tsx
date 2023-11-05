@@ -1,3 +1,4 @@
+// Trang đầu tiên hiện của tạo khóa học
 import React, { FC, useState } from 'react';
 import { styles } from '../../styles/style';
 

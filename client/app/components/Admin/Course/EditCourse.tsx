@@ -21,24 +21,7 @@ const EditCourse: FC<Props> = ({ id }) => {
       );
       const editCourseData = data && data.course.find((i:any) => i._id === id)
       console.log(editCourseData);
-
-//   const [createCourse, { isLoading, isSuccess, error }] =
-//     useCreateCourseMutation();
-
-//   useEffect(() => {
-//     if (isSuccess) {
-//       toast.success("Course created successfully");
-//       redirect("/admin/all-courses");
-//     }
-
-//     if (error) {
-//       if ("data" in error) {
-//         const errorMessage = error as any;
-//         toast.error(errorMessage.data.message);
-//       }
-//     }
-//   }, [isLoading, isSuccess, error]);
-
+      
   const [active, setActive] = useState(0);
 
   useEffect(() => {

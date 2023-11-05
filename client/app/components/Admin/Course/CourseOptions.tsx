@@ -1,3 +1,4 @@
+// Thanh hiện thị các bước trong khóa học, nằm bên phải màn hình
 import React, { FC } from 'react';
 import { IoMdCheckmark } from 'react-icons/io';
 
