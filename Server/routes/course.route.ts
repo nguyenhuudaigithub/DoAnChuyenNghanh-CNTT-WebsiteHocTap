@@ -7,7 +7,7 @@ import {
   deleteCourse,
   editCourse,
   generateVideoUrl,
-  getAllCourse,
+  getAdminAllCourses,
   getAllCourses,
   getCourseByUser,
   getSingleCourse,
@@ -35,13 +35,6 @@ courseRouter.get("/get-course/:id", getSingleCourse);
 
 courseRouter.get("/get-courses", getAllCourses);
 
-// courseRouter.get(
-//   "/get-admin-all-courses",
-//   isAutheticated,
-//   authorizeRoles("admin"),
-//   getAdminAllCourses
-// );
-
 courseRouter.get("/get-course-content/:id", isAutheticated, getCourseByUser);
 
 courseRouter.put("/add-question", isAutheticated, addQuestion);
@@ -56,11 +49,13 @@ courseRouter.put(
   authorizeRoles("admin"),
   addReplyToReview
 );
+
+
 courseRouter.get(
-  "/get-course",
+  "/get-admin-all-courses",
   isAutheticated,
   authorizeRoles("admin"),
-  getAllCourse
+  getAdminAllCourses
 );
 courseRouter.delete(
   "/delete-course/:id",

@@ -6,7 +6,10 @@ import CourseOptions from "./CourseOptions";
 import CourseData from "./CourseData";
 import CourseContent from "./CourseContent";
 import CoursePreview from "./CoursePreview";
-import { useCreateCourseMutation, useGetAllCoursesQuery } from "@/redux/features/courses/coursesApi";
+import {
+  useEditCourseMutation,
+  useGetAllCoursesQuery,
+} from "@/redux/features/courses/coursesApi";
 import toast from "react-hot-toast";
 import { redirect } from "next/navigation";
 
@@ -15,14 +18,30 @@ type Props = {
 };
 
 const EditCourse: FC<Props> = ({ id }) => {
-    const { isLoading, data, refetch } = useGetAllCoursesQuery(
-        {},
-        { refetchOnMountOrArgChange: true }
-      );
-      const editCourseData = data && data.course.find((i:any) => i._id === id)
-      console.log(editCourseData);
-      
+  const [editCourse, { isSuccess, error }] = useEditCourseMutation();
+  const { data, refetch } = useGetAllCoursesQuery(
+    {},
+    { refetchOnMountOrArgChange: true }
+  );
+
+  const editCourseData = data && data.courses.find((i: any) => i._id === id);
+  console.log(editCourseData);
+
   const [active, setActive] = useState(0);
+
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success("Khóa học được cập nhập thành công");
+      redirect("/admin/courses");
+    }
+
+    if (error) {
+      if ("data" in error) {
+        const errorMessage = error as any;
+        toast.error(errorMessage.data.message);
+      }
+    }
+  }, [isSuccess, error]);
 
   useEffect(() => {
     if (editCourseData) {
@@ -41,7 +60,6 @@ const EditCourse: FC<Props> = ({ id }) => {
       setCourseContentData(editCourseData.courseData);
     }
   }, [editCourseData]);
-  
 
   const [courseInfo, setCourseInfo] = useState({
     name: "",
@@ -118,7 +136,8 @@ const EditCourse: FC<Props> = ({ id }) => {
 
   const handleCourseCreate = async (e: any) => {
     const data = courseData;
-   
+    console.log(data);
+    await editCourse({id:editCourseData?._id,data});
   };
 
   return (
@@ -157,6 +176,7 @@ const EditCourse: FC<Props> = ({ id }) => {
             setActive={setActive}
             courseData={courseData}
             handleCourseCreate={handleCourseCreate}
+            isEdit={true}
           />
         )}
       </div>

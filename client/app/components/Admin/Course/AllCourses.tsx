@@ -74,7 +74,7 @@ const AllCourses = (props: Props) => {
 // Lấy ra thông tin của tất cả khóa học
   {
     data &&
-      data.course.forEach((item: any) => {
+      data.courses.forEach((item: any) => {
         rows.push({
           id: item._id,
           title: item.name,
