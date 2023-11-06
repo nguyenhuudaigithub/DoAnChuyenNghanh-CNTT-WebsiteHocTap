@@ -25,12 +25,12 @@ const EditCourse: FC<Props> = ({ id }) => {
   );
 
   const editCourseData = data && data.courses.find((i: any) => i._id === id);
-  console.log(editCourseData);
 
   const [active, setActive] = useState(0);
 
   useEffect(() => {
     if (isSuccess) {
+      refetch();
       toast.success("Khóa học được cập nhập thành công");
       redirect("/admin/courses");
     }
@@ -128,16 +128,17 @@ const EditCourse: FC<Props> = ({ id }) => {
       totalVideos: courseContentData.length,
       benefits: formattedBenefits,
       prerequisites: formattedPrerequisites,
-      courseContent: formattedCourseContentData,
+      courseData: formattedCourseContentData,
     };
 
     setCourseData(data);
   };
 
   const handleCourseCreate = async (e: any) => {
+    handleSubmit();
     const data = courseData;
     console.log(data);
-    await editCourse({id:editCourseData?._id,data});
+    await editCourse({ id: editCourseData?._id, data });
   };
 
   return (

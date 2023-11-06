@@ -31,7 +31,6 @@ const CoursePreview: FC<Props> = ({
   };
 
   const createCourse = () => {
-    console.log(courseData);
     handleCourseCreate();
   };
 

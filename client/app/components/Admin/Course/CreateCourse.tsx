@@ -109,7 +109,6 @@ const CreateCourse = (props: Props) => {
   const handleCourseCreate = async (e: any) => {
     handleSubmit();
     const data = courseData;
-    console.log(data);
     if(!isLoading){
       await createCourse(data);
     }
