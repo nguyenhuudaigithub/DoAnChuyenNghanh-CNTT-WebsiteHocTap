@@ -154,11 +154,16 @@ const CourseContent: FC<Props> = ({
                             : "w-min"
                         } font-Poppins cursor-pointer dark:text-white text-black bg-transparent outline-none`}
                         value={item.videoSection}
+                        // onChange={(e) => {
+                        //   const updatedData = [...courseContentData];
+                        //   updatedData[index].videoSection = e.target.value;
+                        //   setCourseContentData(updatedData);
+                        // }}
                         onChange={(e) => {
-                          const updatedData = [...courseContentData];
+                          const updatedData = JSON.parse(JSON.stringify(courseContentData));
                           updatedData[index].videoSection = e.target.value;
                           setCourseContentData(updatedData);
-                        }}
+                        }}                      
                       />
                       <BiSolidPencil className="cursor-pointer dark:text-white text-black" />
                     </div>
@@ -217,10 +222,10 @@ const CourseContent: FC<Props> = ({
                         className={`${styles.input}`}
                         value={item.title}
                         onChange={(e) => {
-                          const updatedData = [...courseContentData];
+                          const updatedData = JSON.parse(JSON.stringify(courseContentData));
                           updatedData[index].title = e.target.value;
                           setCourseContentData(updatedData);
-                        }}
+                        }}                        
                       />
                     </div>
                     <div className="mb-3">
@@ -230,11 +235,16 @@ const CourseContent: FC<Props> = ({
                         placeholder="sdder"
                         className={`${styles.input}`}
                         value={item.videoUrl}
+                        // onChange={(e) => {
+                        //   const updatedData = [...courseContentData];
+                        //   updatedData[index].videoUrl = e.target.value;
+                        //   setCourseContentData(updatedData);
+                        // }}
                         onChange={(e) => {
-                          const updatedData = [...courseContentData];
+                          const updatedData = JSON.parse(JSON.stringify(courseContentData));
                           updatedData[index].videoUrl = e.target.value;
                           setCourseContentData(updatedData);
-                        }}
+                        }}                        
                       />
                     </div>
                     <div className="mb-3">
@@ -245,11 +255,16 @@ const CourseContent: FC<Props> = ({
                         placeholder="sdder"
                         className={`${styles.input} !h-min py-2`}
                         value={item.description}
+                        // onChange={(e) => {
+                        //   const updatedData = [...courseContentData];
+                        //   updatedData[index].description = e.target.value;
+                        //   setCourseContentData(updatedData);
+                        // }}
                         onChange={(e) => {
-                          const updatedData = [...courseContentData];
+                          const updatedData = JSON.parse(JSON.stringify(courseContentData));
                           updatedData[index].description = e.target.value;
                           setCourseContentData(updatedData);
-                        }}
+                        }}                        
                       />
                       <br />
                     </div>
@@ -277,12 +292,18 @@ const CourseContent: FC<Props> = ({
                           placeholder="Mã nguồn... (Tiêu đề liên kết)"
                           className={`${styles.input}`}
                           value={link.title}
+                          // onChange={(e) => {
+                          //   const updatedData = [...courseContentData];
+                          //   updatedData[index].links[linkIndex].title =
+                          //     e.target.value;
+                          //   setCourseContentData(updatedData);
+                          // }}
                           onChange={(e) => {
-                            const updatedData = [...courseContentData];
-                            updatedData[index].links[linkIndex].title =
-                              e.target.value;
+                            const updatedData = JSON.parse(JSON.stringify(courseContentData));
+                            updatedData[index].links[linkIndex].title = e.target.value;
                             setCourseContentData(updatedData);
                           }}
+                          
                         />
 
                         <input
@@ -290,12 +311,18 @@ const CourseContent: FC<Props> = ({
                           placeholder="Url mã nguồn... (URL liên kết)"
                           className={`${styles.input} mt-6`}
                           value={link.url}
+                          // onChange={(e) => {
+                          //   const updatedData = [...courseContentData];
+                          //   updatedData[index].links[linkIndex].url =
+                          //     e.target.value;
+                          //   setCourseContentData(updatedData);
+                          // }}
                           onChange={(e) => {
-                            const updatedData = [...courseContentData];
-                            updatedData[index].links[linkIndex].url =
-                              e.target.value;
+                            const updatedData = JSON.parse(JSON.stringify(courseContentData));
+                            updatedData[index].links[linkIndex].url = e.target.value;
                             setCourseContentData(updatedData);
                           }}
+                          
                         />
                       </div>
                     ))}
