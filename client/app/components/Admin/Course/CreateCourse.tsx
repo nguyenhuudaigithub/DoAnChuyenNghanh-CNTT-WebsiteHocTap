@@ -1,15 +1,15 @@
 //Hiện thị tuần tự các bước xử lý khi nhấn vào nút tiếp theo, và tạo khóa học
-"use client";
+'use client';
 
-import React, { useEffect, useState } from "react";
-import CourseInformation from "./CourseInformation";
-import CourseOptions from "./CourseOptions";
-import CourseData from "./CourseData";
-import CourseContent from "./CourseContent";
-import CoursePreview from "./CoursePreview";
-import { useCreateCourseMutation } from "@/redux/features/courses/coursesApi";
-import toast from "react-hot-toast";
-import { redirect } from "next/navigation";
+import React, { useEffect, useState } from 'react';
+import CourseInformation from './CourseInformation';
+import CourseOptions from './CourseOptions';
+import CourseData from './CourseData';
+import CourseContent from './CourseContent';
+import CoursePreview from './CoursePreview';
+import { useCreateCourseMutation } from '@/redux/features/courses/coursesApi';
+import toast from 'react-hot-toast';
+import { redirect } from 'next/navigation';
 
 type Props = {};
 
@@ -19,12 +19,12 @@ const CreateCourse = (props: Props) => {
 
   useEffect(() => {
     if (isSuccess) {
-      toast.success("Khóa học được tạo thành công");
-      redirect("/admin/courses");
+      toast.success('Khóa học được tạo thành công');
+      redirect('/admin/courses');
     }
 
     if (error) {
-      if ("data" in error) {
+      if ('data' in error) {
         const errorMessage = error as any;
         toast.error(errorMessage.data.message);
       }
@@ -34,32 +34,34 @@ const CreateCourse = (props: Props) => {
   const [active, setActive] = useState(0);
 
   const [courseInfo, setCourseInfo] = useState({
-    name: "",
-    description: "",
-    price: "",
-    estimatedPrice: "",
-    tags: "",
-    level: "",
-    demoUrl: "",
-    thumbnail: "",
+    name: '',
+    description: '',
+    price: '',
+    estimatedPrice: '',
+    tags: '',
+    level: '',
+    categories: '',
+    demoUrl: '',
+    thumbnail: '',
   });
 
-  const [benefits, setBenefits] = useState([{ title: "" }]);
-  const [prerequisites, setPrerequisites] = useState([{ title: "" }]);
+  const [benefits, setBenefits] = useState([{ title: '' }]);
+  const [prerequisites, setPrerequisites] = useState([{ title: '' }]);
 
   const [courseContentData, setCourseContentData] = useState([
     {
-      videoUrl: "",
-      title: "",
-      description: "",
-      videoSection: "Tiêu Đề",
+      videoUrl: '',
+      title: '',
+      description: '',
+      videoSection: 'Tiêu Đề',
+      videoLength: '',
       links: [
         {
-          title: "",
-          url: "",
+          title: '',
+          url: '',
         },
       ],
-      suggestion: "",
+      suggestion: '',
     },
   ]);
 
@@ -79,6 +81,7 @@ const CreateCourse = (props: Props) => {
         videoUrl: courseContent.videoUrl,
         title: courseContent.title,
         description: courseContent.description,
+        videoLength: courseContent.videoLength,
         videoSection: courseContent.videoSection,
         links: courseContent.links.map((link) => ({
           title: link.title,
@@ -109,14 +112,14 @@ const CreateCourse = (props: Props) => {
   const handleCourseCreate = async (e: any) => {
     handleSubmit();
     const data = courseData;
-    if(!isLoading){
+    if (!isLoading) {
       await createCourse(data);
     }
   };
 
   return (
-    <div className="w-full flex min-h-screen">
-      <div className="w-[80%]">
+    <div className='w-full flex min-h-screen'>
+      <div className='w-[80%]'>
         {/* Thông tin chung về khóa học */}
         {active === 0 && (
           <CourseInformation
@@ -158,7 +161,7 @@ const CreateCourse = (props: Props) => {
           />
         )}
       </div>
-      <div className="w-[20%] mt-[100px] h—screen fixed z-[-1] top-18 right-0">
+      <div className='w-[20%] mt-[100px] h—screen fixed z-[-1] top-18 right-0'>
         <CourseOptions active={active} setActive={setActive} />
       </div>
     </div>

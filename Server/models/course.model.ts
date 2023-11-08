@@ -1,5 +1,5 @@
-import mongoose, { Document, Model, Schema } from "mongoose";
-import { IUser } from "./user.model";
+import mongoose, { Document, Model, Schema } from 'mongoose';
+import { IUser } from './user.model';
 
 interface IComment extends Document {
   user: IUser;
@@ -35,6 +35,7 @@ interface ICourseData extends Document {
 interface ICourse extends Document {
   name: string;
   description?: string;
+  categories: string;
   price: number;
   estimatedPrice?: number;
   thumbnail: object;
@@ -92,6 +93,10 @@ const courseSchema = new Schema<ICourse>(
       type: String,
       required: true,
     },
+    categories: {
+      type: String,
+      required: true,
+    },
     price: {
       type: Number,
       required: true,
@@ -135,6 +140,6 @@ const courseSchema = new Schema<ICourse>(
   { timestamps: true }
 );
 
-const CourseModel: Model<ICourse> = mongoose.model("Course", courseSchema);
+const CourseModel: Model<ICourse> = mongoose.model('Course', courseSchema);
 
 export default CourseModel;

@@ -1,11 +1,11 @@
 // Nội dung của khóa học
-import React, { FC, useState } from "react";
-import { AiOutlineDelete, AiOutlinePlusCircle } from "react-icons/ai";
-import { MdOutlineKeyboardArrowDown } from "react-icons/md";
-import { styles } from "../../styles/style";
-import { BiSolidPencil } from "react-icons/bi";
-import { BsLink45Deg } from "react-icons/bs";
-import toast from "react-hot-toast";
+import React, { FC, useState } from 'react';
+import { AiOutlineDelete, AiOutlinePlusCircle } from 'react-icons/ai';
+import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
+import { styles } from '../../styles/style';
+import { BiSolidPencil } from 'react-icons/bi';
+import { BsLink45Deg } from 'react-icons/bs';
+import toast from 'react-hot-toast';
 
 type Props = {
   active: number;
@@ -47,23 +47,23 @@ const CourseContent: FC<Props> = ({
   const handleAddLink = (index: number) => {
     const updatedData = [...courseContentData];
     updatedData[index].links.push({
-      title: "",
-      url: "",
+      title: '',
+      url: '',
     });
     setCourseContentData(updatedData);
   };
 
   const newContentHandler = (item: any) => {
     if (
-      item.title === "" ||
-      item.description === "" ||
-      item.videoUrl === "" ||
-      item.links[0].title === "" ||
-      item.links[0].url === ""
+      item.title === '' ||
+      item.description === '' ||
+      item.videoUrl === '' ||
+      item.links[0].title === '' ||
+      item.links[0].url === ''
     ) {
-      toast.error("Vui lòng điền vào tất cả các trường trước!");
+      toast.error('Vui lòng điền vào tất cả các trường trước!');
     } else {
-      let newVideoSection = "";
+      let newVideoSection = '';
 
       if (courseContentData.length > 0) {
         const lastVideoSection =
@@ -75,11 +75,11 @@ const CourseContent: FC<Props> = ({
       }
 
       const newContent = {
-        videoUrl: "",
-        title: "",
-        description: "",
+        videoUrl: '',
+        title: '',
+        description: '',
         videoSection: newVideoSection,
-        links: [{ title: "", url: "" }],
+        links: [{ title: '', url: '' }],
       };
 
       setCourseContentData([...courseContentData, newContent]);
@@ -88,25 +88,24 @@ const CourseContent: FC<Props> = ({
 
   const addNewSection = () => {
     if (
-      courseContentData[courseContentData.length - 1].videoUrl === "" ||
-      courseContentData[courseContentData.length - 1].title === "" ||
-      courseContentData[courseContentData.length - 1].description === "" ||
-      courseContentData[courseContentData.length - 1].links[0].title === "" ||
-      courseContentData[courseContentData.length - 1].links[0].url === ""
+      courseContentData[courseContentData.length - 1].videoUrl === '' ||
+      courseContentData[courseContentData.length - 1].title === '' ||
+      courseContentData[courseContentData.length - 1].description === '' ||
+      courseContentData[courseContentData.length - 1].links[0].title === '' ||
+      courseContentData[courseContentData.length - 1].links[0].url === ''
     ) {
-      toast.error("Vui lòng điền vào tất cả các trường trước!");
+      toast.error('Vui lòng điền vào tất cả các trường trước!');
     } else {
       setActiveSection(activeSection + 1);
       const newContent = {
-        videoUrl: "",
-        title: "",
-        description: "",
+        videoUrl: '',
+        title: '',
+        description: '',
         videoSection: `Tiều đề ${activeSection}`,
-        links: [{ title: "", url: "" }],
+        links: [{ title: '', url: '' }],
       };
       setCourseContentData([...courseContentData, newContent]);
     }
-    
   };
 
   const prevButton = () => {
@@ -115,13 +114,13 @@ const CourseContent: FC<Props> = ({
 
   const handleOptions = () => {
     if (
-      courseContentData[courseContentData.length - 1].videoUrl === "" ||
-      courseContentData[courseContentData.length - 1].title === "" ||
-      courseContentData[courseContentData.length - 1].description === "" ||
-      courseContentData[courseContentData.length - 1].links[0].title === "" ||
-      courseContentData[courseContentData.length - 1].links[0].url === ""
+      courseContentData[courseContentData.length - 1].videoUrl === '' ||
+      courseContentData[courseContentData.length - 1].title === '' ||
+      courseContentData[courseContentData.length - 1].description === '' ||
+      courseContentData[courseContentData.length - 1].links[0].title === '' ||
+      courseContentData[courseContentData.length - 1].links[0].url === ''
     ) {
-      toast.error("Không để trống ô nhập liệu!");
+      toast.error('Không để trống ô nhập liệu!');
     } else {
       setActive(active + 1);
       handleCourseSubmit();
@@ -129,7 +128,7 @@ const CourseContent: FC<Props> = ({
   };
 
   return (
-    <div className="w-[80%] m-auto mt-24 p-3">
+    <div className='w-[80%] m-auto mt-24 p-3'>
       <form onSubmit={handleSubmit}>
         {courseContentData?.map((item: any, index: number) => {
           const showSectionInput =
@@ -140,18 +139,16 @@ const CourseContent: FC<Props> = ({
             <>
               <div
                 className={`w-full bg-[#cdc8c817] p-4 ${
-                  showSectionInput ? "mt-10" : "mb-0"
+                  showSectionInput ? 'mt-10' : 'mb-0'
                 }`}
               >
                 {showSectionInput && (
                   <>
-                    <div className="flex w-full items-center">
+                    <div className='flex w-full items-center'>
                       <input
-                        type="text"
+                        type='text'
                         className={`text-[20px] ${
-                          item.videoSection || "Tiêu Đề"
-                            ? "w-[170px]"
-                            : "w-min"
+                          item.videoSection || 'Tiêu Đề' ? 'w-[170px]' : 'w-min'
                         } font-Poppins cursor-pointer dark:text-white text-black bg-transparent outline-none`}
                         value={item.videoSection}
                         // onChange={(e) => {
@@ -160,23 +157,25 @@ const CourseContent: FC<Props> = ({
                         //   setCourseContentData(updatedData);
                         // }}
                         onChange={(e) => {
-                          const updatedData = JSON.parse(JSON.stringify(courseContentData));
+                          const updatedData = JSON.parse(
+                            JSON.stringify(courseContentData)
+                          );
                           updatedData[index].videoSection = e.target.value;
                           setCourseContentData(updatedData);
-                        }}                      
+                        }}
                       />
-                      <BiSolidPencil className="cursor-pointer dark:text-white text-black" />
+                      <BiSolidPencil className='cursor-pointer dark:text-white text-black' />
                     </div>
 
                     <br />
                   </>
                 )}
 
-                <div className="flex w-full items-center justify-between my-0">
+                <div className='flex w-full items-center justify-between my-0'>
                   {isCollapsed[index] ? (
                     <>
                       {item.title ? (
-                        <p className="font-Poppins dark:text-white text-black">
+                        <p className='font-Poppins dark:text-white text-black'>
                           {index + 1}. {item.title}
                         </p>
                       ) : (
@@ -187,10 +186,10 @@ const CourseContent: FC<Props> = ({
                     <div></div>
                   )}
                   {/* nút mũi tên cho nội dung video được thu gọn */}
-                  <div className="flex items-center">
+                  <div className='flex items-center'>
                     <AiOutlineDelete
                       className={`dark:text-white text-[20px] mr-2 text-black ${
-                        index > 0 ? "cursor-pointer" : "cursor-no-drop"
+                        index > 0 ? 'cursor-pointer' : 'cursor-no-drop'
                       }`}
                       onClick={() => {
                         if (index > 0) {
@@ -201,12 +200,12 @@ const CourseContent: FC<Props> = ({
                       }}
                     />
                     <MdOutlineKeyboardArrowDown
-                      fontSize="large"
-                      className="dark:text-white text-black"
+                      fontSize='large'
+                      className='dark:text-white text-black'
                       style={{
                         transform: isCollapsed[index]
-                          ? "rotate(180deg)"
-                          : "rotate(0deg)",
+                          ? 'rotate(180deg)'
+                          : 'rotate(0deg)',
                       }}
                       onClick={() => handleCollapseToggle(index)}
                     />
@@ -214,25 +213,27 @@ const CourseContent: FC<Props> = ({
                 </div>
                 {!isCollapsed[index] && (
                   <>
-                    <div className="my-3">
+                    <div className='my-3'>
                       <label className={styles.label}>Tiêu Đề Video</label>
                       <input
-                        type="text"
-                        placeholder="Tiêu đề video..."
+                        type='text'
+                        placeholder='Tiêu đề video...'
                         className={`${styles.input}`}
                         value={item.title}
                         onChange={(e) => {
-                          const updatedData = JSON.parse(JSON.stringify(courseContentData));
+                          const updatedData = JSON.parse(
+                            JSON.stringify(courseContentData)
+                          );
                           updatedData[index].title = e.target.value;
                           setCourseContentData(updatedData);
-                        }}                        
+                        }}
                       />
                     </div>
-                    <div className="mb-3">
+                    <div className='mb-3'>
                       <label className={styles.label}>Đường Dẫn</label>
                       <input
-                        type="text"
-                        placeholder="sdder"
+                        type='text'
+                        placeholder='sdder'
                         className={`${styles.input}`}
                         value={item.videoUrl}
                         // onChange={(e) => {
@@ -241,18 +242,43 @@ const CourseContent: FC<Props> = ({
                         //   setCourseContentData(updatedData);
                         // }}
                         onChange={(e) => {
-                          const updatedData = JSON.parse(JSON.stringify(courseContentData));
+                          const updatedData = JSON.parse(
+                            JSON.stringify(courseContentData)
+                          );
                           updatedData[index].videoUrl = e.target.value;
                           setCourseContentData(updatedData);
-                        }}                        
+                        }}
                       />
                     </div>
-                    <div className="mb-3">
+                    <div className='mb-3'>
+                      <label className={styles.label}>
+                        Độ dài Video (phút)
+                      </label>
+                      <input
+                        type='number'
+                        placeholder='20'
+                        className={`${styles.input}`}
+                        value={item.videoLength}
+                        // onChange={(e) => {
+                        //   const updatedData = [...courseContentData];
+                        //   updatedData[index].videoUrl = e.target.value;
+                        //   setCourseContentData(updatedData);
+                        // }}
+                        onChange={(e) => {
+                          const updatedData = JSON.parse(
+                            JSON.stringify(courseContentData)
+                          );
+                          updatedData[index].videoLength = e.target.value;
+                          setCourseContentData(updatedData);
+                        }}
+                      />
+                    </div>
+                    <div className='mb-3'>
                       <label className={styles.label}>Chi Tiết Video</label>
                       <textarea
                         rows={8}
                         cols={30}
-                        placeholder="sdder"
+                        placeholder='sdder'
                         className={`${styles.input} !h-min py-2`}
                         value={item.description}
                         // onChange={(e) => {
@@ -261,24 +287,26 @@ const CourseContent: FC<Props> = ({
                         //   setCourseContentData(updatedData);
                         // }}
                         onChange={(e) => {
-                          const updatedData = JSON.parse(JSON.stringify(courseContentData));
+                          const updatedData = JSON.parse(
+                            JSON.stringify(courseContentData)
+                          );
                           updatedData[index].description = e.target.value;
                           setCourseContentData(updatedData);
-                        }}                        
+                        }}
                       />
                       <br />
                     </div>
                     {item?.links.map((link: any, linkIndex: number) => (
-                      <div className="mb-3 block">
-                        <div className="w-full flex items-center justify-between">
+                      <div className='mb-3 block'>
+                        <div className='w-full flex items-center justify-between'>
                           <label className={`${styles.label}`}>
                             Link {linkIndex + 1}
                           </label>
                           <AiOutlineDelete
                             className={`${
                               linkIndex === 0
-                                ? "cursor-no-drop"
-                                : "cursor-pointer"
+                                ? 'cursor-no-drop'
+                                : 'cursor-pointer'
                             }  text-black dark:text-white text-[20px]`}
                             onClick={() =>
                               linkIndex === 0
@@ -288,8 +316,8 @@ const CourseContent: FC<Props> = ({
                           />
                         </div>
                         <input
-                          type="text"
-                          placeholder="Mã nguồn... (Tiêu đề liên kết)"
+                          type='text'
+                          placeholder='Mã nguồn... (Tiêu đề liên kết)'
                           className={`${styles.input}`}
                           value={link.title}
                           // onChange={(e) => {
@@ -299,16 +327,18 @@ const CourseContent: FC<Props> = ({
                           //   setCourseContentData(updatedData);
                           // }}
                           onChange={(e) => {
-                            const updatedData = JSON.parse(JSON.stringify(courseContentData));
-                            updatedData[index].links[linkIndex].title = e.target.value;
+                            const updatedData = JSON.parse(
+                              JSON.stringify(courseContentData)
+                            );
+                            updatedData[index].links[linkIndex].title =
+                              e.target.value;
                             setCourseContentData(updatedData);
                           }}
-                          
                         />
 
                         <input
-                          type="url"
-                          placeholder="Url mã nguồn... (URL liên kết)"
+                          type='url'
+                          placeholder='Url mã nguồn... (URL liên kết)'
                           className={`${styles.input} mt-6`}
                           value={link.url}
                           // onChange={(e) => {
@@ -318,33 +348,35 @@ const CourseContent: FC<Props> = ({
                           //   setCourseContentData(updatedData);
                           // }}
                           onChange={(e) => {
-                            const updatedData = JSON.parse(JSON.stringify(courseContentData));
-                            updatedData[index].links[linkIndex].url = e.target.value;
+                            const updatedData = JSON.parse(
+                              JSON.stringify(courseContentData)
+                            );
+                            updatedData[index].links[linkIndex].url =
+                              e.target.value;
                             setCourseContentData(updatedData);
                           }}
-                          
                         />
                       </div>
                     ))}
                   </>
                 )}
                 <br />
-                <div className="inline-block mb-4">
+                <div className='inline-block mb-4'>
                   <p
-                    className="flex items-center text-[18px] dark:text-white text-black cursor-pointer"
+                    className='flex items-center text-[18px] dark:text-white text-black cursor-pointer'
                     onClick={() => handleAddLink(index)}
                   >
-                    <BsLink45Deg className="mr-2" /> Thêm Đường Dẫn
+                    <BsLink45Deg className='mr-2' /> Thêm Đường Dẫn
                   </p>
                 </div>
                 <br />
                 {index === courseContentData.length - 1 && (
                   <div>
                     <p
-                      className="flex items-center text-[18px] dark:text-white text-black cursor-pointer"
+                      className='flex items-center text-[18px] dark:text-white text-black cursor-pointer'
                       onClick={(e: any) => newContentHandler(item)}
                     >
-                      <AiOutlinePlusCircle className="mr-2" /> Thêm Nội Dung
+                      <AiOutlinePlusCircle className='mr-2' /> Thêm Nội Dung
                     </p>
                   </div>
                 )}
@@ -354,22 +386,22 @@ const CourseContent: FC<Props> = ({
         })}
         <br />
         <div
-          className="flex items-center text-[20px] dark:text-white text-black cursor-pointer"
+          className='flex items-center text-[20px] dark:text-white text-black cursor-pointer'
           onClick={() => addNewSection()}
         >
-          <AiOutlinePlusCircle className="mr-2" /> Thêm Nội Dung
+          <AiOutlinePlusCircle className='mr-2' /> Thêm Nội Dung
         </div>
       </form>
       <br />
-      <div className="w-full flex items-center justify-between">
+      <div className='w-full flex items-center justify-between'>
         <div
-          className="w-full 800px:w-[180px] flex items-center justify-center h-[40px] bg-[#37a39a] text-center text-[#fff] rounded mt-8 cursor-pointer"
+          className='w-full 800px:w-[180px] flex items-center justify-center h-[40px] bg-[#37a39a] text-center text-[#fff] rounded mt-8 cursor-pointer'
           onClick={() => prevButton()}
         >
           Trước
         </div>
         <div
-          className="w-full 800px:w-[180px] flex items-center justify-center h-[40px] bg-[#37a39a] text-center text-[#fff] rounded mt-8 cursor-pointer"
+          className='w-full 800px:w-[180px] flex items-center justify-center h-[40px] bg-[#37a39a] text-center text-[#fff] rounded mt-8 cursor-pointer'
           onClick={() => handleOptions()}
         >
           Sau
@@ -377,7 +409,7 @@ const CourseContent: FC<Props> = ({
       </div>
       <br />
       <br />
-      <br />  
+      <br />
     </div>
   );
 };

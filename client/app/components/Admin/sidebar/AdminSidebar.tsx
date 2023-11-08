@@ -45,7 +45,7 @@ const Item: FC<itemProps> = ({ title, to, icon, selected, setSelected }) => {
       onClick={() => setSelected(title)}
       icon={icon}
     >
-      <Typography className='!text-[16px] !font—Poppins'>{title}</Typography>
+      <Typography className='!text-[16px] !font-Poppins'>{title}</Typography>
       <Link href={to} />
     </MenuItem>
   );
@@ -78,7 +78,7 @@ const AdminSidebar = () => {
             theme === 'dark' ? '#111C43 !important' : '#fff !important'
           }`,
         },
-        '& .pro-icon—wrapper': {
+        '& .pro-icon-wrapper': {
           backgroundColor: 'transparent !important',
         },
         '& .pro-inner-item:hover': {
@@ -91,7 +91,7 @@ const AdminSidebar = () => {
           padding: '55x 35px 5px 20px !important',
           opacity: 1,
         },
-        '& .pro—menu—item': {
+        '& .pro-menu-item': {
           color: `${theme !== 'dark' && '#000'}`,
         },
       }}
@@ -126,15 +126,15 @@ const AdminSidebar = () => {
                 ml='15px'
               >
                 <Link href='/'>
-                  <h3 className='text-[25px] font—Poppins uppercase dark:text-white text-black'>
+                  <h3 className='text-[25px] font-Poppins uppercase dark:text-white text-black'>
                     NetSkillD - Admin
                   </h3>
                 </Link>
                 <IconButton
                   onClick={() => setIsCollapsed(!isCollapsed)}
-                  className='inline—block'
+                  className='inline-block'
                 >
-                  <ArrowBackIosIcon className='text-black dark:text—[#ffffffc1]' />
+                  <ArrowBackIosIcon className='text-black dark:text-[#ffffffc1]' />
                 </IconButton>
               </Box>
             )}
@@ -144,7 +144,7 @@ const AdminSidebar = () => {
             <Box mb='25px'>
               <Box display='flex' justifyContent='center' alignItems='center'>
                 <Image
-                  alt='profile—user'
+                  alt='profile-user'
                   width={100}
                   height={100}
                   src={user.avatar ? user.avatar.url : avatarDefault}
