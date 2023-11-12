@@ -173,11 +173,12 @@ const CourseInformation: FC<Props> = ({
               }}
             >
               <option value=''>Lựa Chọn Thể Loại</option>
-              {categories.map((item: any) => (
-                <option value={item?._id} key={item?._id}>
-                  {item?.title}
-                </option>
-              ))}
+              {categories &&
+                categories.map((item: any) => (
+                  <option value={item?._id} key={item?._id}>
+                    {item?.title}
+                  </option>
+                ))}
             </select>
           </div>
         </div>
