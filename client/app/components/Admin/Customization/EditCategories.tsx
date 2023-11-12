@@ -23,7 +23,7 @@ const EditCategories = (props: Props) => {
 
   useEffect(() => {
     if (data) {
-      setCategories(data.layout.categories);
+      setCategories(data?.layout?.categories);
     }
     if (layoutSuccess) {
       refetch();
@@ -44,7 +44,7 @@ const EditCategories = (props: Props) => {
   };
 
   const newCategoriesHandler = () => {
-    if (categories[categories.length - 1]?.title === '') {
+    if (categories[categories?.length - 1]?.title === '') {
       toast?.error('Category title cannot be empty');
     } else {
       setCategories((prevCategory: any) => [...prevCategory, { title: '' }]);

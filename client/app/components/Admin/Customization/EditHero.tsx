@@ -20,8 +20,8 @@ const EditHero: FC<Props> = (props: Props) => {
 
   useEffect(() => {
     if (data) {
-      setTitle(data?.layout?.banner.title);
-      setSubTitle(data?.layout?.banner.subTitle);
+      setTitle(data?.layout?.banner?.title);
+      setSubTitle(data?.layout?.banner?.subTitle);
       setImage(data?.layout?.banner?.image?.url);
     }
     if (isSuccess) {
