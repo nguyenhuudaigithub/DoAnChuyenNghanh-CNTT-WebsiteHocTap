@@ -48,8 +48,8 @@ const UserAnalytics = ({ isDashboard }: Props) => {
         <div
           className={`${
             isDashboard
-              ? 'mt-[50px]'
-              : 'mt-[50px] dark:bg-[#111C43] shadow-sm pb-5 rounded-sm'
+              ? 'mt-[50px] ml-4'
+              : 'mt-[50px] dark:bg-[#111C43] shadow-sm pb-5 rounded-sm ml-4'
           }`}
         >
           <div className={`${isDashboard ? '!ml-8 mb-5' : ''}`}>
@@ -67,8 +67,15 @@ const UserAnalytics = ({ isDashboard }: Props) => {
             )}
           </div>
 
-          <div className='w-full h-[90%] flex items-center justify-center'>
-            <ResponsiveContainer width='90%' height='50%'>
+          <div
+            className={`w-full ${
+              isDashboard ? 'h-[30vh]' : 'h-screen'
+            }  flex items-center justify-center`}
+          >
+            <ResponsiveContainer
+              width={isDashboard ? '100%' : '90%'}
+              height={isDashboard ? '50%' : '100%'}
+            >
               <AreaChart
                 data={analyticsData}
                 margin={{

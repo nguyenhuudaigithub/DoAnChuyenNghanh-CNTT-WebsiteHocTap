@@ -64,7 +64,7 @@ function OrdersAnalytics({ isDashboard }: Props) {
       {isLoading ? (
         <Loader />
       ) : (
-        <div className={isDashboard ? 'h-[30vh]' : 'h-screen'}>
+        <div className={isDashboard ? 'h-[30vh] ml-4' : 'h-screen ml-4'}>
           <div
             className={isDashboard ? 'mt-[0px] pl-[40px] mb-2' : 'mt-[50px]'}
           >

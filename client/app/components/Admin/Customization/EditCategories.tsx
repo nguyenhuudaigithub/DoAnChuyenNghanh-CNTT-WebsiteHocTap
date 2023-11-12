@@ -23,7 +23,7 @@ const EditCategories = (props: Props) => {
 
   useEffect(() => {
     if (data) {
-      setCategories(data.layout.faq);
+      setCategories(data.layout.categories);
     }
     if (layoutSuccess) {
       refetch();
@@ -118,7 +118,7 @@ const EditCategories = (props: Props) => {
           <div
             className={`${
               styles.button
-            } !w-[l00px] !min-h-[40px] !h-[40px] dark:text-white text-black bg-[#cccccc34]
+            } !w-[100px] !min-h-[40px] !h-[40px] dark:text-white text-black bg-[#cccccc34]
             ${
               areCategoriesUnchanged(data?.layout?.categories, categories) ||
               isAnyCategoryTitleEmpty(categories)

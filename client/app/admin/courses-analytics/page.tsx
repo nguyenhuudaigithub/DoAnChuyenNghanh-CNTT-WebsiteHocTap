@@ -3,7 +3,7 @@ import React from 'react';
 import AdminSidebar from '@/app/components/Admin/sidebar/AdminSidebar';
 import Heading from '@/app/utils/Heading';
 import CourseAnalytics from '@/app/components/Admin/Analytics/CourseAnalytics';
-import DashboardHeader from '@/app/components/Admin/DashboardHeader.jsx';
+import DashboardHeader from '@/app/components/Admin/DashboardHeader';
 type Props = {};
 
 const page = ({}: Props) => {

@@ -88,14 +88,14 @@ const AdminSidebar = () => {
           color: '#6870fa !important',
         },
         '& .pro-inner-item': {
-          padding: '55x 35px 5px 20px !important',
+          padding: '5px 35px 5px 20px !important',
           opacity: 1,
         },
         '& .pro-menu-item': {
           color: `${theme !== 'dark' && '#000'}`,
         },
       }}
-      className=' I !bg-white dark:bg-[#111C43] '
+      className='!bg-white dark:bg-[#111C43]'
     >
       {/* ProSidebar */}
       <ProSidebar
@@ -115,7 +115,7 @@ const AdminSidebar = () => {
             onClick={() => setIsCollapsed(!isCollapsed)}
             icon={isCollapsed ? <ArrowForwardIosIcon /> : undefined}
             style={{
-              margin: '16px 0 20px 0',
+              margin: '10px 0 20px 0',
             }}
           >
             {!isCollapsed && (
@@ -125,7 +125,7 @@ const AdminSidebar = () => {
                 alignItems='center'
                 ml='15px'
               >
-                <Link href='/'>
+                <Link href='/admin'>
                   <h3 className='text-[25px] font-Poppins uppercase dark:text-white text-black'>
                     NetSkillD - Admin
                   </h3>
@@ -166,7 +166,7 @@ const AdminSidebar = () => {
                 <Typography
                   variant='h6'
                   sx={{ m: '10px 0 0 0' }}
-                  className='!text~[20px] text dark:text-[#ffffffc1] capitalize'
+                  className='!text-[20px] text dark:text-[#ffffffc1] capitalize'
                 >
                   - {user?.role}
                 </Typography>
@@ -231,7 +231,7 @@ const AdminSidebar = () => {
               setSelected={setSelected}
             />
 
-            {/* <Typography
+            <Typography
               variant='h5'
               sx={{ m: '15px 0 5px 25px' }}
               className='!text-[18px] text-black dark:text-[#ffffffc1] capitalize !font-[400]'
@@ -259,7 +259,7 @@ const AdminSidebar = () => {
               icon={<WysiwygIcon />}
               selected={selected}
               setSelected={setSelected}
-            /> */}
+            />
 
             <Typography
               variant='h5'
