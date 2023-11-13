@@ -13,9 +13,9 @@ const page = ({}: Props) => {
     <div>
       <AdminProtected>
         <Heading
-          title='Elearning - Admin'
-          description='ELearning is a platform for students to learn and get help from teachers'
-          keywords='Programming,MERN,Redux,Machine Learning'
+          title='NETSKILLD - Admin'
+          description='NETSKILLD là một nền tảng để học sinh học hỏi và nhận được sự giúp đỡ từ giáo viên'
+          keywords='Học Lập Trình,MERN,Redux,Học Máy'
         />
         <div className='flex h-screen'>
           <div className='1500px:w-[16%] w-1/5'>

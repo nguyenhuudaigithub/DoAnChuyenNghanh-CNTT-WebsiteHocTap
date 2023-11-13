@@ -1,13 +1,8 @@
 'use client';
-
 import DashboardHero from '@/app/components/Admin/DashboardHero';
-
 import AdminProtected from '@/app/hooks/adminProtected';
-
 import Heading from '@/app/utils/Heading';
-
 import React from 'react';
-
 import AdminSidebar from '@/app/components/Admin/sidebar/AdminSidebar';
 import EditHero from '@/app/components/Admin/Customization/EditHero';
 
@@ -18,9 +13,9 @@ function page({}: Props) {
     <div>
       <AdminProtected>
         <Heading
-          title='Elearning - Admin'
-          description='ELearning is a platform for students to learn and get help from teachers'
-          keywords='Programming,HERN,Redux,Machine Learning'
+          title='NETSKILLD - Admin'
+          description='NETSKILLD là một nền tảng để học sinh học hỏi và nhận được sự giúp đỡ từ giáo viên'
+          keywords='Học Lập Trình,MERN,Redux,Học Máy'
         />
         <div className='flex h-screen'>
           <div className='1500px:w-[16%] w-1/5'>

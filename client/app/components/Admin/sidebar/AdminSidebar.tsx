@@ -216,6 +216,14 @@ const AdminSidebar = () => {
             </Typography>
 
             <Item
+              title='Danh Mục'
+              to='/admin/categories'
+              icon={<WysiwygIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+
+            <Item
               title='Tạo Khóa Học'
               to='/admin/create-course'
               icon={<VideoCallIcon />}
@@ -231,7 +239,7 @@ const AdminSidebar = () => {
               setSelected={setSelected}
             />
 
-            {/* <Typography
+            <Typography
               variant='h5'
               sx={{ m: '15px 0 5px 25px' }}
               className='!text-[18px] text-black dark:text-[#ffffffc1] capitalize !font-[400]'
@@ -248,18 +256,12 @@ const AdminSidebar = () => {
             />
             <Item
               title='Câu Hỏi'
-              to='/faq'
+              to='/admin/faq'
               icon={<QuizIcon />}
               selected={selected}
               setSelected={setSelected}
             />
-            <Item
-              title='Danh Mục'
-              to='/admin/categories'
-              icon={<WysiwygIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            /> */}
+           
 
             <Typography
               variant='h5'
