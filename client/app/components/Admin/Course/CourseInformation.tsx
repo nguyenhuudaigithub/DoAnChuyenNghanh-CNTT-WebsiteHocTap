@@ -166,16 +166,22 @@ const CourseInformation: FC<Props> = ({
             <select
               name=''
               id=''
-              className={`${styles.input}`}
+              className={`${styles.input} `}
               value={courseInfo?.category}
               onChange={(e: any) => {
                 setCourseInfo({ ...courseInfo, category: e.target.value });
               }}
             >
-              <option value=''>Lựa Chọn Thể Loại</option>
+              <option value='' className='dark:!text-black'>
+                Lựa Chọn Thể Loại
+              </option>
               {categories &&
                 categories.map((item: any) => (
-                  <option value={item?._id} key={item?._id}>
+                  <option
+                    value={item?._id}
+                    key={item?._id}
+                    className='dark:!text-black'
+                  >
                     {item?.title}
                   </option>
                 ))}
