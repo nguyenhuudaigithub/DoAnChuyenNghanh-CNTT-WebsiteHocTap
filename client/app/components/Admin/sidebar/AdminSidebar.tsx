@@ -248,7 +248,7 @@ const AdminSidebar = () => {
             />
             <Item
               title='Câu Hỏi'
-              to='/faq'
+              to='/admin/faq'
               icon={<QuizIcon />}
               selected={selected}
               setSelected={setSelected}

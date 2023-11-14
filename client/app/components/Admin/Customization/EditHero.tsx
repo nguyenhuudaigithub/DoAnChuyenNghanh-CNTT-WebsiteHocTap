@@ -60,14 +60,14 @@ const EditHero: FC<Props> = (props: Props) => {
 
   return (
     <>
-      <div className='w-full 1000px:flex items-center'>
-        <div className='absolute top-[100px] 1000px:top-[unset] 1500px:h-[700px] 1500px:w-[700px] 1100px:h-[500px] 1100px:w-[500px] h-[50vh] w-[50vw] hero_animation rounded-[50%] 1100px:left-[18rem] 1500px:left-[21rem]'></div>
+      <div className='w-full 1000px:flex items-center relative'>
+        <div className='absolute top-[100px] 1000px:top-[unset] 1500px:h-[700px] 1500px:w-[700px] 1100px:h-[500px] 1100px:w-[500px] h-[50vh] w-[50vh] hero_animation rounded-[50%] 1100px:left-[18rem] 1500px:left-[21rem]'></div>
         <div className='1000px:w-[40%] flex 1000px:min-h-screen items-center justify-end pt-[70px] 1000px:pt-[0] z-10'>
           <div className='relative flex items-center justify-end'>
             <img
               src={image}
               alt=''
-              className='object-contain 1100px:max-w-[90%] w-[90%] 1500px:max-w-[85%] h-auto z-10'
+              className='object-contain 1100px:max-w-[90%] w-[90%] 1500px:max-w-[85%] h-[auto] z-[10]'
             />
             <input
               type='file'
@@ -85,15 +85,17 @@ const EditHero: FC<Props> = (props: Props) => {
         {/*  */}
         <div className='1000px:w-[60%] flex flex-col items-center 1000px:mt-[0px] text-center 1000px:text-left mt-[150px]'>
           <textarea
-            className='dark:text-white resize-none text-[#000000c7] text-[30px] px-3 w-full 1000px:text-[60px] 1500px:text-[70px] font-Josefin'
+            className='dark:!text-white resize-none text-[#000000c7] text-[30px] px-3 w-full 1000px:text-[60px] 1500px:text-[70px] font-Josefin bg-transparent'
             placeholder='Improve Your Online Learning Experience Better Instantly'
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             rows={4}
+            readOnly
           />
           <br />
           <textarea
             value={subTitle}
+            readOnly
             onChange={(e) => setSubTitle(e.target.value)}
             placeholder='We have 40k+ Online courses 6. 500K+ Online registered student. Find your desired Courses from them.'
             className='dark:text-[#edfff4] text-[#000000ac] font-Josefin font-[600] text-[18px] 1500px:!w-[55%] 1100px:!w-[74%] bg-transparent'
@@ -104,7 +106,7 @@ const EditHero: FC<Props> = (props: Props) => {
           <div
             className={`${
               styles.button
-            } !w-[100px] !min-h-[40px] !h-I4Bpx] dark:text-white text-black bg-[#cccccc34]
+            } !w-[100px] !min-h-[40px] !h-[40px] dark:text-white text-black bg-[#cccccc34]
             ${
               data?.layout?.banner?.title !== title ||
               data?.layout?.banner?.subTitle !== subTitle ||

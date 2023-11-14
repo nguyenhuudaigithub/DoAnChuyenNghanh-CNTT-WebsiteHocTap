@@ -12,7 +12,7 @@ import { IoMdAddCircleOutline } from 'react-icons/io';
 type Props = {};
 
 const EditCategories = (props: Props) => {
-  const { data, isLoading, refetch } = useGetHeroDataQuery('Categories', {
+  let { data, isLoading, refetch } = useGetHeroDataQuery('Categories', {
     refetchOnMountOrArgChange: true,
   });
 
@@ -21,7 +21,16 @@ const EditCategories = (props: Props) => {
 
   const [categories, setCategories] = useState<any>([]);
 
+  console.log(data);
+
   useEffect(() => {
+    // const fetchApi = async () => {
+    //   await fetch('http://localhost:8000/api/v1/get-layout/Categories')
+    //     .then((response) => response.json())
+    //     .then((data) => setCategories(data.layout?.categories));
+    // };
+
+    // data = fetchApi();
     if (data) {
       setCategories(data?.layout?.categories);
     }
@@ -35,7 +44,7 @@ const EditCategories = (props: Props) => {
         toast.error(errorData?.data?.message);
       }
     }
-  }, [data, layoutSuccess, error]);
+  }, [data, error, isLoading]);
 
   const handleCategoriesAdd = (id: any, value: string) => {
     setCategories((prevCategory: any) =>
@@ -47,7 +56,9 @@ const EditCategories = (props: Props) => {
     if (categories[categories?.length - 1]?.title === '') {
       toast?.error('Category title cannot be empty');
     } else {
-      setCategories((prevCategory: any) => [...prevCategory, { title: '' }]);
+      setCategories((prevCategory: any) =>
+        prevCategory ? [...prevCategory, { title: '' }] : [{ title: '' }]
+      );
     }
   };
 
