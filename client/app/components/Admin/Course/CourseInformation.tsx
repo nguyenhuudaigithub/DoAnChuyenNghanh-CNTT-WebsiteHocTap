@@ -53,6 +53,7 @@ const CourseInformation: FC<Props> = ({
   };
 
   const handleDragLeave = (e: any) => {
+ 
     e.preventDefault();
     setDragging(false);
   };
@@ -167,9 +168,9 @@ const CourseInformation: FC<Props> = ({
               name=''
               id=''
               className={`${styles.input} `}
-              value={courseInfo?.category}
+              value={courseInfo?.categories}
               onChange={(e: any) => {
-                setCourseInfo({ ...courseInfo, category: e.target.value });
+                setCourseInfo({ ...courseInfo, categories: e.target.value });
               }}
             >
               <option value='' className='dark:!text-black'>

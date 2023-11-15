@@ -33,7 +33,9 @@ const CoursePreview: FC<Props> = ({
   const createCourse = () => {
     handleCourseCreate();
   };
+  
 
+  console.log(courseData)
   return (
     <div className='w-[90%] m-auto py-5 mb-5'>
       <div className='w-full relative'>
