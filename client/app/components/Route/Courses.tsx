@@ -8,7 +8,7 @@ const Courses = (props: Props) => {
   const [courses, setCourses] = useState<any[]>([]);
 
   useEffect(() => {
-    setCourses(data?.courses);
+    setCourses(data?.course);
   }, [data]);
 
   return (
