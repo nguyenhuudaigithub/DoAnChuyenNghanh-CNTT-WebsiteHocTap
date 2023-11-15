@@ -32,7 +32,9 @@ const Page: FC<Props> = (props) => {
         />
       </Protected>
       <Profile user={user} />
+      <div className="fixed bottom-0 left-0 right-0 dark:bg-opacity-50 dark:bg-gradient-to-b">
       <Footer />
+      </div>  
     </div>
   );
 };

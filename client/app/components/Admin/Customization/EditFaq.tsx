@@ -23,7 +23,7 @@ const EditFaq = (props: Props) => {
   const [questions, setQuestions] = useState<any[]>([]);
 
   useEffect(() => {
-    if (data) {
+    if (data) { 
       setQuestions(data?.layout?.faq);
     }
     if (layoutSuccess) {

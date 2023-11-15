@@ -18,9 +18,9 @@ const Courses = (props: Props) => {
           className='text-center font-Poppins text-[25px] leading-[35px]
         sm:text-3xl lg:text-4xl dark:text-white 800px:!leading-[60px] text-[#000] font-[700] tracking-tight'
         >
-          Expand Your Career <span className='text-gradient'>Opportunity</span>{' '}
+          Mở Rộng Sự Nghiệp Của <span className='text-gradient'> Bạn</span>{' '}
           <br />
-          Opportunity With Our Courses
+          Với Những Khóa Học Của Chúng Tôi
         </h1>
         <br />
         <br />

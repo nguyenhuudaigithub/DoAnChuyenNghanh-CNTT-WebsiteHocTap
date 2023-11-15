@@ -61,7 +61,7 @@ const DashboardWidgets: FC<Props> = ({ open }) => {
                   className='py-2 font-Poppins dark:text-[#45CBA0] text-black
                 text-[20px] font-[400]'
                 >
-                  Sales Obtained
+                  Doanh thu đạt được
                 </h5>
               </div>
               <div>
@@ -80,7 +80,7 @@ const DashboardWidgets: FC<Props> = ({ open }) => {
                   450
                 </h5>
                 <h5 className='py-2 font-Poppins dark:text-[#45CBA0] text-black text-[20px] font-[400]'>
-                  New Users
+                  Người dùng
                 </h5>
               </div>
               <div>
@@ -93,13 +93,13 @@ const DashboardWidgets: FC<Props> = ({ open }) => {
         </div>
       </div>
 
-      <div className='grid grid-cols-[65%,35%l mt-[-20pxl'>
+      <div className='grid grid-cols-[65%,35%l mt-[-20px] ml-4'>
         <div className='dark:bg-[#111c43] w-[94%] mt-[30px] h-[40vh] shadow-sm m-auto'>
           <OrdersAnalytics isDashboard={true} />
         </div>
         <div className='p-5'>
           <h5 className='dark:text-[#fff] text-black text-[20px] font-[400] font-Poppins pb-3'>
-            Recent Transactions
+            Giao dịch gần đây
           </h5>
           <AllInvoices isDashboard={true} />
         </div>

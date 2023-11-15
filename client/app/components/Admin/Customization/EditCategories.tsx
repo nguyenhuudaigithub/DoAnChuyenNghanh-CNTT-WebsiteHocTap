@@ -82,6 +82,7 @@ const EditCategories = (props: Props) => {
         type: 'Categories',
         categories,
       });
+      refetch();
     }
   };
 

@@ -21,10 +21,10 @@ const FAQ = (props: Props) => {
   };
 
   return (
-    <div>
+    <div className='mb-5'>
       <div className='w-[90%] 800px:w-[80%] m-auto'>
         <h1 className={`${styles.title} 800px:text-[40px]`}>
-          Frequently Asked Questions
+          Các Câu Hỏi Thường Gặp
         </h1>
         <div className='mt-12'>
           <dl className='space-y-8'>
