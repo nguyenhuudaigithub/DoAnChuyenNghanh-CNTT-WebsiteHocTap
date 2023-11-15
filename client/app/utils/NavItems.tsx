@@ -8,7 +8,7 @@ export const navItemsData = [
   },
   {
     name: 'Khóa Học',
-    url: '/courses',
+    url: '/course',
   },
   {
     name: 'Chi Tiết',
