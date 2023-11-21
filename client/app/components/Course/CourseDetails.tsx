@@ -32,7 +32,8 @@ const CourseDetails = ({ data, clientSecret, stripePromise }: Props) => {
   const handleOrder = (e: any) => {
     setOpen(true);
   };
-
+  
+  
   return (
     <div>
       <div className='w- [90%] 800px:w-[90%] m-auto py-5'>
@@ -218,7 +219,7 @@ const CourseDetails = ({ data, clientSecret, stripePromise }: Props) => {
                   onClick={() => setOpen(false)}
                 />
               </div>
-
+ 
               <div className='w-full'>
                 {stripePromise && clientSecret && (
                   <Elements stripe={stripePromise} options={{ clientSecret }}>
