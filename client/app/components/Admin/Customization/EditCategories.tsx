@@ -21,7 +21,7 @@ const EditCategories = (props: Props) => {
 
   const [categories, setCategories] = useState<any>([]);
 
-  console.log(data);
+
 
   useEffect(() => {
     // const fetchApi = async () => {

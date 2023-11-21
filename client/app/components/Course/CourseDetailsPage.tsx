@@ -68,7 +68,7 @@ const CourseDetailsPage = ({ id }: Props) => {
           {stripePromise && (
             <CourseDetails
               data={data.course}
-              stripePromise={setStripePromise}
+              stripePromise={stripePromise}
               clientSecret={clientSecret}
             />
           )}

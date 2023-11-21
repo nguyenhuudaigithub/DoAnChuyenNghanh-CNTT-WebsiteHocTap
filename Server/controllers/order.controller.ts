@@ -110,7 +110,7 @@ export const getAllOrders = CatchAsyncError(
 export const sendStripePublishableKey = CatchAsyncError(
   async (req: Request, res: Response) => {
     res.status(200).json({
-      publishablekey: process.env.STRIPE_PUBLISHABLE_KEY,
+      publishableKey: `${process.env.STRIPE_PUBLISHABLE_KEY}`,
     });
   }
 );

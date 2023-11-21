@@ -33,7 +33,6 @@ const CourseDetails = ({ data, clientSecret, stripePromise }: Props) => {
     setOpen(true);
   };
   
-  
   return (
     <div>
       <div className='w- [90%] 800px:w-[90%] m-auto py-5'>
