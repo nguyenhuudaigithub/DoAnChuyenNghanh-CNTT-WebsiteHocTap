@@ -68,7 +68,7 @@ export const createOrder = CatchAsyncError(
         if (user) {
           await sendMail({
             email: user.email,
-            subject: "chap nhan order",
+            subject: "Thông Tin Đơn Hàng",
             template: "order-confirmation.ejs",
             data: mailData,
           });
@@ -81,10 +81,11 @@ export const createOrder = CatchAsyncError(
       await redis.set(req.user?._id, JSON.stringify(user));
 
       await user?.save();
+      
       await NotificationModel.create({
         user: user?.id,
-        title: "New Order",
-        message: `you have a new order from ${course?.name}`,
+        title: "Đơn Hàng Mới",
+        message: `Bạn có một đơn hàng mới từ ${course?.name}`,
       });
       course.purchased ? (course.purchased += 1) : course.purchased;
       await course.save();
