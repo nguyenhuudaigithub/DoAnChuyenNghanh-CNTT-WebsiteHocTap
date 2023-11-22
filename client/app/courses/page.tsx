@@ -9,12 +9,13 @@ import Header from '../components/Header';
 import Heading from '../utils/Heading';
 import { styles } from '../components/styles/style';
 import CourseCard from '../components/Course/CourseCard';
+import TfIdfSearch from '../utils/TfIdfSearch';
 
 type Props = {};
 
 function page({}: Props) {
   const searchParams = useSearchParams();
-  const search = searchParams?.get('title');
+  const search = searchParams?.get('title') || '';
   const { data, isLoading } = useGetUserAllCoursesQuery(undefined, {});
   const { data: categoriesData } = useGetHeroDataQuery('Categories', {});
 
@@ -33,11 +34,21 @@ function page({}: Props) {
       );
     }
     if (search) {
-      setCourses(
-        data?.courses?.filter((item: any) =>
-          item?.name?.toLowerCase().includes(search.toLowerCase())
-        )
-      );
+      if (search.length <= 1) {
+        setCourses(
+          data?.courses?.filter((item: any) =>
+            item?.name?.toLowerCase().includes(search.toLowerCase())
+          )
+        );
+      } else {
+        const tfIdfSearch = new TfIdfSearch(data?.courses);
+        const searchResults = tfIdfSearch.weights(search);
+        const results: any = searchResults
+          .filter((result) => result.weight > 0)
+          .sort((a, b) => b.weight - a.weight);
+
+        setCourses(results.map((result: any) => result.doc));
+      }
     }
   }, [data, category, search]);
 
