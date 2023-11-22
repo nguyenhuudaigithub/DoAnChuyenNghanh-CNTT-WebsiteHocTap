@@ -3,7 +3,7 @@ import Ratings from '@/app/utils/Ratings';
 import { Rating } from '@mui/material';
 import Link from 'next/link';
 import { format } from 'path';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { IoIosCheckmark } from 'react-icons/io';
 import { IoCheckmarkDoneOutline, IoCloseOutline } from 'react-icons/io5';
 import { useSelector } from 'react-redux';
@@ -11,16 +11,33 @@ import { styles } from '../styles/style';
 import CourseContentList from '../Course/CourseCardContentList';
 import { Elements } from '@stripe/react-stripe-js';
 import CheckOutForm from '../Payment/CheckOutForm';
+import { useLoadUserQuery } from '@/redux/features/api/apiSlice';
 
 type Props = {
   data: any;
   clientSecret: string;
   stripePromise: any;
+  setRoute: any;
+  setOpen: any;
 };
 
-const CourseDetails = ({ data, clientSecret, stripePromise }: Props) => {
-  const { user } = useSelector((state: any) => state.auth);
+const CourseDetails = ({
+  data,
+  clientSecret,
+  stripePromise,
+  setRoute,
+  setOpen: openAuthModal,
+}: Props) => {
+  // const { user } = useSelector((state: any) => state.auth);
+
+  const { data: userData } = useLoadUserQuery(undefined, {});
+  const [user, setUser] = useState<any>();
+  // const user = userData?.user;
   const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    setUser(userData?.user);
+  }, [userData]);
 
   const discountPercentenge =
     ((data?.estimatedPrice - data?.price) / data?.estimatedPrice) * 100;
@@ -30,26 +47,31 @@ const CourseDetails = ({ data, clientSecret, stripePromise }: Props) => {
   const isPurchased =
     user && user?.courses?.find((item: any) => item?._id === data?._id);
   const handleOrder = (e: any) => {
-    setOpen(true);
+    if (user) {
+      setOpen(true);
+    } else {
+      setRoute('Login');
+      openAuthModal(true);
+    }
   };
-  
+
   return (
     <div>
       <div className='w- [90%] 800px:w-[90%] m-auto py-5'>
         <div className='w-full flex flex-col-reverse 800px:flex-row'>
           <div className='w-full 800px:w-[65%] 800px:pr-5'>
             <h1 className='text-[25px] font-Poppins font-[600] text-black dark:text-white'>
-              {data.name}
+              {data?.name}
             </h1>
             <div className='flex items-center justify-between pt-3'>
               <div className='flex items-center'>
-                <Ratings rating={data.ratings} />
+                <Ratings rating={data?.ratings} />
                 <h5 className='text-black dark:text-white'>
-                  {data.reviews?.length} Đánh giá
+                  {data?.reviews?.length} Đánh giá
                 </h5>
               </div>
               <h5 className='text-black dark:text-white'>
-                {data.purchased} Học sinh
+                {data?.purchased} Học sinh
               </h5>
             </div>
             <br />
@@ -57,7 +79,7 @@ const CourseDetails = ({ data, clientSecret, stripePromise }: Props) => {
               Bạn sẽ học được gì từ khóa học này?
             </h1>
             <div>
-              {data.benefits?.map((item: any, index: number) => (
+              {data?.benefits?.map((item: any, index: number) => (
                 <div className='flex items-center py-2' key={index}>
                   <div className='w-4 mr-1'>
                     <IoCheckmarkDoneOutline
@@ -218,7 +240,7 @@ const CourseDetails = ({ data, clientSecret, stripePromise }: Props) => {
                   onClick={() => setOpen(false)}
                 />
               </div>
- 
+
               <div className='w-full'>
                 {stripePromise && clientSecret && (
                   <Elements stripe={stripePromise} options={{ clientSecret }}>

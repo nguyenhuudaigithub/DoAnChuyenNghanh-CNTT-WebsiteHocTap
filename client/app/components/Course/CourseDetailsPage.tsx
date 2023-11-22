@@ -9,7 +9,7 @@ import {
   useCreatePaymentIntentMutation,
   useGetStripePublishablekeyQuery,
 } from '@/redux/features/orders/ordersApi';
-import {useStripe, useElements} from '@stripe/react-stripe-js';
+import { useStripe, useElements } from '@stripe/react-stripe-js';
 
 import { loadStripe } from '@stripe/stripe-js';
 
@@ -36,17 +36,14 @@ const CourseDetailsPage = ({ id }: Props) => {
       const amount = Math.round(data?.course?.price * 100);
       createPaymentIntent(amount);
     }
-    
   }, [config, data]);
 
   useEffect(() => {
     if (paymentIntentData) {
-
       setClientSecret(paymentIntentData?.client_secret);
     }
   }, [paymentIntentData]);
 
- 
   return (
     <>
       {isLoading ? (
@@ -70,6 +67,8 @@ const CourseDetailsPage = ({ id }: Props) => {
               data={data.course}
               stripePromise={stripePromise}
               clientSecret={clientSecret}
+              setOpen={setOpen}
+              setRoute={setRoute}
             />
           )}
           <Footer />
