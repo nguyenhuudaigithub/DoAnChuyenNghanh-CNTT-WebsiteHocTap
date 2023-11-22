@@ -4,12 +4,14 @@ import Loader from '../Loader/Loader';
 import Heading from '@/app/utils/Heading';
 import CourseContentMedia from './CourseContentMedia';
 import Header from '../Header';
+import CourseContentList from './CourseContentList';
 
 type Props = {
   id: string;
+  user: any;
 };
 
-function CourseContent({ id }: Props) {
+function CourseContent({ id, user }: Props) {
   const { data: contentData, isLoading } = useGetCourseContentQuery(id);
 
   const data = contentData?.content;
@@ -40,6 +42,13 @@ function CourseContent({ id }: Props) {
               <CourseContentMedia
                 data={data}
                 id={id}
+                activeVideo={activeVideo}
+                setActiveVideo={setActiveVideo}
+              />
+            </div>
+            <div className='hidden 800px:block 800px:col-span-3'>
+              <CourseContentList
+                data={data}
                 activeVideo={activeVideo}
                 setActiveVideo={setActiveVideo}
               />

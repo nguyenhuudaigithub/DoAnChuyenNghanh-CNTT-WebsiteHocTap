@@ -26,7 +26,9 @@ const CourseContentMedia = ({
       />
       <div className='w-full flex items-center justify-between my-3'>
         <div
-          className={`${styles.button} !w-[unset] !min-h-[40px] !py-[unset] ${
+          className={`${
+            styles.button
+          } text-white !w-[unset] !min-h-[40px] !py-[unset] ${
             activeVideo === 0 && '!cursor-no-drop opacity-[.8]'
           }`}
           onClick={() =>
@@ -37,7 +39,9 @@ const CourseContentMedia = ({
           Prev Lesson
         </div>
         <div
-          className={`${styles.button} !w-[unset] !min-h-[40px] !py-[unset] ${
+          className={`${
+            styles.button
+          } text-white  !w-[unset] !min-h-[40px] !py-[unset] ${
             data.length - 1 === activeVideo && '!cursor-no-drop opacity-[.8]'
           }`}
           onClick={() =>
@@ -53,7 +57,7 @@ const CourseContentMedia = ({
         </div>
       </div>
 
-      <h1 className='pt-2 text-[25px] font-[600]'>
+      <h1 className='pt-2 text-[25px] font-[600] dark:text-white text-black'>
         {data[activeVideo]?.title}
       </h1>
       <br />
@@ -61,8 +65,10 @@ const CourseContentMedia = ({
         {['Overview', 'Resources', 'Q&A', 'Reviews'].map((text, index) => (
           <h5
             key={index}
-            className={`800px:text-[20px] cursor-pointer ${
-              activeBar === index && 'text-red-500'
+            className={`800px:text-[20px]  cursor-pointer ${
+              activeBar === index
+                ? 'text-red-500'
+                : 'dark:text-white text-black'
             }`}
             onClick={() => setActiveBar(index)}
           >
@@ -72,9 +78,33 @@ const CourseContentMedia = ({
       </div>
       <br />
       {activeBar === 0 && (
-        <p className='text-[18px] whitespace-pre-line mb-3'>
+        <p className='text-[18px] whitespace-pre-line mb-3 dark:text-white text-black'>
           {data[activeVideo]?.description}
         </p>
+      )}
+
+      {activeBar === 1 && (
+        <div>
+          {data[activeVideo]?.links.map((item: any, index: number) => (
+            <div className='mb-5'>
+              <h2 className='800px:text-[26px] 800px:inline-block dark:text-white text-black'>
+                {item?.title && item?.title + ' :'}
+              </h2>
+              <a
+                className='inline-block text-[#4395c4] 800px:text-[20px] 800px:pl-2'
+                href={item?.url}
+              >
+                {item?.url}
+              </a>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {activeBar === 2 && (
+        <>
+          <div className='flex w-full'></div>
+        </>
       )}
     </div>
   );
