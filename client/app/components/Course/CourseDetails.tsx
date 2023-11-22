@@ -11,6 +11,7 @@ import { styles } from '../styles/style';
 import CourseContentList from '../Course/CourseCardContentList';
 import { Elements } from '@stripe/react-stripe-js';
 import CheckOutForm from '../Payment/CheckOutForm';
+import { useLoadUserQuery } from '@/redux/features/api/apiSlice';
 
 type Props = {
   data: any;
@@ -19,7 +20,9 @@ type Props = {
 };
 
 const CourseDetails = ({ data, clientSecret, stripePromise }: Props) => {
-  const { user } = useSelector((state: any) => state.auth);
+  // const { user } = useSelector((state: any) => state.auth);
+  const { data: userData } = useLoadUserQuery(undefined, {});
+  const user = userData?.user;
   const [open, setOpen] = useState(false);
 
   const discountPercentenge =
@@ -32,7 +35,7 @@ const CourseDetails = ({ data, clientSecret, stripePromise }: Props) => {
   const handleOrder = (e: any) => {
     setOpen(true);
   };
-  
+
   return (
     <div>
       <div className='w- [90%] 800px:w-[90%] m-auto py-5'>
@@ -218,7 +221,7 @@ const CourseDetails = ({ data, clientSecret, stripePromise }: Props) => {
                   onClick={() => setOpen(false)}
                 />
               </div>
- 
+
               <div className='w-full'>
                 {stripePromise && clientSecret && (
                   <Elements stripe={stripePromise} options={{ clientSecret }}>
