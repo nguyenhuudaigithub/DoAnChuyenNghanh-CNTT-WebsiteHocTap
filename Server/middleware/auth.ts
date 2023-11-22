@@ -6,11 +6,11 @@ import { redis } from "../utils/redis";
 import { updateAccessToken } from "../controllers/user.controller";
 
 export { CatchAsyncError } from "./catchAsyncErrors";
-
+ 
 export const isAutheticated = CatchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
-    const access_token = req.cookies.access_token;
-
+    const access_token = req.cookies.access_token as string;
+ 
     if (!access_token) {
       return next(
         new ErrorHandler("Vui lòng đăng nhập để thực hiện yêu cầu !", 400)
@@ -19,7 +19,6 @@ export const isAutheticated = CatchAsyncError(
 
     const decoded = jwt.decode(
       access_token
-      // process.env.ACCESS_TOKEN as string
     ) as JwtPayload;
 
     if (!decoded) {

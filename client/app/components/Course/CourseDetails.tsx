@@ -1,16 +1,15 @@
 import CoursePlayer from '@/app/utils/CoursePlayer';
 import Ratings from '@/app/utils/Ratings';
-import { Rating } from '@mui/material';
 import Link from 'next/link';
 import { format } from 'path';
 import React, { useState } from 'react';
-import { IoIosCheckmark } from 'react-icons/io';
 import { IoCheckmarkDoneOutline, IoCloseOutline } from 'react-icons/io5';
-import { useSelector } from 'react-redux';
 import { styles } from '../styles/style';
 import CourseContentList from '../Course/CourseCardContentList';
 import { Elements } from '@stripe/react-stripe-js';
 import CheckOutForm from '../Payment/CheckOutForm';
+import { useLoadUserQuery } from '@/redux/features/api/apiSlice';
+import { useSelector } from 'react-redux';
 
 type Props = {
   data: any;
@@ -19,14 +18,17 @@ type Props = {
 };
 
 const CourseDetails = ({ data, clientSecret, stripePromise }: Props) => {
+  // const {data:userData} = useLoadUserQuery(undefined, {});
+  // const user = userData?.user;
   const { user } = useSelector((state: any) => state.auth);
   const [open, setOpen] = useState(false);
 
   const discountPercentenge =
-    ((data?.estimatedPrice - data?.price) / data?.estimatedPrice) * 100;
+      ((data?.estimatedPrice - data?.price) / data?.estimatedPrice) * 100;
 
   const discountPercentengePrice = discountPercentenge.toFixed(0);
 
+  
   const isPurchased =
     user && user?.courses?.find((item: any) => item?._id === data?._id);
   const handleOrder = (e: any) => {
