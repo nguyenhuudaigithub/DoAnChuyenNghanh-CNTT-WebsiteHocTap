@@ -12,6 +12,7 @@ import toast from "react-hot-toast";
 import {
   useAddAnswerInQuestionMutation,
   useAddNewQuestionMutation,
+  useAddReplyInReviewMutation,
   useAddReviewInCourseMutation,
   useGetCourseDetailsQuery,
 } from "@/redux/features/courses/coursesApi";
@@ -43,14 +44,17 @@ const CourseContentMedia = ({
   const [rating, setRating] = useState(1);
   const [answer, setAnswer] = useState("");
   const [questionId, setQuestionId] = useState("");
-
+  const [isReviewReply, setIsReviewReply] = useState(false);
   const [
     addNewQuestion,
     { isSuccess, error, isLoading: questionCreationLoading },
   ] = useAddNewQuestionMutation();
-
-  const {data:courseData,refetch:courseRefetch} = useGetCourseDetailsQuery(id,{refetchOnMountOrArgChange:true});
-
+  const [reply, setReply] = useState("");
+  const { data: courseData, refetch: courseRefetch } = useGetCourseDetailsQuery(
+    id,
+    { refetchOnMountOrArgChange: true }
+  );
+  const [reviewId, setReviewId] = useState("");
   const [
     addAnswerInQuestion,
     {
@@ -63,6 +67,14 @@ const CourseContentMedia = ({
   const course = courseData?.course;
 
   const [
+    addReplyInReview,
+    {
+      isSuccess: replySuccess,
+      error: replyError,
+      isLoading: replyCreationLoading,
+    },
+  ] = useAddReplyInReviewMutation();
+  const [
     addReviewInCourse,
     {
       isSuccess: reviewSuccess,
@@ -70,7 +82,7 @@ const CourseContentMedia = ({
       isLoading: reviewCreationLoading,
     },
   ] = useAddReviewInCourseMutation();
-  
+
   const isReviewExists = course?.reviews?.find(
     (item: any) => item.user._id === user._id
   );
@@ -125,6 +137,19 @@ const CourseContentMedia = ({
         toast.error(errorMessage.data.message);
       }
     }
+
+    if (replySuccess) {
+      setReply("");
+      courseRefetch();
+      toast.success("Thêm thành công.");
+    }
+
+    if (replyError) {
+      if ("data" in replyError) {
+        const errorMessage = error as any;
+        toast.error(errorMessage.data.message);
+      }
+    }
   }, [
     isSuccess,
     error,
@@ -132,6 +157,8 @@ const CourseContentMedia = ({
     answerSuccess,
     reviewError,
     reviewSuccess,
+    replySuccess,
+    replyError,
   ]);
 
   const handleAnswerSubmit = () => {
@@ -144,13 +171,22 @@ const CourseContentMedia = ({
   };
 
   const handleReviewSubmit = async () => {
-    if (review.length === 0) {
-      toast.error("Không được bỏ trống sao!");
-    } else {
-      addReviewInCourse({ review, rating, courseId: id });
+    if (!replyCreationLoading) {
+      if (review.length === 0) {
+        toast.error("Không được bỏ trống sao!");
+      } else {
+        addReviewInCourse({ review, rating, courseId: id });
+      }
     }
   };
 
+  const handleReviewReplySubmit = () => {
+    if (reply === "") {
+      toast.error("Không được bỏ trống ! ");
+    } else {
+      addReplyInReview({ comment: reply, courseId: id, reviewId });
+    }
+  };
 
   return (
     <div className="w-[95%] 800px:w-[86%] py-4 m-auto">
@@ -358,7 +394,7 @@ const CourseContentMedia = ({
               </>
             )}
             <br />
-            <div className="w-full h-[1px] bg-[#ffffff3b]"></div>
+            <div className="w-full h-[1px] dark:bg-[#ffffff3b] bg-black"></div>
             <div className="w-full">
               {(course?.reviews && [...course.reviews].reverse()).map(
                 (item: any, index: number) => (
@@ -377,26 +413,84 @@ const CourseContentMedia = ({
                           className="w-[50px] h-[50px] rounded-full object-cover"
                         />
                       </div>
-                      <div className="ml-2">
+                      <div className="ml-2 dark:text-white text-black">
                         <h1 className="text-[18px] ">{item?.user.name}</h1>
                         <Ratings rating={item.rating} />
                         <p>{item.comment}</p>
-                        <small className="text-[#ffffff83]">
+                        <small className=" dark:text-[#ffffff83] text-black">
                           {format(item.createdAt)} •
                         </small>
                       </div>
                     </div>
+                    {user.role === "admin" && (
+                      <span
+                        className={`${styles.label} ml-10 cursor-pointer`}
+                        onClick={() => {
+                          setIsReviewReply(true);
+                          setReviewId(item._id);
+                        }}
+                      >
+                        Trả lời
+                      </span>
+                    )}
+                    {item.commentReplies.map((i: any, index: number) => (
+                      <div className="w-full flex 800px:ml-16 my-5">
+                        <div className="w-[50px] h-[50px]">
+                          <Image
+                            src={
+                              i.user.avatar
+                                ? i.user.avatar.url
+                                : "https://res.cloudinary.com/dshp9jnuy/image/upload/v1665822253/avatars/nrxsg8sd9iy10bbsoenn.png"
+                            }
+                            width={50}
+                            height={50}
+                            alt=""
+                            className="w-[50px] h-[50px] rounded-full object-cover"
+                          />
+                        </div>
+                        <div className="pl-2">
+                          <div className="flex items-center">
+                            <h5 className="text-[20px]">{i.user.name}</h5>
+                            {""}
+                            <VscVerifiedFilled className="text-[#50c750] ml-2 text-[20px]" />
+                          </div>
+                          <p>{i.comment}</p>
+                          <small className="text-[#ffffff83]">
+                            {format(i.createdAt)}
+                          </small>
+                        </div>
+                      </div>
+                    ))}
+                    {isReviewReply && (
+                      <div className="w-full flex relative">
+                        <input
+                          type="text"
+                          placeholder="Nhập câu trả lời của bạn..."
+                          value={reply}
+                          onChange={(e: any) => setReply(e.target.value)}
+                          className="block 800px:ml-12 mt-2 outline-none bg-transparent border-b border-[#00000027] dark:text-white text-black dark:border-[#fff] p-[5px] w-[95%]"
+                        />
+                        <button
+                          type="submit"
+                          className="absolute right-0 bottom-1"
+                          onClick={handleReviewReplySubmit}
+                        >
+                          Lưu
+                        </button>
+                      </div>
+                    )}
                   </div>
                 )
               )}
             </div>
+            <br />
           </>
         </div>
       )}
     </div>
   );
 };
-// Trả lời câu hỏi 
+// Trả lời câu hỏi
 const CommentReply = ({
   data,
   activeVideo,

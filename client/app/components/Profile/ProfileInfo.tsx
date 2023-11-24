@@ -58,10 +58,10 @@ const ProfileInfo: FC<Props> = ({ avatar, user }) => {
         <div className="relative">
           <Image
             src={user.avatar || avatar ? user.avatar.url || avatar : avatarIcon}
-            alt=""
+            alt="" 
             width={120}
             height={120}
-            className="w-[120px] h-[120px] cursor-pointer border-[3px] border-[#37a39a] rounded-full"
+            className="w-[120px] h-[120px] cursor-pointer border-[3px] border-[#37a39a] object-cover rounded-full"
           />
           <input
             type="file"
