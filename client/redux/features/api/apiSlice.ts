@@ -8,12 +8,12 @@ export const apiSlice = createApi({
   }),
   endpoints: (builder) => ({   
     loadUser: builder.query({
-      query: () => ({
+      query: (data) => ({
         url: "me",
         method: "GET",
         credentials: "include" as const,
       }),
-      async onQueryStarted({ queryFulfilled, dispatch }) {
+      async onQueryStarted(arg, { queryFulfilled, dispatch }) {
         try {
           const result = await queryFulfilled;
           dispatch(
