@@ -29,6 +29,8 @@ userRouter.get("/refreshtoken", updateAccessToken);
 
 userRouter.get("/me", isAutheticated, getUserInfo);
 
+userRouter.get("/me2", getUserInfo);
+
 userRouter.post("/social-auth", socialAuth);
 
 userRouter.put(

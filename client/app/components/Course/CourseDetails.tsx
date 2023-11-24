@@ -18,16 +18,14 @@ type Props = {
 };
 
 const CourseDetails = ({ data, clientSecret, stripePromise }: Props) => {
-  // const {data:userData} = useLoadUserQuery(undefined, {});
-  // const user = userData?.user;
-  const { user } = useSelector((state: any) => state.auth);
+  const {data:userData} = useLoadUserQuery(undefined, {});
+  const user = userData?.user;
   const [open, setOpen] = useState(false);
 
   const discountPercentenge =
       ((data?.estimatedPrice - data?.price) / data?.estimatedPrice) * 100;
 
   const discountPercentengePrice = discountPercentenge.toFixed(0);
-
   
   const isPurchased =
     user && user?.courses?.find((item: any) => item?._id === data?._id);

@@ -14,7 +14,6 @@ function page({ params }: Props) {
   const id = params.id;
 
   const { isLoading, error, data } = useLoadUserQuery(undefined, {});
-
   
   useEffect(() => {
     if (data) {
@@ -31,16 +30,15 @@ function page({ params }: Props) {
   }, [data, error]);
   
   return (
-    <CourseContent id={id} user={data?.user} />
-    // <>
-    //   {isLoading ? (
-    //     <Loader />
-    //   ) : (
-    //     <div>
-    //       <CourseContent id={id} />
-    //     </div>
-    //   )}
-    // </>
+    <>
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <div>
+          <CourseContent id={id} user={data?.user} />
+        </div>
+      )}
+    </>
   );
 }
 
