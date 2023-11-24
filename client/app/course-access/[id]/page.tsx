@@ -15,6 +15,7 @@ function page({ params }: Props) {
 
   const { isLoading, error, data } = useLoadUserQuery(undefined, {});
 
+  
   useEffect(() => {
     if (data) {
       const isPurchased = data?.user?.courses?.find(
@@ -28,7 +29,7 @@ function page({ params }: Props) {
       }
     }
   }, [data, error]);
-
+  
   return (
     <CourseContent id={id} user={data?.user} />
     // <>

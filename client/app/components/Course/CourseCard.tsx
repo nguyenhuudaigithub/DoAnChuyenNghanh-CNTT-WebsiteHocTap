@@ -24,36 +24,37 @@ const CourseCard: FC<Props> = ({ item, isProfile }) => {
           alt=''
         />
         <br />
-        <h1 className='font-Poppins text-[16px] text-black dark:text-[#fff1'>
-          {item?.name}{' '}
+        <h1 className='font-Poppins text-[16px] text-black dark:text-[#fff]'>
+          {item?.name}
         </h1>
 
         <div className='w-full flex items-center justify-between pt-2'>
-          <Ratings rating={item?.ratings} />
-          <h5
-            className={`text-black dark:text-[#fff] ${
-              isProfile && 'hidden 800px:inline'
-            }`}
-          >
-            {item?.purchased} Students
-          </h5>
+          <Ratings rating={item?.ratings} />       
         </div>
         <div className='w-full flex items-center justify-between pt-3'>
           <div className='flex'>
             <h3 className='text-black dark:text-[#fff]'>
-              {item?.price === 0 ? 'Free' : item?.price + '$'}
+              {item?.price === 0 ? 'Miễn phí' : (item?.price).toLocaleString('vi', {style : 'currency', currency : 'VND'})}
             </h3>
             <h5 className='pl-3 text-[14px] mt-[-5px] line-through opacity-80 text-black dark:text-[#fff]'>
-              {item?.estimatedPrice}$
-            </h5>
+              {(item?.estimatedPrice).toLocaleString('vi', {style : 'currency', currency : 'VND'})}
+            </h5>      
           </div>
-          <div className='f1ex items-center pb—3'>
-            <AiOutlineUnorderedList size={20} fill='#fff' />
-            <h5 className='pl-2 text-black dark:text-[#fff]'>
-              {item?.courseData?.length} Lectures
-            </h5>
-          </div>
+          
         </div>
+        <div className='w-full flex items-center justify-between pt-3 text-black dark:text-[#fff]'>
+            <AiOutlineUnorderedList size={20} fill='#fff' />
+            <h5>
+              {item?.courseData?.length} Khóa học
+            </h5>
+            <h5
+            className={`${
+              isProfile && 'hidden 800px:inline'
+            }`}
+          >
+            {item?.purchased} Học sinh
+          </h5>
+          </div>
       </div>
     </Link>
   );

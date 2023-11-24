@@ -121,13 +121,13 @@ const CourseInformation: FC<Props> = ({
                 setCourseInfo({ ...courseInfo, price: e.target.value })
               }
               id='price'
-              placeholder='29'
+              placeholder='99.000'
               className={`${styles.input}`}
             />
           </div>
           <div className='w-[50%]'>
             <label className={`${styles.label} w-[50%]`}>
-              Giá Ước Tính (tùy chọn){' '}
+              Giá Ước Tính (tùy chọn)
             </label>
             <input
               type='number'
@@ -138,7 +138,7 @@ const CourseInformation: FC<Props> = ({
                 setCourseInfo({ ...courseInfo, estimatedPrice: e.target.value })
               }
               id='estimatedPrice'
-              placeholder='79'
+              placeholder='179.000'
               className={`${styles.input}`}
             />
           </div>
@@ -207,7 +207,7 @@ const CourseInformation: FC<Props> = ({
             />
           </div>
           <div className='w-[50%]'>
-            <label className={`${styles.label}`}>URL Thử Nghiệm</label>
+            <label className={`${styles.label}`}>URL Video Tổng Quan</label>
             <input
               type='text'
               name=''

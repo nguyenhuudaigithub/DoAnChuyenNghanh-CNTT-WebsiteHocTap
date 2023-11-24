@@ -87,7 +87,7 @@ export const editCourse = CatchAsyncError(
   }
 );
 
-//Nhận khóa học duy nhất - mà không cần mua
+//Nhận khóa không cần mua
 export const getSingleCourse = CatchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -264,6 +264,8 @@ export const addAnwser = CatchAsyncError(
       const newAnswer: any = {
         user: req.user,
         answer,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
       };
 
       //  Thêm câu trả lời này vào nội dung khóa học của chúng tôi
@@ -390,10 +392,13 @@ export const addReview = CatchAsyncError(
 
       await course?.save();
 
-      const notification = {
-        title: "Đã nhận được đánh giá.",
+      await redis.set(courseId, JSON.stringify(course), "EX", 604800);
+
+      await NotificationModel.create({
+        user: req.user?._id,
+        title: "Đánh Giá Mới",
         message: `${req.user?.name} đưa ra đánh giá trong ${course?.name}`,
-      };
+      });
 
       // Thông báo
 
@@ -436,6 +441,8 @@ export const addReplyToReview = CatchAsyncError(
       const replyData: any = {
         user: req.user,
         comment,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
       };
 
       if (!review.commentReplies) {

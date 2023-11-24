@@ -45,13 +45,25 @@ const CoursePreview: FC<Props> = ({
         </div>
         <div className="flex items-center">
           <h1 className="pt-5 text-[25px]">
-            {courseData?.price === 0 ? "Miễn Phí" : courseData?.price + "VNĐ"}
+            {courseData?.price > 0
+              ? `${(courseData?.price).toLocaleString("vi", {
+                  style: "currency",
+                  currency: "VND",
+                })}`
+              : " "}
           </h1>
           <h5 className="pl-3 text-[20px] mt-2 line-through opacity-80">
-            {courseData?.estimatedPrice} VNĐ
+            {courseData?.estimatedPrice > 0
+              ? `${(courseData?.estimatedPrice).toLocaleString("vi", {
+                  style: "currency",
+                  currency: "VND",
+                })}`
+              : " "}
           </h5>
           <h4 className="pl-5 pt-4 text-[22px]">
-            Giảm {discountPercentengePrice} %
+            {courseData?.estimatedPrice > 0 && courseData?.price > 0
+              ? `Giảm ${discountPercentengePrice} %`
+              : "  "}
           </h4>
         </div>
         <div className="flex items-center">
@@ -59,7 +71,10 @@ const CoursePreview: FC<Props> = ({
             className={`${styles.button} my-3 font-Poppins h-12 !bg-[crimson] cursor-not-allowed !w-[200px] p-5 text-center`}
           >
             {courseData?.price > 0
-              ? `Mua Ngay (${courseData?.price}VNĐ)`
+              ? `Mua Ngay (${(courseData?.price).toLocaleString("vi", {
+                  style: "currency",
+                  currency: "VND",
+                })})`
               : "Miễn Phí"}
           </div>
         </div>
@@ -93,9 +108,9 @@ const CoursePreview: FC<Props> = ({
           <div className="flex items-center justify-between pt-3">
             <div className="flex items-center">
               <Ratings rating={0} />
-              <h5>0 Reviews</h5>
+              <h5>0 Đánh giá</h5>
             </div>
-            <h5>0 Students</h5>
+            <h5>0 Học sinh</h5>
           </div>
           <br />
           <h1 className="text-[25px] font-Poppins font-[600]">

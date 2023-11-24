@@ -59,7 +59,8 @@ const CourseContent: FC<Props> = ({
       item.description === '' ||
       item.videoUrl === '' ||
       item.links[0].title === '' ||
-      item.links[0].url === ''
+      item.links[0].url === ''||
+      item.videoLength === ''
     ) {
       toast.error('Vui lòng điền vào tất cả các trường trước!');
     } else {
@@ -78,6 +79,7 @@ const CourseContent: FC<Props> = ({
         videoUrl: '',
         title: '',
         description: '',
+        videoLength:'',
         videoSection: newVideoSection,
         links: [{ title: '', url: '' }],
       };
@@ -92,7 +94,8 @@ const CourseContent: FC<Props> = ({
       courseContentData[courseContentData.length - 1].title === '' ||
       courseContentData[courseContentData.length - 1].description === '' ||
       courseContentData[courseContentData.length - 1].links[0].title === '' ||
-      courseContentData[courseContentData.length - 1].links[0].url === ''
+      courseContentData[courseContentData.length - 1].links[0].url === '' ||
+      courseContentData[courseContentData.length - 1].videoLength ===''
     ) {
       toast.error('Vui lòng điền vào tất cả các trường trước!');
     } else {
@@ -101,6 +104,7 @@ const CourseContent: FC<Props> = ({
         videoUrl: '',
         title: '',
         description: '',
+        videoLength:'',
         videoSection: `Tiều đề ${activeSection}`,
         links: [{ title: '', url: '' }],
       };
@@ -118,7 +122,8 @@ const CourseContent: FC<Props> = ({
       courseContentData[courseContentData.length - 1].title === '' ||
       courseContentData[courseContentData.length - 1].description === '' ||
       courseContentData[courseContentData.length - 1].links[0].title === '' ||
-      courseContentData[courseContentData.length - 1].links[0].url === ''
+      courseContentData[courseContentData.length - 1].links[0].url === '' ||
+      courseContentData[courseContentData.length - 1].videoLength === ''
     ) {
       toast.error('Không để trống ô nhập liệu!');
     } else {
@@ -148,7 +153,7 @@ const CourseContent: FC<Props> = ({
                       <input
                         type='text'
                         className={`text-[20px] ${
-                          item.videoSection || 'Tiêu Đề' ? 'w-[170px]' : 'w-min'
+                          item.videoSection || 'Tiêu Đề' ? 'w-[10%]' : 'w-min'
                         } font-Poppins cursor-pointer dark:text-white text-black bg-transparent outline-none`}
                         value={item.videoSection}
                         // onChange={(e) => {

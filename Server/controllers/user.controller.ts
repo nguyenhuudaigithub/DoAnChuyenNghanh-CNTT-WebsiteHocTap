@@ -175,7 +175,7 @@ export const loginUser = CatchAsyncError(
       return next(new ErrorHandler(error.message, 400));
     }
   }
-);
+); 
 
 // Đăng xuất
 export const logoutUser = CatchAsyncError(
@@ -207,7 +207,7 @@ export const updateAccessToken = CatchAsyncError(
         process.env.REFRESH_TOKEN as string
       ) as JwtPayload;
 
-      const message = "Could not refresh token";
+      const message = "Không thể làm mới mã thông báo";
       if (!decoded) {
         return next(new ErrorHandler(message, 400));
       }
@@ -244,6 +244,8 @@ export const updateAccessToken = CatchAsyncError(
       // res.status(200).json({
       //   status: "success",
       //   accessToken,
+      //   refresh_token,
+      //   session,
       // });
       next();
     } catch (error: any) {

@@ -168,20 +168,32 @@ const CourseDetails = ({ data, clientSecret, stripePromise }: Props) => {
           <div className='w-full 800px:w-[35%] relative'>
             <div className='sticky top-[100px] left-0 z-50 w-full'>
               <CoursePlayer videoUrl={data?.demoUrl} title={data?.title} />
-              <div className='flex items-center'>
-                <h1 className='pt-5 text-[25px] text-black dark:text-white'>
-                  {data.price === 0 ? 'Miễn Phí' : `${data.price} VNĐ`}
-                </h1>
-                <h5 className='pl-3 text-[20px] mt-2 line-through opacity-80 text-black dark:text-white'>
-                  {data.estimatedPrice} VNĐ
-                </h5>
-                <h4 className='pl-5 pt-4 text-[22px] ☐ text-black dark:text-white'>
-                  Giảm {discountPercentengePrice}%
-                </h4>
-              </div>
+              <div className="flex items-center">
+            <h1 className="pt-5 text-[25px]">
+              {data?.price > 0
+                ? `${(data?.price).toLocaleString("vi", {
+                    style: "currency",
+                    currency: "VND",
+                  })}`
+                : " "}
+            </h1>
+            <h5 className="pl-3 text-[20px] mt-2 line-through opacity-80">
+              {data?.estimatedPrice > 0
+                ? `${(data?.estimatedPrice).toLocaleString("vi", {
+                    style: "currency",
+                    currency: "VND",
+                  })}`
+                : " "}
+            </h5>
+            <h4 className="pl-5 pt-4 text-[22px]">
+              {data?.estimatedPrice > 0 && data?.price > 0
+                ? `Giảm ${discountPercentengePrice} %`
+                : "  "}              
+            </h4>
+          </div>
 
               <div className='flex items-center'>
-                {isPurchased ? (
+                {isPurchased? (
                   <Link
                     className={`${styles.button} !w-[180px] my-3 font-Poppins cursor-pointer !bg-[crimson]`}
                     href={`/course-access/${data._id}`}

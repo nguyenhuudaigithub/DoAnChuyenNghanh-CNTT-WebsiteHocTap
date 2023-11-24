@@ -12,10 +12,13 @@ import toast from "react-hot-toast";
 import {
   useAddAnswerInQuestionMutation,
   useAddNewQuestionMutation,
+  useAddReviewInCourseMutation,
+  useGetCourseDetailsQuery,
 } from "@/redux/features/courses/coursesApi";
 import { format } from "timeago.js";
 import { BiMessage } from "react-icons/bi";
 import { VscVerifiedFilled } from "react-icons/vsc";
+import Ratings from "@/app/utils/Ratings";
 
 type Props = {
   data: any;
@@ -40,10 +43,14 @@ const CourseContentMedia = ({
   const [rating, setRating] = useState(1);
   const [answer, setAnswer] = useState("");
   const [questionId, setQuestionId] = useState("");
+
   const [
     addNewQuestion,
     { isSuccess, error, isLoading: questionCreationLoading },
   ] = useAddNewQuestionMutation();
+
+  const {data:courseData,refetch:courseRefetch} = useGetCourseDetailsQuery(id,{refetchOnMountOrArgChange:true});
+
   const [
     addAnswerInQuestion,
     {
@@ -52,15 +59,26 @@ const CourseContentMedia = ({
       isLoading: answerCreationLoading,
     },
   ] = useAddAnswerInQuestionMutation();
-  const isReviewExists = data?.reviews?.find(
-    (item: any) => item.user._id === user.id
+
+  const course = courseData?.course;
+
+  const [
+    addReviewInCourse,
+    {
+      isSuccess: reviewSuccess,
+      error: reviewError,
+      isLoading: reviewCreationLoading,
+    },
+  ] = useAddReviewInCourseMutation();
+  
+  const isReviewExists = course?.reviews?.find(
+    (item: any) => item.user._id === user._id
   );
 
   const handleQuestion = () => {
     if (question.length === 0) {
       toast.error("Câu hỏi không thể trống rỗng!");
     } else {
-      console.log({ question, courseId: id, contentId: data[activeVideo]._id });
       addNewQuestion({
         question,
         courseId: id,
@@ -89,10 +107,32 @@ const CourseContentMedia = ({
     if (answerError) {
       if ("data" in answerError) {
         const errorMessage = error as any;
+        toast.error(errorMessage?.data.message);
+        refetch();
+      }
+    }
+
+    if (reviewSuccess) {
+      setReview("");
+      setRating(1);
+      courseRefetch();
+      toast.success("Thêm đánh giá thành công.");
+    }
+
+    if (reviewError) {
+      if ("data" in reviewError) {
+        const errorMessage = error as any;
         toast.error(errorMessage.data.message);
       }
     }
-  }, [isSuccess, error, answerError, answerSuccess]);
+  }, [
+    isSuccess,
+    error,
+    answerError,
+    answerSuccess,
+    reviewError,
+    reviewSuccess,
+  ]);
 
   const handleAnswerSubmit = () => {
     addAnswerInQuestion({
@@ -102,7 +142,16 @@ const CourseContentMedia = ({
       questionId: questionId,
     });
   };
- 
+
+  const handleReviewSubmit = async () => {
+    if (review.length === 0) {
+      toast.error("Không được bỏ trống sao!");
+    } else {
+      addReviewInCourse({ review, rating, courseId: id });
+    }
+  };
+
+
   return (
     <div className="w-[95%] 800px:w-[86%] py-4 m-auto">
       <CoursePlayer
@@ -294,20 +343,60 @@ const CourseContentMedia = ({
                 </div>
                 <div className={`w-full flex justify-end`}>
                   <div
-                    className={`${styles.button} !w-[120px] !h-[40px] text-[18px] mt-5`}
+                    className={`${
+                      styles.button
+                    } !w-[120px] !h-[40px] text-[18px] mt-5 ${
+                      reviewCreationLoading && "cursor-no-drop"
+                    }`}
+                    onClick={
+                      reviewCreationLoading ? () => {} : handleReviewSubmit
+                    }
                   >
                     Lưu
                   </div>
                 </div>
               </>
             )}
+            <br />
+            <div className="w-full h-[1px] bg-[#ffffff3b]"></div>
+            <div className="w-full">
+              {(course?.reviews && [...course.reviews].reverse()).map(
+                (item: any, index: number) => (
+                  <div className="w-full my-5">
+                    <div className="w-full flex">
+                      <div>
+                        <Image
+                          src={
+                            item.user?.avatar
+                              ? item.user.avatar.url
+                              : "https://res.cloudinary.com/dshp9jnuy/image/upload/v1665822253/avatars/nrxsg8sd9iy10bbsoenn.png"
+                          }
+                          width={50}
+                          height={50}
+                          alt=""
+                          className="w-[50px] h-[50px] rounded-full object-cover"
+                        />
+                      </div>
+                      <div className="ml-2">
+                        <h1 className="text-[18px] ">{item?.user.name}</h1>
+                        <Ratings rating={item.rating} />
+                        <p>{item.comment}</p>
+                        <small className="text-[#ffffff83]">
+                          {format(item.createdAt)} •
+                        </small>
+                      </div>
+                    </div>
+                  </div>
+                )
+              )}
+            </div>
           </>
         </div>
       )}
     </div>
   );
 };
-
+// Trả lời câu hỏi 
 const CommentReply = ({
   data,
   activeVideo,
@@ -373,10 +462,9 @@ const CommentItem = ({
           <span
             className="800px:pl-16 text-[#000000b8] dark:text-[#ffffff83] cursor-pointer mr-2"
             onClick={() => {
-              setreplyActive(!replyActive)
-              setQuestionId(item._id)
-            }
-          }
+              setreplyActive(!replyActive);
+              setQuestionId(item._id);
+            }}
           >
             {!replyActive
               ? item.questionReplies.length !== 0
@@ -403,7 +491,7 @@ const CommentItem = ({
                   src={
                     item.user?.avatar
                       ? item.user?.avatar.url
-                      : "https://res.cloudinary.com/dshp9jnuy/image/upload/v1665822253/avatars/nrxsg8sd91y10bbsoenn.png"
+                      : "https://res.cloudinary.com/dshp9jnuy/image/upload/v1665822253/avatars/nrxsg8sd9iy10bbsoenn.png"
                   }
                   width={50}
                   height={50}
@@ -413,7 +501,10 @@ const CommentItem = ({
               </div>
               <div className="pl-3">
                 <div className="flex items-center">
-                <h5 className="text-[20px]">{item.user.name}</h5> <VscVerifiedFilled className="text-[#50c750] ml-2 text-[20px]"/>
+                  <h5 className="text-[20px]">{item.user.name}</h5>
+                  {item.user.role === "admin" && (
+                    <VscVerifiedFilled className="text-[#50c750] ml-2 text-[20px]" />
+                  )}
                 </div>
                 <p>{item.answer}</p>
                 <small className="text-[#ffffff83]">
