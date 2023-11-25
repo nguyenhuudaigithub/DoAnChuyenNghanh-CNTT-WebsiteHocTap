@@ -12,11 +12,11 @@ const HeroSection = () => {
   const router = useRouter();
 
   const handleSearch = () => {
-    if (search === '') {
-      return;
-    } else {
+    // if (search === '') {
       router.push(`/courses?title=${search}`);
-    }
+    // } else {
+    //   router.push(`/courses?title=${search}`);
+    // }
   };
 
   return (
