@@ -16,8 +16,6 @@ import { log } from "console";
 type Props = {};
 
 function page({}: Props) {
-  const searchParams = useSearchParams();
-  const search = searchParams?.get("title") || "";
 
   const { data, isLoading } = useGetUserAllCoursesQuery({});
 
@@ -28,32 +26,26 @@ function page({}: Props) {
   const [courses, setCourses] = useState([]);
   const [category, setCategory] = useState("All");
 
-
+  useEffect(()=>{
+    setCourses(data?.course)
+    
+  },[data])
+  
   useEffect(() => {
-    if (search) {      
-        const tfIdfSearch = new TfIdfSearch(data?.course || []);
-        const searchResults = tfIdfSearch.weights(search);
-        const results: any = searchResults
-          .filter((result) => result.weight > 0)
-          .sort((a, b) => b.weight - a.weight);
-
-        setCourses(results.map((result: any) => result.doc));
-    }  
     if (category === "All") {
-      setCourses(prev => [...prev]);
+      setCourses(data?.course);
     }
-    if (category !== "All") {      
+    if (category !== "All") {
       const idOfCategory = categoriesData?.layout?.categories?.find(
         (c: any) => c.title === category
       );
-      setCourses(prev =>
-        [...prev].filter(
+      setCourses(
+        data?.course?.filter(
           (item: any) => item?.categories === idOfCategory._id
         )
-      );    
-    } 
-    
-  }, [data, category, search, isLoading]);
+      );
+    }
+  }, [ category]);
 
   const categories = categoriesData?.layout?.categories;
 
@@ -102,7 +94,7 @@ function page({}: Props) {
                   </div>
                 ))}
             </div>
-            {courses && courses.length === 0 && (
+            {/* {courses && courses.length === 0 && (
               <p
                 className={`${styles.label} justify-center min-h-[50vh] flex items-center`}
               >
@@ -110,7 +102,7 @@ function page({}: Props) {
                   ? "Không tìm thấy khóa học!"
                   : "Không có khóa học nào được tìm thấy trong danh mục này. Vui lòng thử một cái khác!"}
               </p>
-            )}
+            )} */}
             <br />
             <br />
             <div className="grid grid-cols-1 gap-[20px] md:grid-cols-2 md:gap-[25px] lg:grid-cols-3 lg:gap-[25px] 1500px:grid-cols-4 1500px:gap-[35px] mb-3">
