@@ -35,7 +35,7 @@ function AllInvoices({ isDashboard }: Props) {
           userName: user?.name,
           userEmail: user?.email,
           title: course?.name,
-          price: '$' + course?.price,
+          price: course?.price,
         };
       });
       setOrderData(temp);
@@ -43,17 +43,17 @@ function AllInvoices({ isDashboard }: Props) {
   }, [data, usersData, coursesData]);
 
   const columns: any = [
-    { field: 'id', headerName: 'ID', flex: 0.3 },
-    { field: 'userName', headerName: 'Name', flex: isDashboard ? 0.6 : 0.5 },
+    { field: 'id', headerName: 'Mã giao dịch', flex: 0.3 },
+    { field: 'userName', headerName: 'Họ và tên', flex: isDashboard ? 0.6 : 0.5 },
     ...(isDashboard
       ? []
       : [
           { field: 'userEmail', headerName: 'Email', flex: 1 },
           { field: 'title', headerName: 'Course Title', flex: 1 },
         ]),
-    { field: 'price', headerName: 'Price', flex: 0.5 },
+    { field: 'price', headerName: 'Giá', flex: 0.5 },
     ...(isDashboard
-      ? [{ field: 'created_at', headerName: 'Created At', flex: 0.5 }]
+      ? [{ field: 'created_at', headerName: 'Ngày giao dịch', flex: 0.5 }]
       : [
           {
             field: ' ',

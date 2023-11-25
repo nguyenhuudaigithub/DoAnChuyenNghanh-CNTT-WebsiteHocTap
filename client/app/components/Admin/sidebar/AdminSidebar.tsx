@@ -104,7 +104,7 @@ const AdminSidebar = () => {
           position: "fixed",
           top: 0,
           left: 0,
-          height: "160vh",
+          height: "100vh",
           width: isCollapsed ? "0%" : "16%",
         }}
       >
@@ -126,7 +126,7 @@ const AdminSidebar = () => {
                 ml="15px"
               >
                 <Link href="/admin">
-                  <h3 className="text-[25px] font-Poppins uppercase dark:text-white text-black">
+                  <h3 className="text-[20px] font-Poppins uppercase dark:text-white text-black">
                     NetSkillD - Admin
                   </h3>
                 </Link>
@@ -286,25 +286,25 @@ const AdminSidebar = () => {
               sx={{ m: "15px 0 5px 25px" }}
               className="!text-[18px] text-black dark:text-[#ffffffc1] capitalize !font-[400]"
             >
-              {!isCollapsed && "Analytics"}
+              {!isCollapsed && "Phân Tích"}
             </Typography>
 
             <Item
-              title="Courses Analytics"
+              title="Phân Tích Khóa Học"
               to="/admin/courses-analytics"
               icon={<BarChartOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
-              title="Orders Analytics"
+              title="Phân Tích Đơn Hàng"
               to="/admin/orders-analytics"
               icon={<MapOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
-              title="Users Analytics"
+              title="Phân Tích Người Dùng"
               to="/admin/users-analytics"
               icon={<ManageHistoryIcon />}
               selected={selected}
@@ -316,11 +316,11 @@ const AdminSidebar = () => {
               sx={{ m: "15px 0 5px 25px" }}
               className="!text-[18px] text-black dark:text-[#ffffffc1] capitalize !font-[400]"
             >
-              {!isCollapsed && "Extras"}
+              {!isCollapsed && "Tiện Ích"}
             </Typography>
 
             <Item
-              title="Settings"
+              title="Cài Đặt"
               to="/admin/settings"
               icon={<SettingsIcon />}
               selected={selected}
@@ -328,7 +328,7 @@ const AdminSidebar = () => {
             />
             <div onClick={logoutHandler}>
               <Item
-                title="Logout"
+                title="Đăng Xuất"
                 to="/"
                 icon={<ExitToAppIcon />}
                 selected={selected}
