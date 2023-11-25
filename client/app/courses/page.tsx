@@ -16,7 +16,9 @@ type Props = {};
 function page({}: Props) {
   const searchParams = useSearchParams();
   const search = searchParams?.get('title') || '';
-  const { data, isLoading } = useGetUserAllCoursesQuery(undefined, {});
+  
+  const { data,isLoading } = useGetUserAllCoursesQuery({});
+
   const { data: categoriesData } = useGetHeroDataQuery('Categories', {});
 
   const [route, setRoute] = useState('Login');
@@ -26,22 +28,22 @@ function page({}: Props) {
 
   useEffect(() => {
     if (category === 'All') {
-      setCourses(data?.courses);
+      setCourses(data?.course);
     }
     if (category !== 'All') {
       setCourses(
-        data?.courses?.filter((item: any) => item?.categories === category)
+        data?.course?.filter((item: any) => item?.categories === category)
       );
     }
     if (search) {
       if (search.length <= 1) {
         setCourses(
-          data?.courses?.filter((item: any) =>
+          data?.course?.filter((item: any) =>
             item?.name?.toLowerCase().includes(search.toLowerCase())
           )
         );
       } else {
-        const tfIdfSearch = new TfIdfSearch(data?.courses);
+        const tfIdfSearch = new TfIdfSearch(data?.course);
         const searchResults = tfIdfSearch.weights(search);
         const results: any = searchResults
           .filter((result) => result.weight > 0)
@@ -50,7 +52,7 @@ function page({}: Props) {
         setCourses(results.map((result: any) => result.doc));
       }
     }
-  }, [data, category, search]);
+  }, [data, category, search,isLoading]);
 
   const categories = categoriesData?.layout?.categories;
 
