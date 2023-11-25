@@ -76,8 +76,8 @@ const EditFaq = (props: Props) => {
     return JSON.stringify(originalQuestions) === JSON.stringify(newQuestions);
   };
 
-  const isAnyQuestionEmpty = (questions: any) => {
-    return questions.some((q: any) => q?.question == '' || q?.answer == '');
+  const isAnyQuestionEmpty = (questions: any[]) => {
+    return questions.some((q) => q?.question === '' || q?.answer === '');
   };
 
   const handleEdit = async () => {

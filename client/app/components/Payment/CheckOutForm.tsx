@@ -10,13 +10,18 @@ import { PaymentElement } from "@stripe/react-stripe-js";
 import React, { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import { redirect } from "next/navigation";
+import socketIO from 'socket.io-client';
+const ENDPOINT = process.env.NEXT_PUBLIC_SOCKET_SERVER_URI || '';
+const socketId = socketIO(ENDPOINT, { transports: ['websocket'] });
 
 type Props = {
   setOpen: any;
   data: any;
+  user: any;
+  refetch: any;
 };
 
-const CheckOutForm = ({ setOpen, data }: Props) => {
+const CheckOutForm = ({ setOpen, data, user, refetch }: Props) => {
   const stripe = useStripe();
   const elements = useElements();
   const [message, setMessage] = useState<any>("");
@@ -47,7 +52,12 @@ const CheckOutForm = ({ setOpen, data }: Props) => {
 
   useEffect(() => {
     if (orderData) {
-      setLoadUser(true);
+      refetch();
+      socketId.emit("notification",{
+        title: "New Order",
+        message:`You have a new order from ${data.name}`,
+        userId: user._id,
+      });
       redirect(`/course-access/${data?._id}`);
     }
     if (error) {
