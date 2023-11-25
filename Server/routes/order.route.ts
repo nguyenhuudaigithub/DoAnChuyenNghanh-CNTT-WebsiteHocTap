@@ -1,6 +1,7 @@
 import express from 'express';
 import { authorizeRoles, isAutheticated } from '../middleware/auth';
 import {
+  addCourseFreeToUser,
   createOrder,
   getAllOrders,
   newPayment,
@@ -18,5 +19,7 @@ orderRouter.get(
 orderRouter.get('/payment/stripepublishablekey', sendStripePublishableKey);
 
 orderRouter.post('/payment', isAutheticated, newPayment);
+
+orderRouter.post('/addCourseFreeToUser',isAutheticated,addCourseFreeToUser);
 
 export default orderRouter;

@@ -81,7 +81,7 @@ export const createOrder = CatchAsyncError(
       await redis.set(req.user?._id, JSON.stringify(user));
 
       await user?.save();
-      
+
       await NotificationModel.create({
         user: user?.id,
         title: "Đơn Hàng Mới",
@@ -134,6 +134,34 @@ export const newPayment = CatchAsyncError(
       res.status(201).json({
         success: true,
         client_secret: myPayment.client_secret,
+      });
+    } catch (error: any) {
+      return next(new ErrorHandler(error.message, 500));
+    }
+  }
+);
+
+export const addCourseFreeToUser = CatchAsyncError(
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { courseId } = req.body as IOder;
+
+      const user = await userModel.findById(req.user?._id);
+
+      const course = await CourseModel.findById(courseId);
+      if (!course) {
+        return next(new ErrorHandler("Khong co khoa hoc", 400));
+      }
+
+      user?.courses.push(course?._id);
+
+      await redis.set(req.user?._id, JSON.stringify(user));
+
+      await user?.save();
+
+      res.status(201).json({
+        success: true,
+        user,
       });
     } catch (error: any) {
       return next(new ErrorHandler(error.message, 500));
