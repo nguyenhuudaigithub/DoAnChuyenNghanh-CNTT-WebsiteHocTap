@@ -37,7 +37,12 @@ const CourseCard: FC<Props> = ({ item, isProfile }) => {
               {item?.price === 0 ? 'Miễn phí' : (item?.price).toLocaleString('vi', {style : 'currency', currency : 'VND'})}
             </h3>
             <h5 className='pl-3 text-[14px] mt-[-5px] line-through opacity-80 text-black dark:text-[#fff]'>
-              {(item?.estimatedPrice).toLocaleString('vi', {style : 'currency', currency : 'VND'})}
+            {item?.estimatedPrice > 0
+              ? `${(item?.estimatedPrice).toLocaleString("vi", {
+                  style: "currency",
+                  currency: "VND",
+                })}`
+              : " "}
             </h5>      
           </div>
           

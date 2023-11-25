@@ -17,6 +17,7 @@ import {
   useSocialAuthMutation,
 } from "@/redux/features/auth/authApi";
 import toast from "react-hot-toast";
+import { redirect } from 'next/navigation';
 
 type Props = {
   open: boolean;
@@ -53,7 +54,7 @@ const Header: FC<Props> = ({ activeItem, setOpen, route, open, setRoute }) => {
       }
     }
     if (data === null) {
-      setLogout(true);
+      setLogout(true);    
     }
   }, [data, user, isSuccess, socialAuth]);
 
