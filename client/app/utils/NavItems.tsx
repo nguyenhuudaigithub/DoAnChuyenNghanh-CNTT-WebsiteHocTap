@@ -47,6 +47,7 @@ const NavItems: FC<Props> = ({ activeItem, isMobile }) => {
               </span>
             </Link>
           ))}
+          
       </div>
       {isMobile && (
         <div className='800px:hidden mt-5'>

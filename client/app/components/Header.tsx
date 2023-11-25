@@ -18,6 +18,7 @@ import {
 } from "@/redux/features/auth/authApi";
 import toast from "react-hot-toast";
 import { redirect } from 'next/navigation';
+import SearchCourse from "./Search/SearchCourse";
 
 type Props = {
   open: boolean;
@@ -93,6 +94,7 @@ const Header: FC<Props> = ({ activeItem, setOpen, route, open, setRoute }) => {
             >
               NETSKILLD
             </Link>
+            <SearchCourse />
             <div className="flex items-center">
               <NavItems activeItem={activeItem} isMobile={false} />
               <ThemeSwitcher />

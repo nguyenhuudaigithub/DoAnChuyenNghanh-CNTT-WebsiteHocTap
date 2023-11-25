@@ -1,11 +1,21 @@
 'use client';
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import { TypeAnimation } from 'react-type-animation';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { BiSearch } from 'react-icons/bi';
+import SearchCourse from '../Search/SearchCourse';
 
 const HeroSection = () => {
+  // const [search, setSearch] = useState('');
+  // const router = useRouter();
+
+  // const handleSearch = () => {
+  //     router.push(`/courses?title=${search}`);
+  // };
+
   return (
     <section className='lg:py-16'>
       <div className='grid grid-cols-1 sm:grid-cols-12'>
@@ -77,6 +87,22 @@ const HeroSection = () => {
           </div>
         </motion.div>
       </div>
+      {/* <div className='mt-10 1500px:w-[55%] 1100px:w-[78%] w-[80%] h-[70px] bg-transparent relative'>
+        <input
+          type='search'
+          placeholder='Tìm khóa học ...'
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className='text-xl bg-transparent border dark:border-none dark:bg-[#575757] dark:placeholder::text-[#ffffdd] rounded-[5px] p-4 w-full h-full outline-none text-black dark:text-white'
+        />
+        <div
+          className='absolute flex items-center justify-center w-[70px] cursor-pointer h-[70px] right-0 top-0 bg-[#39c1f3] rounded-r-[5px]'
+          onClick={handleSearch}
+        >
+          <BiSearch className='text-white' size={30} />
+        </div>
+      </div> */}
+      <SearchCourse />
     </section>
   );
 };
