@@ -54,8 +54,8 @@ const CheckOutForm = ({ setOpen, data, user, refetch }: Props) => {
     if (orderData) {
       refetch();
       socketId.emit("notification",{
-        title: "New Order",
-        message:`You have a new order from ${data.name}`,
+        title: "Đơn hàng mới",
+        message:`Bạn có đơn hàng mới từ ${data.name}`,
         userId: user._id,
       });
       redirect(`/course-access/${data?._id}`);

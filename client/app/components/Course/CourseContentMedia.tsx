@@ -144,9 +144,10 @@ const CourseContentMedia = ({
       setRating(1);
       courseRefetch();
       toast.success("Thêm đánh giá thành công.");
+
       socketId.emit("notification",{
-        title: "New Order",
-        message:`You have a new order from ${data.course.name}`,
+        title: "Đánh giá mới",
+        message:`Bạn có đánh giá mới từ ${data?.course?.name}`,
         userId: user._id,
       });
     }

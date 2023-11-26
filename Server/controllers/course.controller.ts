@@ -208,7 +208,7 @@ export const addQuestion = CatchAsyncError(
 
       await NotificationModel.create({
         user: req.user?._id,
-        title: "Câu hỏi mới nhận được",
+        title: "Câu hỏi mới",
         message: `Bạn có một câu hỏi mới từ ${courseContent.title}`,
       });
 
@@ -277,7 +277,7 @@ export const addAnwser = CatchAsyncError(
         //Tạo thông báo
         await NotificationModel.create({
           user: req.user?._id,
-          title: "Mới nhận được câu trả lời cho câu hỏi.",
+          title: "Trả lời mới.",
           message: `Bạn có một câu trả lời trong ${courseContent.title}`,
         });
       } else {

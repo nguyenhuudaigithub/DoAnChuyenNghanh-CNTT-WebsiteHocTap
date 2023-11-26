@@ -2,7 +2,7 @@
 
 import ThemeSwitcher from '@/app/utils/ThemeSwitcher';
 import { useGetAllNotificationsQuery, useUpdateNotificationStatusMutation } from '@/redux/features/notifications/notificationsApi';
-import { format } from 'path';
+import { format } from 'timeago.js';
 import React, { FC, useEffect, useState } from 'react';
 import { IoMdNotificationsOutline } from 'react-icons/io';
 import socketIO from 'socket.io-client';
@@ -15,7 +15,6 @@ type Props = {
 };
 
 const DashboardHeader: FC<Props> = ({ open, setOpen }) => {
-  // const [open, setOpen] = useState(false);
 const {data, refetch} = useGetAllNotificationsQuery(undefined,{
   refetchOnMountOrArgChange: true,
 });
@@ -23,7 +22,7 @@ const [updateNotificationStatus, {isSuccess}]= useUpdateNotificationStatusMutati
 const [notifications, setNotifications] = useState<any>([]);
 const [audio] = useState(
   new Audio(
-    ""
+    "https://res.cloudinary.com/damk25wo5/video/upload/v1693465789/notification_vcetjn.mp3"
   )
 );
 const playerNotificationSound = () => {
@@ -67,26 +66,26 @@ return (
       {open && (
         <div className='w-[350px] h-[50vh] dark:bg-[#111C43] bg-white shadow-xl absolute top-16 z-10 rounded'>
           <h5 className='text-center text-[20px] font-Poppins text-black dark:text-white p-3'>
-            Notifications
+            Thông báo
           </h5>
 {
   notifications && notifications.map((item:any, index:number)=> (
     <div className='dark:bg-[#2d3a4ea1] bg-[#00000013] font-Poppins border-b dark:border-b-[#ffffff47] border-b-[#0000000f]'>
     <div className='w-full flex items-center justify-between p-2'>
-      <p className='text-black dark:text-white'>
+      <p className='text-[#479f80]'>
         {item.title}
       </p>
-      <p className='text-black dark:text-white cursor-pointer'
+      <p className=' text-[#4ea2e2] cursor-pointer'
         onClick={() => handleNotificationStatusChange(item._id)}
       >
-        Mark as read
+        Đánh dấu đã đọc
       </p>
     </div>
     <p className='px-2 text-black dark:text-white'>
       {item.message}
       </p>
-    <p className='p-2 text-black dark:text-white text-[14px]'>
-     {format(item.createdAt)}
+    <p className='p-2 dark:text-[#c7d2c751] text-[#203545a2]  text-[14px]'>
+     {format(item?.createdAt)}
     </p>
   </div>
   ))

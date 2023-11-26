@@ -39,7 +39,9 @@ export const createOrder = CatchAsyncError(
       if (courseExistInUser) {
         return next(new ErrorHandler("Dang ky thanh cong", 400));
       }
+
       const course: ICourse | null = await CourseModel.findById(courseId);
+
       if (!course) {
         return next(new ErrorHandler("Khong co khoa hoc", 400));
       }
@@ -87,7 +89,8 @@ export const createOrder = CatchAsyncError(
         title: "Đơn Hàng Mới",
         message: `Bạn có một đơn hàng mới từ ${course?.name}`,
       });
-      course.purchased = course.purchased + 1 ;
+
+      course.purchased = course.purchased + 1;
 
       await course.save();
       newOrder(data, res, next);
@@ -149,9 +152,10 @@ export const addCourseFreeToUser = CatchAsyncError(
 
       const user = await userModel.findById(req.user?._id);
 
-      const course = await CourseModel.findById(courseId);
+      const course: ICourse | null = await CourseModel.findById(courseId);
+      // const course = await CourseModel.findById(courseId);
       if (!course) {
-        return next(new ErrorHandler("Khong co khoa hoc", 400));
+        return next(new ErrorHandler("Không có khóa học!", 400));
       }
 
       user?.courses.push(course?._id);
@@ -160,6 +164,10 @@ export const addCourseFreeToUser = CatchAsyncError(
 
       await user?.save();
 
+      course.purchased = course.purchased + 1;
+
+      await course.save();
+      
       res.status(201).json({
         success: true,
         user,
