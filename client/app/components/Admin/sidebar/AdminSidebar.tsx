@@ -290,21 +290,21 @@ const AdminSidebar = () => {
             </Typography>
 
             <Item
-              title="Phân Tích Khóa Học"
+              title="Khóa Học"
               to="/admin/courses-analytics"
               icon={<BarChartOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
-              title="Phân Tích Đơn Hàng"
+              title="Đơn Hàng"
               to="/admin/orders-analytics"
               icon={<MapOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
-              title="Phân Tích Người Dùng"
+              title="Người Dùng"
               to="/admin/users-analytics"
               icon={<ManageHistoryIcon />}
               selected={selected}
