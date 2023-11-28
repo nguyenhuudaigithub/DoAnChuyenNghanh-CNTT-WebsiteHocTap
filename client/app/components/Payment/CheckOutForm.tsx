@@ -18,14 +18,14 @@ type Props = {
   setOpen: any;
   data: any;
   user: any;
-  refetch: any;
+  refetch?: any
 };
 
-const CheckOutForm = ({ setOpen, data, user, refetch }: Props) => {
+const CheckOutForm = ({ setOpen, data, user,refetch }: Props) => {
   const stripe = useStripe();
   const elements = useElements();
   const [message, setMessage] = useState<any>("");
-  const [createOrder, { data: orderData, error }] = useCreateOrderMutation();
+  const [createOrder, { data: orderData, error}] = useCreateOrderMutation();
   const [loadUser, setLoadUser] = useState(false);
   const {} = useLoadUserQuery({ skip: loadUser ? false : true });
   const [isLoading, setIsLoading] = useState(false);

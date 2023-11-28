@@ -29,6 +29,7 @@ const Profile: FC<Props> = ({ user }) => {
   const logOutHandler = async () => {
     signOut();
     await setLogout(true);
+    window.location.href = '/';
   };
 
   if (typeof window !== "undefined") {
@@ -87,7 +88,7 @@ const Profile: FC<Props> = ({ user }) => {
           {courses.length === 0 && (
             <h1 className="w-[95%] 800px:w-[85%] m-auto py-2 text-black dark:text-white px-3">
               <br></br>
-              You don't have any purchased courses!
+              Bạn chưa đăng ký khóa học nào!
             </h1>
           )}
         </div>

@@ -210,7 +210,7 @@ const CourseDetails = ({ data, clientSecret, stripePromise }: Props) => {
             <div className="sticky top-[100px] left-0 z-50 w-full">
               <CoursePlayer videoUrl={data?.demoUrl} title={data?.title} />
               <div className="flex items-center">
-                <h1 className="pt-5 text-[25px]">
+                <h1 className="pt-5 text-[25px] dark:text-white text-black">
                   {data?.price > 0
                     ? `${(data?.price).toLocaleString("vi", {
                         style: "currency",
@@ -282,7 +282,7 @@ const CourseDetails = ({ data, clientSecret, stripePromise }: Props) => {
               <div className="w-full">
                 {stripePromise && clientSecret && (
                   <Elements stripe={stripePromise} options={{ clientSecret }}>
-                    <CheckOutForm setOpen={setOpen} data={data} user = {user} />
+                    <CheckOutForm setOpen={setOpen} data={data} user = {user}/>
                   </Elements>
                 )}
               </div>
