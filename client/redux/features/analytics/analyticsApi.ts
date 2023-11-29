@@ -1,11 +1,11 @@
-import { getCoursesAnalytics } from './../../../../Server/controllers/analytics.controller';
+// import { getCoursesAnalytics } from './../../../../Server/controllers/analytics.controller';
 import { apiSlice } from '../api/apiSlice';
 
 export const analyticsApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getCoursesAnalytics: builder.query({
       query: () => ({
-        url: 'get-course-analytics',
+        url: 'get-courses-analytics',
         method: 'GET',
         credentials: 'include' as const,
       }),

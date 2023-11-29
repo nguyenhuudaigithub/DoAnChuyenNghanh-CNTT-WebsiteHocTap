@@ -25,7 +25,7 @@ const CourseData: FC<Props> = ({
     const updatedBenefits = [...benefits];
     updatedBenefits[index] = { ...updatedBenefits[index], title: value };
     setBenefits(updatedBenefits);
-  };  
+  };
 
   const handleAddBenefit = () => {
     setBenefits([...benefits, { title: '' }]);
@@ -33,7 +33,10 @@ const CourseData: FC<Props> = ({
 
   const handlePrerequisitesChange = (index: number, value: any) => {
     const updatedPrerequisites = [...prerequisites];
-    updatedPrerequisites[index] = { ...updatedPrerequisites[index], title: value };
+    updatedPrerequisites[index] = {
+      ...updatedPrerequisites[index],
+      title: value,
+    };
     setPrerequisites(updatedPrerequisites);
   };
 
@@ -66,7 +69,7 @@ const CourseData: FC<Props> = ({
         {benefits.map((benefit: any, index: number) => (
           <input
             type='text'
-            key={index}
+            key={`benefit${index}`}
             name='Benefit'
             placeholder='Lợi ích'
             required
@@ -88,7 +91,7 @@ const CourseData: FC<Props> = ({
         {prerequisites.map((prerequisite: any, index: number) => (
           <input
             type='text'
-            key={index}
+            key={`prerequisites${index}`}
             name='Prerequisites'
             placeholder='Điều kiện tiên quyết'
             required
@@ -115,7 +118,7 @@ const CourseData: FC<Props> = ({
         >
           Tiếp tục
         </div>
-      </div>     
+      </div>
     </div>
   );
 };

@@ -36,7 +36,7 @@ const UserAnalytics = ({ isDashboard }: Props) => {
   const analyticsData: any = [];
 
   data &&
-    data.users.last12Months.forEach((item: any) => {
+    data?.users?.last12Months?.forEach((item: any) => {
       analyticsData.push({ name: item?.month, count: item?.count });
     });
 
@@ -45,14 +45,8 @@ const UserAnalytics = ({ isDashboard }: Props) => {
       {isLoading ? (
         <Loader />
       ) : (
-        <div
-          className={`${
-            isDashboard
-              ? 'mt-[50px] ml-4'
-              : 'mt-[50px] dark:bg-[#111C43] shadow-sm pb-5 rounded-sm ml-4'
-          }`}
-        >
-          <div className={`${isDashboard ? '!ml-8 mb-5' : ''}`}>
+        <div className={isDashboard ? 'h-[30vh] ' : 'h-screen '}>
+          <div className={isDashboard ? 'mt-[0px] mb-2' : 'mt-[50px]'}>
             <h1
               className={`${styles.title} ${
                 isDashboard && '!text-[20px]'
@@ -62,19 +56,19 @@ const UserAnalytics = ({ isDashboard }: Props) => {
             </h1>
             {!isDashboard && (
               <p className={`${styles.label} px-5`}>
-                Phân Tích Dữ Liệu Người Dùng gần nhất 12 tháng{' '}
+                Phân Tích Dữ Liệu Người Dùng gần nhất 12 tháng
               </p>
             )}
           </div>
 
           <div
             className={`w-full ${
-              isDashboard ? 'h-[30vh]' : 'h-screen'
-            }  flex items-center justify-center`}
+              isDashboard ? 'h-[90%]' : 'h-full'
+            } flex items-center justify-center`}
           >
             <ResponsiveContainer
               width={isDashboard ? '100%' : '90%'}
-              height={isDashboard ? '50%' : '100%'}
+              height={isDashboard ? '100%' : '50%'}
             >
               <AreaChart
                 data={analyticsData}

@@ -26,7 +26,7 @@ const CreateCourse = (props: Props) => {
     if (error) {
       if ('data' in error) {
         const errorMessage = error as any;
-        toast.error(errorMessage.data.message);
+        // toast.error(errorMessage.data.message);
       }
     }
   }, [isLoading, isSuccess, error]);
@@ -94,7 +94,7 @@ const CreateCourse = (props: Props) => {
     const data = {
       name: courseInfo.name,
       description: courseInfo.description,
-      categories:courseInfo.categories,
+      categories: courseInfo.categories,
       price: courseInfo.price,
       estimatedPrice: courseInfo.estimatedPrice,
       tags: courseInfo.tags,

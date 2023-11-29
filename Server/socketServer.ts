@@ -6,7 +6,7 @@ export const initSocketServer = (server: http.Server) => {
   const io = new SocketIOServer(server);
 
   io.on('connection', (socket) => {
-    console.log('Nguoi dung da ket noi ...');
+    // console.log('Nguoi dung da ket noi ...');
 
     socket.on('notification', (data) => {
       io.emit('newNotification', data);
