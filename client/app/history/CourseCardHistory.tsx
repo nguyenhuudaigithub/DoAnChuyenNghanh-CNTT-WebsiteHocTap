@@ -25,7 +25,7 @@ const CourseCardHistory = ({ course }: { course: any }) => {
         <p className='dark:text-white font-bold text-xl mt-2'>
           {course?.price === 0
             ? 'Miễn phí'
-            : (course?.price).toLocaleString('vi', {
+            : course?.price?.toLocaleString('vi', {
                 style: 'currency',
                 currency: 'VND',
               })}
