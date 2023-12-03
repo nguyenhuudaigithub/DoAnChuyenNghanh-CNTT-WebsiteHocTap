@@ -73,7 +73,7 @@ function OrdersAnalytics({ isDashboard }: Props) {
                 isDashboard && '!text-[20px]'
               } px-5 !text-start`}
             >
-              Phân Tích Orders
+              Phân Tích Hóa Đơn
             </h1>
             {!isDashboard && (
               <p className={`${styles.label} px-5`}>

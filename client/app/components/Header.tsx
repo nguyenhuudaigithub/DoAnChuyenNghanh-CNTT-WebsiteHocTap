@@ -64,7 +64,7 @@ const Header: FC<Props> = ({ activeItem, setOpen, route, open, setRoute }) => {
     }
     if (data === null && !isLoading && !userData) {
       setLogout(true);
-      redirect('/');
+      // redirect('/');
     }
   }, [data, userData, isLoading]);
 

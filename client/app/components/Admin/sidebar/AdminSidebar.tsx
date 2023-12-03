@@ -153,8 +153,8 @@ const AdminSidebar = () => {
                     borderRadius: '50%',
                     border: '3px solid #5b6fe6',
                     objectFit: 'cover',
-                    // width: '200px',
-                    // height: '200px',
+                    width: '100px',
+                    height: '100px',
                   }}
                 />
               </Box>
@@ -243,13 +243,13 @@ const AdminSidebar = () => {
               {!isCollapsed && 'Tùy Chỉnh'}
             </Typography>
 
-            {/* <Item
+            <Item
               title='Bố Cục'
               to='/admin/hero'
               icon={<WebIcon />}
               selected={selected}
               setSelected={setSelected}
-            /> */}
+            />
             <Item
               title='Câu Hỏi'
               to='/admin/faq'

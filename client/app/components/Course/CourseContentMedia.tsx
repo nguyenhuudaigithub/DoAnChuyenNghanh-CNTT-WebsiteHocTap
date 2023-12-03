@@ -219,7 +219,7 @@ const CourseContentMedia = ({
         <div
           className={`${
             styles.button
-          } text-white !w-[unset] !min-h-[40px] !py-[unset] ${
+          } text-white !w-[unset] !min-h-[40px] p-4 !py-[unset] ${
             activeVideo === 0 && "!cursor-no-drop opacity-[.8]"
           }`}
           onClick={() =>
@@ -232,7 +232,7 @@ const CourseContentMedia = ({
         <div
           className={`${
             styles.button
-          } text-white !w-[unset] !min-h-[40px] !py-[unset] ${
+          } text-white !w-[unset] !min-h-[40px] p-4 !py-[unset] ${
             data.length - 1 === activeVideo && "!cursor-no-drop opacity-[.8]"
           }`}
           onClick={() =>
@@ -253,7 +253,7 @@ const CourseContentMedia = ({
       </h1>
       <br />
       <div className="w-full p-4 flex items-center justify-between !bg-slate-500 bg-opacity-20 backdrop-blur shadow-[bg-slate-700] rounded shadow-inner">
-        {["Tổng quan", "Tài nguyên", "Q&A", "Đánh giá"].map((text, index) => (
+        {["Chi tiết", "Tài liệu", "Q&A", "Đánh giá"].map((text, index) => (
           <h5
             key={index}
             className={`800px:text-[20px] cursor-pointer ${

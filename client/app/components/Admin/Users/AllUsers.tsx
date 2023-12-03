@@ -3,7 +3,6 @@ import { DataGrid } from "@mui/x-data-grid";
 import { Box, Button, Modal } from "@mui/material";
 import { AiOutlineDelete, AiOutlineMail } from "react-icons/ai";
 import { useTheme } from "next-themes";
-import { FiEdit2 } from "react-icons/fi";
 import Loader from "../../Loader/Loader";
 import { format } from "timeago.js";
 import {
@@ -67,7 +66,7 @@ const AllUsers: FC<Props> = ({ isTeam }) => {
     { field: "name", headerName: "Tên Người Dùng", flex: 0.5 },
     { field: "email", headerName: "Email", flex: 0.5 },
     { field: "role", headerName: "Chức Vụ", flex: 0.5 },
-    { field: "courses", headerName: "Khóa Học Đã Mua", flex: 0.5 },
+    { field: "courses", headerName: "Khóa Học Đã Đăng Ký", flex: 0.5 },
     { field: "createdAt", headerName: "Ngày Tham Gia", flex: 0.5 },
     {
       field: "",

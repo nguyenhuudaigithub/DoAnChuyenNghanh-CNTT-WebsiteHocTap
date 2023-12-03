@@ -209,8 +209,8 @@ const CourseDetails = ({ data, clientSecret, stripePromise }: Props) => {
           <div className="w-full 800px:w-[35%] relative">
             <div className="sticky top-[100px] left-0 z-50 w-full">
               <CoursePlayer videoUrl={data?.demoUrl} title={data?.title} />
-              <div className="flex items-center">
-                <h1 className="pt-5 text-[25px] dark:text-white text-black">
+              <div className="flex items-center dark:text-white text-black">
+                <h1 className="pt-5 text-[25px] ">
                   {data?.price > 0
                     ? `${(data?.price).toLocaleString("vi", {
                         style: "currency",
@@ -243,7 +243,7 @@ const CourseDetails = ({ data, clientSecret, stripePromise }: Props) => {
                   </Link>
                 ) : (
                   <div
-                    className={`${styles.button} my-3 font-Poppins h-12 !bg-[crimson] cursor-not-allowed !w-[200px] p-5 text-center`}
+                    className={`${styles.button} my-3 font-Poppins h-12 py-6 !bg-[crimson] cursor-not-allowed !w-[200px] p-5 text-center`}
                     onClick={handleOrder}
                   >
                     {data?.price > 0

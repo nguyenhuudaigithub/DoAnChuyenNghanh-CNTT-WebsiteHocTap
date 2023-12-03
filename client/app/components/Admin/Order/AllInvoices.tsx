@@ -62,7 +62,7 @@ function AllInvoices({ isDashboard }: Props) {
       ? []
       : [
           { field: 'userEmail', headerName: 'Email', flex: 1 },
-          { field: 'title', headerName: 'Course Title', flex: 1 },
+          { field: 'title', headerName: 'Tên khóa học', flex: 1 },
         ]),
     { field: 'price', headerName: 'Giá', flex: 0.5 },
     ...(isDashboard
