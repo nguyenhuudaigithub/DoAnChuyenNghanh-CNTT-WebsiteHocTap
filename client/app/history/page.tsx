@@ -1,0 +1,35 @@
+'use client';
+import React, { useState } from 'react';
+import Heading from '../utils/Heading';
+import Header from '../components/Header';
+import Footer from '../components/Route/Footer';
+import History from './History';
+type Props = {};
+
+const page = (props: Props) => {
+  const [open, setOpen] = useState(false);
+  const [activeItem, setActiveItem] = useState(2);
+  const [route, setRoute] = useState('Login');
+  return (
+    <div className='h-[100vh] w-full overflow-hidden'>
+      <Heading
+        title='About us - Netskilld'
+        description='Netskilld is a learning management system for helping programers.'
+        keywords='programming, mern'
+      />
+      <Header
+        open={open}
+        setOpen={setOpen}
+        activeItem={activeItem}
+        setRoute={setRoute}
+        route={route}
+      />
+      <div className='h-[80vh] w-full grid grid-cols-1 grid-rows-1 my-5'>
+        <History />
+      </div>
+      <Footer />
+    </div>
+  );
+};
+
+export default page;

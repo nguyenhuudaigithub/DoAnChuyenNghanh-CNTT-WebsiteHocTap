@@ -68,7 +68,7 @@ const CourseDetails = ({ data, clientSecret, stripePromise }: Props) => {
               Bạn sẽ học được gì từ khóa học này?
             </h1>
             <div>
-              {data.benefits?.map((item: any, index: number) => (
+              {data?.benefits?.map((item: any, index: number) => (
                 <div className='flex items-center py-2' key={index}>
                   <div className='w-4 mr-1'>
                     <IoCheckmarkDoneOutline
@@ -87,7 +87,7 @@ const CourseDetails = ({ data, clientSecret, stripePromise }: Props) => {
                 <h1 className='text-[25px] font-Poppins font-[600] text-black dark:text-white'>
                   Điều kiện tiên quyết để bắt đầu khóa học này là gì?
                 </h1>
-                {data.prerequisites?.map((item: any, index: number) => (
+                {data?.prerequisites?.map((item: any, index: number) => (
                   <div className='flex items-center py-2' key={index}>
                     <div className='w-4 mr-1'>
                       <IoCheckmarkDoneOutline
