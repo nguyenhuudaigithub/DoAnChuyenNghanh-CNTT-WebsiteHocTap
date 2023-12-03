@@ -7,6 +7,8 @@ const Courses = (props: Props) => {
   const { data, refetch } = useGetUserAllCoursesQuery({});
   const [courses, setCourses] = useState<any[]>([]);
 
+  // console.log(data);
+
   useEffect(() => {
     setCourses(data?.course);
   }, [data]);

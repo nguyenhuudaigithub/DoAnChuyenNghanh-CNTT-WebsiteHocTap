@@ -13,7 +13,7 @@ export const initSocketServer = (server: http.Server) => {
     });
 
     socket.on('disconnect', () => {
-      console.log('Nguoi dung ket noi that bai ...');
+      // console.log('Nguoi dung ket noi that bai ...');
     });
   });
 };

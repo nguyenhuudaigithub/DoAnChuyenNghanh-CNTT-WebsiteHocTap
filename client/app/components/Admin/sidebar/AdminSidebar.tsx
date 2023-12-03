@@ -243,13 +243,13 @@ const AdminSidebar = () => {
               {!isCollapsed && 'Tùy Chỉnh'}
             </Typography>
 
-            <Item
+            {/* <Item
               title='Bố Cục'
               to='/admin/hero'
               icon={<WebIcon />}
               selected={selected}
               setSelected={setSelected}
-            />
+            /> */}
             <Item
               title='Câu Hỏi'
               to='/admin/faq'

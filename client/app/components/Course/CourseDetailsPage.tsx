@@ -9,7 +9,7 @@ import {
   useCreatePaymentIntentMutation,
   useGetStripePublishablekeyQuery,
 } from '@/redux/features/orders/ordersApi';
-import {useStripe, useElements} from '@stripe/react-stripe-js';
+import { useStripe, useElements } from '@stripe/react-stripe-js';
 
 import { loadStripe } from '@stripe/stripe-js';
 
@@ -18,8 +18,6 @@ type Props = {
 };
 
 const CourseDetailsPage = ({ id }: Props) => {
-  const [route, setRoute] = useState('Login');
-  const [open, setOpen] = useState(false);
   const { data, isLoading } = useGetCourseDetailsQuery(id);
   const { data: config } = useGetStripePublishablekeyQuery({});
   const [createPaymentIntent, { data: paymentIntentData }] =
@@ -36,43 +34,27 @@ const CourseDetailsPage = ({ id }: Props) => {
       const amount = Math.round(data?.course?.price);
       createPaymentIntent(amount);
     }
-    
   }, [config, data]);
 
   useEffect(() => {
     if (paymentIntentData) {
-
       setClientSecret(paymentIntentData?.client_secret);
     }
   }, [paymentIntentData]);
 
- 
   return (
     <>
       {isLoading ? (
         <Loader />
       ) : (
         <div>
-          <Heading
-            title={data.course.name}
-            description={'NetSkillD Học Lập Trình'}
-            keywords={data?.course?.tags}
-          />
-          <Header
-            route={route}
-            setRoute={setRoute}
-            open={open}
-            setOpen={setOpen}
-            activeItem={1}
-          />
           {stripePromise && (
             <CourseDetails
-              data={data.course}
+              data={data?.course}
               stripePromise={stripePromise}
               clientSecret={clientSecret}
             />
           )}
-          <Footer />
         </div>
       )}
     </>

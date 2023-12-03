@@ -13,20 +13,20 @@ const page = (props: Props) => {
   return (
     <div>
       <AdminProtected>
-       <Heading
+        <Heading
           title='NETSKILLD - Admin'
           description='NETSKILLD là một nền tảng để học sinh học hỏi và nhận được sự giúp đỡ từ giáo viên'
           keywords='Học Lập Trình,MERN,Redux,Học Máy'
         />
-      <div className='flex'>
-        <div className='1500px:w-[16%] w-1/5'>
-          <AdminSidebar />
+        <div className='flex'>
+          <div className='1500px:w-[16%] w-1/5'>
+            <AdminSidebar />
+          </div>
+          <div className='w-[85%] h-full'>
+            <DashboardHeader />
+            <AllUsers isTeam={true} />
+          </div>
         </div>
-        <div className='w-[85%]'>
-          <DashboardHeader />
-          <AllUsers isTeam={true}/>
-        </div>
-      </div>
       </AdminProtected>
     </div>
   );
