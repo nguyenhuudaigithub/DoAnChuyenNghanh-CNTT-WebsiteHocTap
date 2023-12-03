@@ -120,7 +120,7 @@ const DashboardWidgets: FC<Props> = ({ open }) => {
                   className='py-2 font-Poppins dark:text-[#45CBA0] text-black
                 text-[20px] font-[400]'
                 >
-                  Doanh thu đạt được
+                  Số hóa đơn/ tháng
                 </h5>
               </div>
               <div>
@@ -147,7 +147,7 @@ const DashboardWidgets: FC<Props> = ({ open }) => {
                   {userComparePercentenge?.currentMonth}
                 </h5>
                 <h5 className='py-2 font-Poppins dark:text-[#45CBA0] text-black text-[20px] font-[400]'>
-                  Người dùng
+                  Số người dùng/ tháng
                 </h5>
               </div>
               <div>

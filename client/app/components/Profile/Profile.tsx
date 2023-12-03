@@ -29,7 +29,7 @@ const Profile: FC<Props> = ({ user }) => {
   const logOutHandler = async () => {
     signOut();
     await setLogout(true);
-    // window.location.href = '/';
+    window.location.href = '/';
     redirect('/');
   };
 

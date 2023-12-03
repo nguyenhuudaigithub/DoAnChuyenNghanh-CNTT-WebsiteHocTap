@@ -15,10 +15,9 @@ const Courses = (props: Props) => {
     <div>
       <div className={`w-[90%] 800px:w-[80%] m-auto`}>
         <h1
-          className='text-center font-Poppins text-[25px] leading-[35px]
-        sm:text-3xl lg:text-4xl dark:text-white 800px:!leading-[60px] text-[#000] font-[700] tracking-tight'
+          className='text-[220%] text-center text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-green-600'
         >
-          Mở Rộng Sự Nghiệp Của <span className='text-gradient'> Bạn</span>{' '}
+          Mở Rộng Sự Nghiệp Của <span className='dark:text-[#8ff1eb] text-[#26504d]'><b>Bạn</b></span>
           <br />
           Với Những Khóa Học Của Chúng Tôi
         </h1>

@@ -14,9 +14,9 @@ const page = (props: Props) => {
   return (
     <div className='h-[100vh] overflow-hidden'>
       <Heading
-        title='About us - Elearning'
-        description='Elearning is a learning management system for helping programers.'
-        keywords='programming, mern'
+        title='Chi tiết'
+        description='NETSKILLD là một nền tảng để học sinh học hỏi và nhận được sự giúp đỡ từ giáo viên'
+        keywords='Học Lập Trình,MERN,Redux,Học Máy'
       />
       <Header
         open={open}

@@ -202,7 +202,7 @@ const CourseInformation: FC<Props> = ({
                 setCourseInfo({ ...courseInfo, level: e.target.value })
               }
               id='level'
-              placeholder='Beginner/Intermediate/Expert'
+              placeholder='Người mới bắt đầu / Trung cấp / Chuyên gia'
               className={`${styles.input}`}
             />
           </div>
