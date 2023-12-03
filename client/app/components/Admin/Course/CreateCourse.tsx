@@ -1,5 +1,5 @@
 //Hiện thị tuần tự các bước xử lý khi nhấn vào nút tiếp theo, và tạo khóa học
-'use client';
+// 'use client';
 
 import React, { useEffect, useState } from 'react';
 import CourseInformation from './CourseInformation';

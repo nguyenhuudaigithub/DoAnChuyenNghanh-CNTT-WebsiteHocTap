@@ -1,4 +1,4 @@
-'use client'
+// 'use client'
 import React, { FC, useEffect, useState } from 'react';
 import { useTheme } from 'next-themes';
 import { BiMoon, BiSun } from 'react-icons/bi';
@@ -14,7 +14,7 @@ const ThemeSwitcher = () => {
   }
 
   return (
-    <div className='flex items-center justify-center mx-4'>    
+    <div className='flex items-center justify-center mx-4'>
       {theme === 'light' ? (
         <BiMoon
           className='cursor-pointer'

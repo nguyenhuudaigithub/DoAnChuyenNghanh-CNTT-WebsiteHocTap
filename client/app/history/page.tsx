@@ -10,6 +10,7 @@ const page = (props: Props) => {
   const [open, setOpen] = useState(false);
   const [activeItem, setActiveItem] = useState(2);
   const [route, setRoute] = useState('Login');
+
   return (
     <div className='h-[100vh] w-full overflow-hidden'>
       <Heading

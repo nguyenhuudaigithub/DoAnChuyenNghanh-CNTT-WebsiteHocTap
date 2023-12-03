@@ -1,7 +1,6 @@
 'use client';
 import React, { useState } from 'react';
 import Heading from '../utils/Heading';
-import { useSelector } from 'react-redux';
 import Header from '../components/Header';
 import FAQ from '../components/FAQ/FAQ';
 import Footer from '../components/Route/Footer';

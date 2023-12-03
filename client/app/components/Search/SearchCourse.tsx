@@ -16,7 +16,7 @@ const SearchCourse = (props: Props) => {
     if (search.length < 2) {
       alert('Vui lòng nhập ít nhất 2 ký tự để tìm kiếm');
     } else {
-      router.push(`/course?title=${search}`);
+      router.push(`/courses?title=${search}`);
     }
   };
   return (
