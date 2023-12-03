@@ -15,13 +15,13 @@ const CourseCard: FC<Props> = ({ item, isProfile }) => {
       href={!isProfile ? `/course/${item?._id}` : `/course-access/${item._id}`}
     >
       <div className='flex flex-col justify-between w-full min-h-[44vh] dark:bg-slate-500 dark:bg-opacity-20 backdrop-blur border dark:border-[#ffffff1d] border-[#00000015] dark:shadow-[bg-slate-700] rounded-lg p-3 shadow-sm dark:shadow-inner'>
-        <div className='relative'>
+        <div className='w-full h-[220px]'>
           <Image
             src={item?.thumbnail?.url}
             width={450}
             height={400}
             objectFit='cover'
-            className='rounded-lg w-full h-[200px]'
+            className='rounded-lg w-full h-full'
             alt=''
           />
         </div>
