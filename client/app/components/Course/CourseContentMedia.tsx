@@ -394,7 +394,7 @@ const CourseContentMedia = ({
                       cols={40}
                       rows={5}
                       placeholder="Viết bình luận của bạn..."
-                      className="outline-none bg-transparent 800px:ml-3 border border-[#ffffff57] w-[95%] 800px:w-full p-2 rounded text-[18px] font-Poppins"
+                      className="outline-none bg-transparent 800px:ml-3 border border-[#ffffff57] w-[95%] 800px:w-full p-2 rounded text-[18px] font-Poppins "
                     ></textarea>
                   </div>
                 </div>

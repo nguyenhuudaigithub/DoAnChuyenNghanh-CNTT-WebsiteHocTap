@@ -1,28 +1,31 @@
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { styles } from "../styles/style";
 import ReviewCard from "../Review/ReviewCard";
+import { useGetUserAllCoursesQuery } from '@/redux/features/courses/coursesApi';
 
-type Props = {};
-
-export const reviews = [
-  {
-    name: "Bùi Văn Sơn",
-    avatar: "https://randomuser.me/api/portraits/men/1.jpg",
-    profession: "Student | Cambridge university",
-    comment:
-      "I had the pleasure of exploring Elearning, a website that provides an extensive range of courses on various tech-related topics. I was thoroughly impressed",
-  },
-  {
-    name: "Nguyễn Quốc Nhật",
-    avatar: "https://randomuser.me/api/portraits/women/1.jpg",
-    profession: "Full stack developer | Quarter ltd.",
-    comment:
-      "I recently purchased a course {roe Decoder-y, and I must say. it exceeded my expectations! The website offers a wide range of tech-related courses.",
-  },
-];
+type Props = {
+};
 
 const Reviews = (props: Props) => {
+  const { data, refetch } = useGetUserAllCoursesQuery({});
+  const [courses, setCourses] = useState<any[]>([]);
+  const [filteredReviews, setFilteredReviews] = useState<any[]>([]);
+
+  useEffect(() => {
+    setCourses(data?.course || []);
+  }, [data]);
+  useEffect(() => {
+    // Filter reviews with a rating of 4 stars or above
+    if (courses.length > 0) {
+      const filtered = courses
+        .map(course => course.reviews || [])
+        .flat()
+        .filter(review => review.rating >= 4);
+
+        setFilteredReviews(filtered.slice(0, 4));
+      }
+  }, [courses]);
   return (
     <div className="w-[90%] 800px:w-[85%] m-auto">
       <div className="w-full 800px:flex items-center">
@@ -52,8 +55,9 @@ const Reviews = (props: Props) => {
         <br />
       </div>
       <div className="grid grid-cols-l gap-[25px] md:grid-cols-2 md:gap-[25px] lg:grid-cols-2 lg:gap-[25px] xl:grid-cols-2 xl:gap-[35px] mb-12 border-0 md:[&>*:nth-child(3)]:!mt-[-60px] md:[&>*:nth-child(6)]:!mt-[-40px] mt-9">
-        {reviews &&
-          reviews.map((i, index) => <ReviewCard item={i} key={index} />)}
+        {filteredReviews &&
+          filteredReviews.map((review, index) => (
+            <ReviewCard item={review} key={index} />))}
       </div>
     </div>
   );
