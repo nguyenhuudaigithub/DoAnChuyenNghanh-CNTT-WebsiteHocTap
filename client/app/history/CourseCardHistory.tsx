@@ -2,6 +2,7 @@
 import Link from 'next/link';
 import React from 'react';
 import Ratings from '../utils/Ratings';
+import { format } from 'timeago.js';
 
 const CourseCardHistory = ({ course }: { course: any }) => {
   return (
@@ -17,7 +18,10 @@ const CourseCardHistory = ({ course }: { course: any }) => {
         <div className='dark:text-white font-bold text-xl mb-2'>
           {course?.name}
         </div>
-        <p className='dark:text-white text-base'>{course?.description}</p>
+        {/* <p className='dark:text-white text-base'>{course?.description}</p> */}
+        <p className='dark:text-white text-base'>
+          {course && format(course?.createdAt)}
+        </p>
         <p className='dark:text-white font-bold text-xl mt-2'>
           {course?.price === 0
             ? 'Miễn phí'
