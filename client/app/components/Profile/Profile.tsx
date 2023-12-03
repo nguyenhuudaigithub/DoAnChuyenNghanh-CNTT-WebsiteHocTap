@@ -1,4 +1,4 @@
-'use client';
+// 'use client';
 import React, { FC, useEffect, useState } from 'react';
 import SildeBarProfile from './SildeBarProfile';
 import { useLogOutQuery } from '@/redux/features/auth/authApi';
@@ -33,15 +33,15 @@ const Profile: FC<Props> = ({ user }) => {
     redirect('/');
   };
 
-  if (typeof window !== 'undefined') {
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 85) {
-        setScroll(true);
-      } else {
-        setScroll(false);
-      }
-    });
-  }
+  // if (typeof window !== 'undefined') {
+  //   window.addEventListener('scroll', () => {
+  //     if (window.scrollY > 85) {
+  //       setScroll(true);
+  //     } else {
+  //       setScroll(false);
+  //     }
+  //   });
+  // }
   useEffect(() => {
     if (data) {
       const filteredCourses = user.courses
@@ -86,7 +86,7 @@ const Profile: FC<Props> = ({ user }) => {
                 <CourseCard item={item} key={index} isProfile={true} />
               ))}
           </div>
-          {courses.length === 0 && (
+          {courses?.length === 0 && (
             <h1 className='w-[95%] 800px:w-[85%] m-auto py-2 text-black dark:text-white px-3'>
               <br></br>
               Bạn chưa đăng ký khóa học nào!

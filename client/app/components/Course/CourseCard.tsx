@@ -20,8 +20,8 @@ const CourseCard: FC<Props> = ({ item, isProfile }) => {
             src={item?.thumbnail?.url}
             width={450}
             height={400}
-            objectFit='cover'
-            className='rounded-lg w-full h-full'
+            // objectFit='cover'
+            className='rounded-lg w-full h-full object-cover'
             alt=''
           />
         </div>
