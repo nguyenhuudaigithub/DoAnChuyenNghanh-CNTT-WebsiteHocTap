@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import React, { FC } from 'react';
 import SearchCourse from '../components/Search/SearchCourse';
+import { useSelector } from 'react-redux';
 
 export const navItemsData = [
   {
@@ -35,23 +36,32 @@ type Props = {
 };
 
 const NavItems: FC<Props> = ({ activeItem, isMobile }) => {
+  const { user } = useSelector((state: any) => state.auth);
+
   return (
     <>
       <div className='hidden 800px:flex'>
         {navItemsData &&
-          navItemsData.map((item, index) => (
-            <Link href={`${item.url}`} key={index} passHref>
-              <span
-                className={`${
-                  activeItem === index
-                    ? 'dark:text-[#25a25a] text-[crimson]'
-                    : 'dark:text-white text-black'
-                } text-[18px] px-6 font-Poppins font-[400]`}
-              >
-                {item.name}
-              </span>
-            </Link>
-          ))}
+          navItemsData
+            .filter((nav) => {
+              if (!user && nav.url === '/history') {
+                return false;
+              }
+              return true;
+            })
+            .map((item, index) => (
+              <Link href={`${item.url}`} key={index} passHref>
+                <span
+                  className={`${
+                    activeItem === index
+                      ? 'dark:text-[#25a25a] text-[crimson]'
+                      : 'dark:text-white text-black'
+                  } text-[18px] px-6 font-Poppins font-[400]`}
+                >
+                  {item.name}
+                </span>
+              </Link>
+            ))}
         <div className='mt-[-8px]'>
           <SearchCourse />
         </div>
@@ -68,19 +78,26 @@ const NavItems: FC<Props> = ({ activeItem, isMobile }) => {
               </Link>
             </div>
             {navItemsData &&
-              navItemsData.map((item, index) => (
-                <Link href={`${item.url}`} key={index} passHref>
-                  <span
-                    className={`${
-                      activeItem === index
-                        ? 'dark:text-[#25a25a] text-[crimson]'
-                        : 'dark:text-white text-black'
-                    } block py-5 text-[18px] px-6 font-Poppins font-[400]`}
-                  >
-                    {item.name}
-                  </span>
-                </Link>
-              ))}
+              navItemsData
+                .filter((nav) => {
+                  if (!user && nav.url === '/history') {
+                    return false;
+                  }
+                  return true;
+                })
+                .map((item, index) => (
+                  <Link href={`${item.url}`} key={index} passHref>
+                    <span
+                      className={`${
+                        activeItem === index
+                          ? 'dark:text-[#25a25a] text-[crimson]'
+                          : 'dark:text-white text-black'
+                      } block py-5 text-[18px] px-6 font-Poppins font-[400]`}
+                    >
+                      {item.name}
+                    </span>
+                  </Link>
+                ))}
           </div>
         </>
       )}
