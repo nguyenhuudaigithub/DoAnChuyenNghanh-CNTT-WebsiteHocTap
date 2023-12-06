@@ -36,7 +36,7 @@ const ListCourseSearch = (props: Props) => {
   const categories = categoriesData?.layout?.categories;
 
   return (
-    <div className='w-[95%] 800px:w-[85%] m-auto min-h-[82vh]'>
+    <div className='w-[95%] 800px:w-[85%] m-auto min-h-[78vh]'>
       <br />
       <div className='w-full flex items-center flex-wrap'>
         <div

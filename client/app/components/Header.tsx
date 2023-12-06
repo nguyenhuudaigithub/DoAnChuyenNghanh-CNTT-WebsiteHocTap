@@ -68,15 +68,15 @@ const Header: FC<Props> = ({ activeItem, setOpen, route, open, setRoute }) => {
     }
   }, [data, userData, isLoading]);
 
-  if (typeof window !== 'undefined') {
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 85) {
-        setActive(true);
-      } else {
-        setActive(false);
-      }
-    });
-  }
+  // if (typeof window !== 'undefined') {
+  //   window.addEventListener('scroll', () => {
+  //     if (window.scrollY > 85) {
+  //       setActive(true);
+  //     } else {
+  //       setActive(false);
+  //     }
+  //   });
+  // }
 
   const handleClose = (e: any) => {
     if (e.target.id === 'screen') {

@@ -25,7 +25,7 @@ const page = (props: Props) => {
         setRoute={setRoute}
         route={route}
       />
-      <div className='h-[80vh] w-full grid grid-cols-1 grid-rows-1 my-5'>
+      <div className='min-h-[74vh] w-full grid grid-cols-1 grid-rows-1 my-5'>
         <History />
       </div>
       <Footer />

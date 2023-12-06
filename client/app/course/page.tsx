@@ -14,7 +14,6 @@ function page({}: Props) {
 
   return (
     <div>
-      (
       <>
         <Header
           route={route}
@@ -31,7 +30,6 @@ function page({}: Props) {
         <ListCourseSearch />
         <Footer />
       </>
-      )
     </div>
   );
 }
