@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useState } from 'react';
 import AdminSidebar from '@/app/components/Admin/sidebar/AdminSidebar';
 import Heading from '@/app/utils/Heading';
 import OrdersAnalytics from '@/app/components/Admin/Analytics/OrdersAnalytics';
@@ -8,6 +8,7 @@ import DashboardHeader from '@/app/components/Admin/DashboardHeader';
 type Props = {};
 
 const page = ({}: Props) => {
+  const [open, setOpen] = useState(false);
   return (
     <div>
       <Heading
@@ -20,7 +21,7 @@ const page = ({}: Props) => {
           <AdminSidebar />
         </div>
         <div className='w-[85%]'>
-          <DashboardHeader />
+          <DashboardHeader open={open} setOpen={setOpen} />;
           <OrdersAnalytics />
         </div>
       </div>

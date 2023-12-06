@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useState } from 'react';
 
 import AdminSidebar from '@/app/components/Admin/sidebar/AdminSidebar';
 import Heading from '@/app/utils/Heading';
@@ -10,6 +10,7 @@ import AdminProtected from '../../hooks/adminProtected';
 type Props = {};
 
 const page = (props: Props) => {
+  const [open, setOpen] = useState(false);
   return (
     <div>
       <AdminProtected>
@@ -23,7 +24,7 @@ const page = (props: Props) => {
             <AdminSidebar />
           </div>
           <div className='w-[85%] h-full'>
-            <DashboardHeader />
+            <DashboardHeader open={open} setOpen={setOpen} />;
             <AllUsers isTeam={true} />
           </div>
         </div>

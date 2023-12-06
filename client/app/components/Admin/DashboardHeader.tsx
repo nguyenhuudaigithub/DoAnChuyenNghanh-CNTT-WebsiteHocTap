@@ -35,7 +35,7 @@ const DashboardHeader: FC<Props> = ({ open, setOpen }) => {
   useEffect(() => {
     if (data) {
       setNotifications(
-        data.notifications.filter((item: any) => item.status === 'unread')
+        data?.notifications?.filter((item: any) => item.status === 'unread')
       );
     }
     if (isSuccess) {
@@ -55,7 +55,7 @@ const DashboardHeader: FC<Props> = ({ open, setOpen }) => {
     await updateNotificationStatus(id);
   };
   return (
-    <div className='w-full flex items-center justify-end p-6 fixed top-5 right-0'>
+    <div className='w-full flex items-center justify-end p-6 fixed top-5 right-0 z-10'>
       <ThemeSwitcher />
       <div
         className='relative cursor-pointer m-2'

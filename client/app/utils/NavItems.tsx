@@ -11,18 +11,18 @@ export const navItemsData = [
     name: 'Khóa Học',
     url: '/course',
   },
-  // {
-  //   name: "Chi Tiết",
-  //   url: "/about",
-  // },
   {
     name: 'Lịch sử',
     url: '/history',
   },
   {
-    name: 'Chính Sách',
-    url: '/policy',
+    name: 'Chi Tiết',
+    url: '/about',
   },
+  // {
+  //   name: 'Chính Sách',
+  //   url: '/policy',
+  // },
   {
     name: 'Câu Hỏi',
     url: '/faq',

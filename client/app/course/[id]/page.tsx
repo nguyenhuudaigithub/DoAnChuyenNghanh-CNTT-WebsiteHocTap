@@ -27,7 +27,7 @@ const Page = ({ params }: any) => {
         activeItem={1}
       />
       <div className='min-h-screen'>
-        <CourseDetailsPage id={params?.id} />
+        <CourseDetailsPage id={params.id} />
       </div>
       <Footer />
     </div>

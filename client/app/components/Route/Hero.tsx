@@ -1,12 +1,9 @@
 // 'use client';
-import React, { useState } from 'react';
+import React from 'react';
 import Image from 'next/image';
 import { TypeAnimation } from 'react-type-animation';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { BiSearch } from 'react-icons/bi';
-import SearchCourse from '../Search/SearchCourse';
 
 const HeroSection = () => {
   return (

@@ -64,10 +64,8 @@ function OrdersAnalytics({ isDashboard }: Props) {
       {isLoading ? (
         <Loader />
       ) : (
-        <div className={isDashboard ? 'h-[30vh] ' : 'h-screen '}>
-          <div
-            className={isDashboard ? 'mt-[0px] mb-2' : 'mt-[50px]'}
-          >
+        <div className={isDashboard ? 'h-[30vh] ' : 'h-[82vh]'}>
+          <div className={isDashboard ? 'mt-[0px] mb-2' : 'mt-[50px]'}>
             <h1
               className={`${styles.title} ${
                 isDashboard && '!text-[20px]'
@@ -89,7 +87,7 @@ function OrdersAnalytics({ isDashboard }: Props) {
           >
             <ResponsiveContainer
               width={isDashboard ? '100%' : '90%'}
-              height={isDashboard ? '100%' : '50%'}
+              height={isDashboard ? '100%' : '70%'}
             >
               <LineChart
                 width={500}

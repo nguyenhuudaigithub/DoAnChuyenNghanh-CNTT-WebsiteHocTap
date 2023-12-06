@@ -152,7 +152,7 @@ const AllUsers: FC<Props> = ({ isTeam }) => {
       ) : (
         <Box m='20px'>
           {isTeam && (
-            <div className='w-full flex justify-end'>
+            <div className='w-full flex justify-end h-full'>
               <div
                 className={`${styles.button} !w-[200px] dark:bg-[#57c7a3] !h-[35px] dark:border dark:border-[#ffffff6c]`}
                 onClick={() => setActive(!active)}
@@ -163,7 +163,7 @@ const AllUsers: FC<Props> = ({ isTeam }) => {
           )}
           <Box
             m='40px 0 0 0'
-            height='80vh'
+            height='82.7vh'
             sx={{
               '& .MuiDataGrid-root': {
                 border: 'none',

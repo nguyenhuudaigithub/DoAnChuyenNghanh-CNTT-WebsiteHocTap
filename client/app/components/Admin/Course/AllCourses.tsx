@@ -106,14 +106,14 @@ const AllCourses = (props: Props) => {
   };
 
   return (
-    <div className='mt-[120px] m-auto p-4'>
+    <div className='mt-[62px] m-auto p-4'>
       {isLoading ? (
         <Loader />
       ) : (
         <Box m='20px'>
           <Box
             m='40px 0 0 0'
-            height='80vh'
+            height='82.7vh'
             sx={{
               '& .MuiDataGrid-root': {
                 border: 'none',

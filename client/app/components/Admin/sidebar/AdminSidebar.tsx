@@ -228,7 +228,7 @@ const AdminSidebar = () => {
             />
 
             <Item
-              title='Khóa Học Trực Tuyến'
+              title='Khóa Học'
               to='/admin/courses'
               icon={<OndemandVideoIcon />}
               selected={selected}

@@ -3,13 +3,15 @@
 import DashboardHero from '@/app/components/Admin/DashboardHero';
 import AdminProtected from '@/app/hooks/adminProtected';
 import Heading from '@/app/utils/Heading';
-import React from 'react';
+import React, { useState } from 'react';
 import AdminSidebar from '@/app/components/Admin/sidebar/AdminSidebar';
 import EditCategories from '@/app/components/Admin/Customization/EditCategories';
+import DashboardHeader from '@/app/components/Admin/DashboardHeader';
 
 type Props = {};
 
 const page = ({}: Props) => {
+  // const [open, setOpen] = useState(false);
   return (
     <div>
       <AdminProtected>
@@ -23,6 +25,7 @@ const page = ({}: Props) => {
             <AdminSidebar />
           </div>
           <div className='w-[85%]'>
+            {/* <DashboardHeader open={open} setOpen={setOpen} /> */}
             <DashboardHero />
             <EditCategories />
           </div>

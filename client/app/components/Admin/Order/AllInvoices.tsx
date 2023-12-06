@@ -101,14 +101,14 @@ function AllInvoices({ isDashboard }: Props) {
     });
 
   return (
-    <div className={!isDashboard ? 'mt-[120px]' : 'mt-[0px]'}>
+    <div className={!isDashboard ? 'mt-[105px]' : 'mt-[0px]'}>
       {isLoading ? (
         <Loader />
       ) : (
-        <Box m={isDashboard ? '0' : '40px'}>
+        <Box m={isDashboard ? '0' : '20px'}>
           <Box
             m={isDashboard ? '0' : '40px 0 0 0'}
-            height={isDashboard ? '35vh' : '90vh'}
+            height={isDashboard ? '35vh' : '82.7vh'}
             overflow={'hidden'}
             sx={{
               '& .MuiDataGrid-root': {
