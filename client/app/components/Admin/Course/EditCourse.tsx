@@ -38,7 +38,7 @@ const EditCourse: FC<Props> = ({ id }) => {
     if (error) {
       if ("data" in error) {
         const errorMessage = error as any;
-        toast.error(errorMessage.data.message);
+        toast.error(errorMessage?.data.message);
       }
     }
   }, [isSuccess, error]);

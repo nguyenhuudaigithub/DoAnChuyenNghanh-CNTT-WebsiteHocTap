@@ -40,7 +40,7 @@ const AllUsers: FC<Props> = ({ isTeam }) => {
     if (updateError) {
       if ("data" in updateError) {
         const errorMessage = updateError as any;
-        toast.error(errorMessage.data.message);
+        toast.error(errorMessage?.data.message);
       }
     }
     if (isSuccess) {
@@ -56,7 +56,7 @@ const AllUsers: FC<Props> = ({ isTeam }) => {
     if (deleteError) {
       if ("data" in deleteError) {
         const errorMessage = deleteError as any;
-        toast.error(errorMessage.data.message);
+        toast.error(errorMessage?.data.message);
       }
     }
   }, [updateError, isSuccess, deleteSuccess, deleteError]);
