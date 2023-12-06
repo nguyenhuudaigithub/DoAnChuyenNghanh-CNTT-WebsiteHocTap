@@ -59,6 +59,7 @@ const EditCourse: FC<Props> = ({ id }) => {
         level: editCourseData.level,
         demoUrl: editCourseData.demoUrl,
         thumbnail: editCourseData?.thumbnail?.url,
+        ratings: editCourseData?.ratings,
       });
       setBenefits(editCourseData.benefits);
       setPrerequisites(editCourseData.prerequisites);
@@ -76,6 +77,7 @@ const EditCourse: FC<Props> = ({ id }) => {
     level: '',
     demoUrl: '',
     thumbnail: '',
+    ratings: 0,
   });
 
   const [benefits, setBenefits] = useState([{ title: '' }]);
