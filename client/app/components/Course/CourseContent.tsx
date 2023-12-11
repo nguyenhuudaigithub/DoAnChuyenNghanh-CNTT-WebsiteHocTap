@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import { useGetCourseContentQuery } from "@/redux/features/courses/coursesApi";
-import Loader from "../Loader/Loader";
-import Heading from "@/app/utils/Heading";
-import CourseContentMedia from "./CourseContentMedia";
-import Header from "../Header";
-import CourseContentList from "./CourseContentList";
+import React, { useState } from 'react';
+import { useGetCourseContentQuery } from '@/redux/features/courses/coursesApi';
+import Loader from '../Loader/Loader';
+import Heading from '@/app/utils/Heading';
+import CourseContentMedia from './CourseContentMedia';
+import Header from '../Header';
+import CourseContentList from './CourseContentList';
 
 type Props = {
   id: string;
@@ -19,7 +19,7 @@ function CourseContent({ id, user }: Props) {
   } = useGetCourseContentQuery(id, { refetchOnMountOrArgChange: true });
   const data = contentData?.content;
 
-  const [route, setRoute] = useState("Login");
+  const [route, setRoute] = useState('Login');
   const [open, setOpen] = useState(false);
   const [activeVideo, setActiveVideo] = useState(0);
   return (
@@ -35,13 +35,13 @@ function CourseContent({ id, user }: Props) {
             route={route}
             setRoute={setRoute}
           />
-          <div className="w-full grid 800px:grid-cols-10">
+          <div className='w-full grid 800px:grid-cols-10'>
             <Heading
-              title={data[activeVideo]?.title}
-              description="anything"
+              title={data ? data[activeVideo]?.title : 'video'}
+              description='anything'
               keywords={data[activeVideo]?.tags}
             />
-            <div className="col-span-7">
+            <div className='col-span-7'>
               <CourseContentMedia
                 data={data}
                 id={id}
@@ -51,7 +51,7 @@ function CourseContent({ id, user }: Props) {
                 refetch={refetch}
               />
             </div>
-            <div className="hidden 800px:block 800px:col-span-3">
+            <div className='hidden 800px:block 800px:col-span-3'>
               <CourseContentList
                 data={data}
                 activeVideo={activeVideo}

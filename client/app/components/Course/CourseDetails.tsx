@@ -1,4 +1,4 @@
-import CoursePlayer from '@/app/utils/CoursePlayer';
+import CoursePlayer from '../../utils/CoursePlayer';
 import Ratings from '@/app/utils/Ratings';
 import Link from 'next/link';
 import { format } from 'timeago.js';
@@ -20,7 +20,7 @@ type Props = {
 };
 
 const CourseDetails = ({ data, clientSecret, stripePromise }: Props) => {
-  const { data: userData } = useLoadUserQuery(undefined, {});
+  const { data: userData, refetch } = useLoadUserQuery({});
   const user = userData?.user;
   const [open, setOpen] = useState(false);
 
@@ -284,7 +284,12 @@ const CourseDetails = ({ data, clientSecret, stripePromise }: Props) => {
               <div className='w-full'>
                 {stripePromise && clientSecret && (
                   <Elements stripe={stripePromise} options={{ clientSecret }}>
-                    <CheckOutForm setOpen={setOpen} data={data} user={user} />
+                    <CheckOutForm
+                      setOpen={setOpen}
+                      data={data}
+                      user={user}
+                      refetch={refetch}
+                    />
                   </Elements>
                 )}
               </div>

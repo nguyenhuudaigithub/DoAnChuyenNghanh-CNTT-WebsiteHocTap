@@ -1,17 +1,17 @@
-import { NextFunction, Request, Response } from "express";
-import { CatchAsyncError } from "../middleware/catchAsyncErrors";
-import ErrorHandler from "../utils/ErrorHandler";
-import OrderModel, { IOder } from "../models/orderModel";
-import userModel from "../models/user.model";
-import CourseModel, { ICourse } from "../models/course.model";
-import path from "path";
-import ejs from "ejs";
-import sendMail from "../utils/sendMail";
-import NotificationModel from "../models/notificationModel";
-import { getAllOrdersService, newOrder } from "../services/order.service";
-import { redis } from "../utils/redis";
-require("dotenv").config();
-const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+import { NextFunction, Request, Response } from 'express';
+import { CatchAsyncError } from '../middleware/catchAsyncErrors';
+import ErrorHandler from '../utils/ErrorHandler';
+import OrderModel, { IOder } from '../models/orderModel';
+import userModel from '../models/user.model';
+import CourseModel, { ICourse } from '../models/course.model';
+import path from 'path';
+import ejs from 'ejs';
+import sendMail from '../utils/sendMail';
+import NotificationModel from '../models/notificationModel';
+import { getAllOrdersService, newOrder } from '../services/order.service';
+import { redis } from '../utils/redis';
+require('dotenv').config();
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 // create order
 export const createOrder = CatchAsyncError(
@@ -20,14 +20,14 @@ export const createOrder = CatchAsyncError(
       const { courseId, payment_info } = req.body as IOder;
 
       if (payment_info) {
-        if ("id" in payment_info) {
+        if ('id' in payment_info) {
           const paymentIntentId = payment_info.id;
           const paymentIntent = await stripe.paymentIntents.retrieve(
             paymentIntentId
           );
 
-          if (paymentIntent.status !== "succeeded") {
-            return next(new ErrorHandler("Payment not authorized!", 400));
+          if (paymentIntent.status !== 'succeeded') {
+            return next(new ErrorHandler('Payment not authorized!', 400));
           }
         }
       }
@@ -37,13 +37,13 @@ export const createOrder = CatchAsyncError(
         (course: any) => course._id.toString() === courseId
       );
       if (courseExistInUser) {
-        return next(new ErrorHandler("Dang ky thanh cong", 400));
+        return next(new ErrorHandler('Dang ky thanh cong', 400));
       }
 
       const course: ICourse | null = await CourseModel.findById(courseId);
 
       if (!course) {
-        return next(new ErrorHandler("Khong co khoa hoc", 400));
+        return next(new ErrorHandler('Khong co khoa hoc', 400));
       }
       const data: any = {
         courseId: course._id,
@@ -55,23 +55,23 @@ export const createOrder = CatchAsyncError(
           _id: course._id.toString().slice(0.6),
           name: course.name,
           price: course.price,
-          date: new Date().toLocaleDateString("vi-VN", {
-            year: "numeric",
-            month: "long",
-            day: "numeric",
+          date: new Date().toLocaleDateString('vi-VN', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
           }),
         },
       };
       const html = await ejs.renderFile(
-        path.join(__dirname, "../mails/order-confirmation.ejs"),
+        path.join(__dirname, '../mails/order-confirmation.ejs'),
         { order: mailData }
       );
       try {
         if (user) {
           await sendMail({
             email: user.email,
-            subject: "Thông Tin Đơn Hàng",
-            template: "order-confirmation.ejs",
+            subject: 'Thông Tin Đơn Hàng',
+            template: 'order-confirmation.ejs',
             data: mailData,
           });
         }
@@ -86,7 +86,7 @@ export const createOrder = CatchAsyncError(
 
       await NotificationModel.create({
         user: user?.id,
-        title: "Đơn Hàng Mới",
+        title: 'Đơn Hàng Mới',
         message: `Bạn có một đơn hàng mới từ ${course?.name}`,
       });
 
@@ -114,7 +114,7 @@ export const getAllOrders = CatchAsyncError(
 //   send stripe publishable key
 export const sendStripePublishableKey = CatchAsyncError(
   async (req: Request, res: Response) => {
-    res.status(200).json({
+    return res.status(200).json({
       publishableKey: `${process.env.STRIPE_PUBLISHABLE_KEY}`,
     });
   }
@@ -126,16 +126,16 @@ export const newPayment = CatchAsyncError(
     try {
       const myPayment = await stripe.paymentIntents.create({
         amount: req.body.amount,
-        currency: "VND",
+        currency: 'VND',
         metadata: {
-          company: "NetSkillD",
+          company: 'NetSkillD',
         },
         automatic_payment_methods: {
           enabled: true,
         },
       });
 
-      res.status(201).json({
+      return res.status(201).json({
         success: true,
         client_secret: myPayment.client_secret,
       });
@@ -155,7 +155,7 @@ export const addCourseFreeToUser = CatchAsyncError(
       const course: ICourse | null = await CourseModel.findById(courseId);
       // const course = await CourseModel.findById(courseId);
       if (!course) {
-        return next(new ErrorHandler("Không có khóa học!", 400));
+        return next(new ErrorHandler('Không có khóa học!', 400));
       }
 
       user?.courses.push(course?._id);
@@ -167,8 +167,8 @@ export const addCourseFreeToUser = CatchAsyncError(
       course.purchased = course.purchased + 1;
 
       await course.save();
-      
-      res.status(201).json({
+
+      return res.status(201).json({
         success: true,
         user,
       });

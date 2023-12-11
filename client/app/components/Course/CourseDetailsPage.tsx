@@ -12,12 +12,14 @@ import {
 import { useStripe, useElements } from '@stripe/react-stripe-js';
 
 import { loadStripe } from '@stripe/stripe-js';
+import { useLoadUserQuery } from '@/redux/features/api/apiSlice';
 
 type Props = {
   id: string;
 };
 
 const CourseDetailsPage = ({ id }: Props) => {
+  const { data: userData, refetch } = useLoadUserQuery({});
   const { data, isLoading } = useGetCourseDetailsQuery(id);
   const { data: config } = useGetStripePublishablekeyQuery({});
   const [createPaymentIntent, { data: paymentIntentData }] =
@@ -39,6 +41,7 @@ const CourseDetailsPage = ({ id }: Props) => {
   useEffect(() => {
     if (paymentIntentData) {
       setClientSecret(paymentIntentData?.client_secret);
+      refetch();
     }
   }, [paymentIntentData]);
 
