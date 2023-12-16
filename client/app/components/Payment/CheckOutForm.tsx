@@ -52,6 +52,7 @@ const CheckOutForm = ({ setOpen, data, user, refetch }: Props) => {
       createOrder({ courseId: data._id, payment_info: paymentIntent });
       toast.success('Order thanh cong');
       fetchUser();
+      setLoadUser(true);
       // redirect(`/course-access/${data?._id}`);
       window.location.href = `/course-access/${data?._id}`;
     }
@@ -71,6 +72,7 @@ const CheckOutForm = ({ setOpen, data, user, refetch }: Props) => {
     if (error) {
       if ('data' in error) {
         fetchUser();
+        setLoadUser(!loadUser);
         const errorMessage = error as any;
         // toast.error(errorMessage?.data?.message);
       }

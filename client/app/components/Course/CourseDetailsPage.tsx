@@ -36,6 +36,7 @@ const CourseDetailsPage = ({ id }: Props) => {
       const amount = Math.round(data?.course?.price);
       createPaymentIntent(amount);
     }
+    refetch();
   }, [config, data]);
 
   useEffect(() => {
@@ -43,6 +44,7 @@ const CourseDetailsPage = ({ id }: Props) => {
       setClientSecret(paymentIntentData?.client_secret);
       refetch();
     }
+    refetch();
   }, [paymentIntentData]);
 
   return (

@@ -38,6 +38,7 @@ const CourseDetails = ({ data, clientSecret, stripePromise }: Props) => {
   const handleOrder = async (e: any) => {
     if (data?.price === 0) {
       await createOrderFree({ courseId: data?._id });
+      refetch();
       window.location.reload();
     } else {
       setOpen(true);
