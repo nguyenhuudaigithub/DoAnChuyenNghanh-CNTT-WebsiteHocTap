@@ -12,6 +12,7 @@ import { useLoadUserQuery } from '@/redux/features/api/apiSlice';
 import Image from 'next/image';
 import { VscVerifiedFilled } from 'react-icons/vsc';
 import { useCreateOrderFreeMutation } from '@/redux/features/orders/ordersApi';
+import toast from 'react-hot-toast';
 
 type Props = {
   data: any;
@@ -35,15 +36,20 @@ const CourseDetails = ({ data, clientSecret, stripePromise }: Props) => {
 
   const isPurchased =
     user && user?.courses?.find((item: any) => item?._id === data?._id);
-  const handleOrder = async (e: any) => {
-    if (data?.price === 0) {
-      await createOrderFree({ courseId: data?._id });
-      refetch();
-      window.location.reload();
-    } else {
-      setOpen(true);
-    }
-  };
+    const handleOrder = async (e: any) => {
+      if (user) {
+        //free
+        if (data?.price === 0) {
+          await createOrderFree({ courseId: data?._id });
+          window.location.reload();
+        } else {
+          // open pay
+          setOpen(true);
+        }
+      }else{
+        toast.error('Bạn chưa đăng nhập!');
+      }
+    };
 
   return (
     <div>

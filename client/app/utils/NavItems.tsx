@@ -13,7 +13,7 @@ export const navItemsData = [
     url: '/course',
   },
   {
-    name: 'Lịch sử',
+    name: 'Đã Mua',
     url: '/history',
   },
   {
