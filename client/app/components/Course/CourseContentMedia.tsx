@@ -194,7 +194,7 @@ const CourseContentMedia = ({
   const handleReviewSubmit = async () => {
     if (!replyCreationLoading) {
       if (review.length === 0) {
-        toast.error("Không được bỏ trống sao!");
+        toast.error("Không được bỏ trống !");
       } else {
         addReviewInCourse({ review, rating, courseId: id });
       }

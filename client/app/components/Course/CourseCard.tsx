@@ -55,8 +55,8 @@ const CourseCard: FC<Props> = ({ item, isProfile }) => {
             </div>
           </div>
           <div className='w-full flex items-center justify-between pt-3 text-black dark:text-[#fff]'>
-            <AiOutlineUnorderedList size={20} fill='#fff' />
-            <h5>{item?.courseData?.length} Khóa học</h5>
+            <AiOutlineUnorderedList size={20} />
+            <h5 className='ml-[-35%]'>{item?.courseData?.length} Mục</h5>
             <h5 className={`${isProfile && 'hidden 800px:inline'}`}>
               {item?.purchased} Học sinh
             </h5>

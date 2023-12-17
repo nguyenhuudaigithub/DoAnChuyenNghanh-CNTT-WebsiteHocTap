@@ -1,28 +1,33 @@
 // 'use client'
+import { useGetUserAllCoursesQuery } from '@/redux/features/courses/coursesApi';
+import { useGetAllUsersQuery } from '@/redux/features/user/userApi';
 import React, { useEffect, useState } from 'react';
 
-const achievementsList = [
-  {
-    metric: 'Bài Học',
-    value: 100,
-    postfix: '+',
-  },
-  {
-    prefix: '~',
-    metric: 'Người Dùng',
-    value: 100000,
-  },
-  {
-    metric: 'Lượt Mua',
-    value: 120000,
-  },
-  {
-    metric: 'Năm',
-    value: 5,
-  },
-];
+
 
 function AnimatedAchievements() {
+  const achievementsList = [
+    {
+      metric: 'Bài Học',
+      value: 9, 
+      postfix: '+',
+    },
+    {
+      prefix: '~',
+      metric: 'Người Dùng',
+      value: 10, 
+    },
+    {
+      metric: 'Lượt Mua',
+      value: 30,
+    },
+    {
+      metric: 'Năm',
+      value: 1, 
+    },
+  ];
+
+
   const [animatedValues, setAnimatedValues] = useState<number[]>(
     Array(achievementsList.length).fill(0)
   );

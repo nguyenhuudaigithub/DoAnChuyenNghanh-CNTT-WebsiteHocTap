@@ -44,7 +44,6 @@ const Reviews = (props: Props) => {
               Là Sức Mạnh Của Chúng Tôi{' '}
             </span>
             <br />
-            <br />
             <span className='dark:text-purple-400 text-black'>
               Xem Họ Nói Gì Nào !{' '}
             </span>
@@ -53,13 +52,15 @@ const Reviews = (props: Props) => {
           <p className={`${styles.label} ml-4`}>
             Hiểu quả của khóa học, lợi ích khi tham gia, những tiến bộ
             <br />
+            <br />
             khi tham gia, cơ hội việc làm.
           </p>
         </div>
         <br />
         <br />
       </div>
-      <div className='grid grid-cols-l gap-[25px] md:grid-cols-2 md:gap-[25px] lg:grid-cols-2 lg:gap-[25px] xl:grid-cols-2 xl:gap-[35px] mb-12 border-0 md:[&>*:nth-child(3)]:!mt-[-60px] md:[&>*:nth-child(6)]:!mt-[-40px] mt-9'>
+      <div className='grid grid-cols-l gap-[25px] md:grid-cols-2 md:gap-[25px] lg:grid-cols-2 lg:gap-[25px] xl:grid-cols-2 xl:gap-[10px] mb-12 border-0 
+      md:[&>*:nth-child(3)]:!mt-[-30px] md:[&>*:nth-child(4)]:!mt-[-30px] md:[&>*:nth-child(6)]:!mt-[-40px] mt-9'>
         {reviews &&
           reviews.map((i, index) => <ReviewCard item={i} key={index} />)}
       </div>
