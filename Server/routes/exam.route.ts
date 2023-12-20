@@ -21,7 +21,7 @@ examRouter.post(
 );
 
 // get all exams
-examRouter.post(
+examRouter.get(
   '/get-all-exams',
   //   isAutheticated,
   //   authorizeRoles('admin'),

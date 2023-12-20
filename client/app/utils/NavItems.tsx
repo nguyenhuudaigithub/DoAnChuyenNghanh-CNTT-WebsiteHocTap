@@ -13,20 +13,20 @@ export const navItemsData = [
     url: '/course',
   },
   {
-    name: 'Lịch sử',
-    url: '/history',
-  },
-  {
     name: 'Chi Tiết',
     url: '/about',
   },
-  // {
-  //   name: 'Chính Sách',
-  //   url: '/policy',
-  // },
+  {
+    name: 'Bài Test',
+    url: '/exams',
+  },
   {
     name: 'Câu Hỏi',
     url: '/faq',
+  },
+  {
+    name: 'Lịch sử',
+    url: '/history',
   },
 ];
 

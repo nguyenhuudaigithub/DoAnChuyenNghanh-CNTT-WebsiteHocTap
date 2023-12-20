@@ -7,7 +7,7 @@ import Footer from '../components/Route/Footer';
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const [open, setOpen] = useState(false);
-  const [activeItem, setActiveItem] = useState(2);
+  const [activeItem, setActiveItem] = useState(3);
   const [route, setRoute] = useState('Login');
 
   return (

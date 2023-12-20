@@ -38,7 +38,7 @@ export const getAllExams = async (
   next: NextFunction
 ) => {
   try {
-    const exams = await Exam.find({});
+    const exams = await Exam.find({}).populate('category').lean();
 
     return res.status(200).send({
       success: true,

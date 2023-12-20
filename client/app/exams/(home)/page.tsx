@@ -1,8 +1,7 @@
-import React from 'react';
 import ListExam from './components/ListExam';
 
-const HomeExams = () => {
+const ExamsPage = () => {
   return <ListExam />;
 };
 
-export default HomeExams;
+export default ExamsPage;
