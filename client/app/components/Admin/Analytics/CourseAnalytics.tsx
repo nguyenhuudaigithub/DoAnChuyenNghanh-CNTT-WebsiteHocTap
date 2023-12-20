@@ -29,7 +29,7 @@ const CourseAnalytics = (props: Props) => {
 
   const analyticsData: any = [];
 
-  console.log(data);
+  // console.log(data);
 
   data &&
     data?.courses?.last12Months?.forEach((item: any) => {

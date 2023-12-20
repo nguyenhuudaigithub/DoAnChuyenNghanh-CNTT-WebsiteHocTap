@@ -13,6 +13,7 @@ import notificationRouter from './routes/notification.route';
 import analyticsRouter from './routes/analytics.route copy';
 import layoutRouter from './routes/layout.route';
 import examRouter from './routes/exam.route';
+import chatRouter from './routes/chat.route';
 
 app.use(express.json({ limit: '50mb' }));
 
@@ -36,6 +37,7 @@ app.use('/api/v1', notificationRouter);
 app.use('/api/v1', analyticsRouter);
 app.use('/api/v1', layoutRouter);
 app.use('/api/v1', examRouter);
+app.use('/api/v1', chatRouter);
 
 app.get('/test', (req: Request, res: Response, next: NextFunction) => {
   res.status(200).json({
