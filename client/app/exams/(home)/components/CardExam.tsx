@@ -14,9 +14,9 @@ const CardExam = ({ exam, category }: any) => {
           <span className='text-white'>
             Thể loại: <span>{category.title}</span>
           </span>
-          {/* <span className='text-white '>
-            Thời lượng: <span>{exam.duration}</span>
-          </span> */}
+          <span className='text-white '>
+            Thời lượng: <span>{exam.duration} phút</span>
+          </span>
           <span className='text-white '>
             Tổng số câu: <span>{exam.questions.length}</span>
           </span>

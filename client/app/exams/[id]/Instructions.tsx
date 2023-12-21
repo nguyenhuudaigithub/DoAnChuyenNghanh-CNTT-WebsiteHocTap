@@ -1,3 +1,5 @@
+import toast from 'react-hot-toast';
+
 const Instructions = ({
   examData,
   view,
@@ -13,18 +15,15 @@ const Instructions = ({
         <h2 className='text-4xl underline mb-3' style={{ textAlign: 'center' }}>
           Hướng dẫn
         </h2>
-        {/* <li className='text-xl'>
-          Bài test phải hoàn thành{' '}
-          <span className='text-yellow-400'>{examData.duration}</span> giây.
-        </li>
-        <li className='text-xl'>
-          Bài test sẽ tự động nộp sau{' '}
-          <span className='text-yellow-400'>{examData.duration}</span> giây.
-        </li> */}
         <li className='text-xl'>
           Hướng dẫn là quan trọng vì chúng giúp người học hoặc người sử dụng
           hiểu rõ về cách thực hiện một công việc, sử dụng một sản phẩm, hoặc
           đạt được một mục tiêu cụ thể.
+        </li>
+        <li className='text-xl'>
+          Bài test phải hoàn thành{' '}
+          <span className='text-yellow-400'>{examData?.duration}</span> phút và
+          nó sẽ tự động nếu hết thời gian đó.
         </li>
         <li className='text-xl'>
           Bạn khởi động lại trang web thì mọi thứ sẽ bị reset.
@@ -36,18 +35,14 @@ const Instructions = ({
         <li className='text-xl'>
           Tổng số câu hỏi là{' '}
           <span className='font-bold text-yellow-400'>
-            {examData.totalMarks}
+            {examData?.totalMarks}
           </span>
         </li>
         <li className='text-xl'>
           Số điểm tối thiểu để đạt là{' '}
           <span className='font-bold text-yellow-400'>
-            {examData.passingMarks}
+            {examData?.passingMarks}
           </span>
-        </li>
-        <li className='text-xl'>
-          Sự nỗ lực và kiên nhẫn của bạn sẽ được đền đáp. Vì vậy hãy tiếp tục
-          phát huy nhé!
         </li>
       </ul>
       <div
@@ -67,7 +62,13 @@ const Instructions = ({
             color: 'white',
           }}
           className='bg-green-400'
-          onClick={() => setView('questions')}
+          onClick={() => {
+            if (examData?.questions?.length < 1) {
+              toast.error('Bài test hiện tại vẫn chưa có câu hỏi để làm');
+            } else {
+              setView('questions');
+            }
+          }}
         >
           Bắt đầu
         </button>
