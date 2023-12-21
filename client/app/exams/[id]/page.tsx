@@ -8,6 +8,7 @@ import { Divider } from '@mui/material';
 import WidgetWrapper from './components/WidgetWrapper';
 import Instructions from './Instructions';
 import Image from 'next/image';
+import toast from 'react-hot-toast';
 
 const ExamPage = () => {
   const params = useParams();
@@ -38,6 +39,10 @@ const ExamPage = () => {
   };
 
   const calculateResult = () => {
+    if (Object.keys(selectedOptions).length < questions.length) {
+      toast.error('Còn câu hỏi chưa làm');
+      return;
+    }
     let correctAnswers: any = [];
     let wrongAnswers: any = [];
 
@@ -148,7 +153,7 @@ const ExamPage = () => {
                         setSelectedQuestionIndex(selectedQuestionIndex - 1);
                       }}
                     >
-                      Previous
+                      Trở về
                     </button>
                   )}
                   {selectedQuestionIndex < questions.length - 1 && (
@@ -166,7 +171,7 @@ const ExamPage = () => {
                         setSelectedQuestionIndex(selectedQuestionIndex + 1);
                       }}
                     >
-                      Next
+                      Tiếp tục
                     </button>
                   )}
 
@@ -185,7 +190,7 @@ const ExamPage = () => {
                         calculateResult();
                       }}
                     >
-                      Submit
+                      Nộp bài
                     </button>
                   )}
                 </div>
