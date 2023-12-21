@@ -17,6 +17,7 @@ import {
   ManageHistoryIcon,
   SettingsIcon,
   ExitToAppIcon,
+  AssignmentOutlinedIcon,
 } from './Icon';
 import { Box, IconButton, Typography } from '@mui/material';
 import { ProSidebar, Menu, MenuItem } from 'react-pro-sidebar';
@@ -231,6 +232,14 @@ const AdminSidebar = () => {
               title='Khóa Học'
               to='/admin/courses'
               icon={<OndemandVideoIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+
+            <Item
+              title='Bài Test'
+              to='/admin/exams'
+              icon={<AssignmentOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />

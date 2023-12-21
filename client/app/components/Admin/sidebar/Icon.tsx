@@ -15,7 +15,8 @@ import ManageHistoryIcon from '@mui/icons-material/ManageHistory';
 import SettingsIcon from '@mui/icons-material/Settings';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-
+import AssignmentOutlinedIcon from '@mui/icons-material/AssignmentOutlined';
+import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 export {
   HomeOutlinedIcon,
   ArrowForwardIosIcon,
@@ -34,4 +35,6 @@ export {
   SettingsIcon,
   ExitToAppIcon,
   AddCircleIcon,
+  AssignmentOutlinedIcon,
+  SettingsOutlinedIcon,
 };

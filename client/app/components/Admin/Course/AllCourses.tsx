@@ -106,7 +106,7 @@ const AllCourses = (props: Props) => {
   };
 
   return (
-    <div className='mt-[62px] m-auto p-4'>
+    <div className='m-auto h-min-screen mt-[2.15rem] p-4'>
       {isLoading ? (
         <Loader />
       ) : (
