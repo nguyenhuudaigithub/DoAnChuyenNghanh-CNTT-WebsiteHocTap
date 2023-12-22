@@ -42,7 +42,7 @@ const History = (props: Props) => {
   }, [coursesData, isLoading]);
 
   return (
-    <div className='flex flex-wrap flex-col'>
+    <div className='flex flex-wrap flex-col min-h-full overflow-y-auto'>
       {orderData &&
         orderData.map((course: any) => (
           <CourseCardHistory key={course?._id} course={course?.course} />

@@ -16,6 +16,7 @@ import {
   WysiwygIcon,
   ManageHistoryIcon,
   ExitToAppIcon,
+  AssignmentOutlinedIcon,
   ChatBubbleIcon,
 } from './Icon';
 import { Box, IconButton, Typography } from '@mui/material';
@@ -231,6 +232,14 @@ const AdminSidebar = () => {
               title='Khóa Học'
               to='/admin/courses'
               icon={<OndemandVideoIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+
+            <Item
+              title='Bài Test'
+              to='/admin/exams'
+              icon={<AssignmentOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />

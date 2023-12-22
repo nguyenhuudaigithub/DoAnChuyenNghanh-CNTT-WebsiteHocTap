@@ -38,7 +38,7 @@ export const getAllExams = async (
   next: NextFunction
 ) => {
   try {
-    const exams = await Exam.find({});
+    const exams = await Exam.find({}).populate('category').lean();
 
     return res.status(200).send({
       success: true,
@@ -89,7 +89,22 @@ export const deleteExamById = async (
   next: NextFunction
 ) => {
   try {
-    await Exam.findByIdAndDelete(req.body.examId);
+    // await Exam.findByIdAndDelete(req.body.examId);
+    const examId = req.body.examId;
+
+    const exam = await Exam.findById(examId);
+
+    if (!exam) {
+      return next(new ErrorHandler('Exam not found', 404));
+    }
+
+    const questionIds = exam.questions.map((questionId) =>
+      questionId.toString()
+    );
+    await Question.deleteMany({ _id: { $in: questionIds } });
+
+    await Exam.findByIdAndDelete(examId);
+
     return res.status(200).send({
       success: true,
       message: 'Exam deleted successfully',
@@ -105,17 +120,11 @@ export const addQuestionToExam = async (
   next: NextFunction
 ) => {
   try {
-    // add question to Questions collection
     const newQuestion = new Question(req.body);
     const question = await newQuestion.save();
 
-    //  add question to exam
     const exam = await Exam.findById(req.body.exam);
-    // console.log('body ', req.body);
-    // console.log('question ', JSON.stringify(question._id));
-    // await exam.questions.push(JSON.stringify(question._id));
     const questionFind = await Question.findById(question._id);
-    // await exam.questions.push('1234');
     await Exam.findByIdAndUpdate(
       { _id: req.body.exam },
       {
@@ -124,7 +133,6 @@ export const addQuestionToExam = async (
         },
       }
     );
-    // await exam.save();
 
     return res.status(201).send({
       success: true,

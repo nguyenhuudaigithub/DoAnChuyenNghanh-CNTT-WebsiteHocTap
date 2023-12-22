@@ -2,10 +2,10 @@ import { apiSlice } from '../api/apiSlice';
 
 export const examsApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getAllExams: builder.mutation({
+    getAllExams: builder.query({
       query: () => ({
         url: 'get-all-exams',
-        method: 'POST',
+        method: 'GET',
         credentials: 'include' as const,
       }),
     }),
@@ -107,7 +107,7 @@ export const examsApi = apiSlice.injectEndpoints({
 });
 
 export const {
-  useGetAllExamsMutation,
+  useGetAllExamsQuery,
   useAddExamMutation,
   useGetExamByIdMutation,
   useEditExamByIdMutation,

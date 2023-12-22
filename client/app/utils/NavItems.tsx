@@ -12,21 +12,21 @@ export const navItemsData = [
     name: 'Khóa Học',
     url: '/course',
   },
+  // {
+  //   name: 'Chi Tiết',
+  //   url: '/about',
+  // },
+  {
+    name: 'Bài Test',
+    url: '/exams',
+  },
+  // {
+  //   name: 'Câu Hỏi',
+  //   url: '/faq',
+  // },
   {
     name: 'Đã Mua',
     url: '/history',
-  },
-  {
-    name: 'Chi Tiết',
-    url: '/about',
-  },
-  // {
-  //   name: 'Chính Sách',
-  //   url: '/policy',
-  // },
-  {
-    name: 'Câu Hỏi',
-    url: '/faq',
   },
 ];
 

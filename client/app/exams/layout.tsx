@@ -11,9 +11,9 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   const [route, setRoute] = useState('Login');
 
   return (
-    <div className='h-[100vh] w-full overflow-hidden'>
+    <div className='h-[100vh] w-full overflow-y-auto'>
       <Heading
-        title='About us - Netskilld'
+        title='Bài Test - Netskilld'
         description='Netskilld is a learning management system for helping programers.'
         keywords='programming, mern'
       />
