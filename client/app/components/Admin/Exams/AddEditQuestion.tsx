@@ -22,10 +22,6 @@ const AddEditQuestion = ({
   setOpen: any;
   handleClose: any;
 }) => {
-  //   const [open, setOpen] = React.useState(false);
-  //   const handleOpen = () => setOpen(true);
-  //   const handleClose = () => setOpen(false);
-  //   const navigate = useNavigate();
   return (
     <Modal
       open={open}

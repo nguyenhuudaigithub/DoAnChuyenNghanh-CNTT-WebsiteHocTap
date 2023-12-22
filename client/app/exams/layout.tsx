@@ -7,13 +7,13 @@ import Footer from '../components/Route/Footer';
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const [open, setOpen] = useState(false);
-  const [activeItem, setActiveItem] = useState(3);
+  const [activeItem, setActiveItem] = useState(2);
   const [route, setRoute] = useState('Login');
 
   return (
-    <div className='h-[100vh] w-full overflow-hidden'>
+    <div className='h-[100vh] w-full overflow-y-auto'>
       <Heading
-        title='About us - Netskilld'
+        title='Bài Test - Netskilld'
         description='Netskilld is a learning management system for helping programers.'
         keywords='programming, mern'
       />

@@ -6,21 +6,16 @@ import {
   Button,
   Divider,
   IconButton,
-  InputLabel,
   MenuItem,
   Modal,
   Paper,
-  Select,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
   TableRow,
-  Tabs,
   TextField,
-  Typography,
-  useMediaQuery,
 } from '@mui/material';
 import WidgetWrapper from '@/app/exams/[id]/components/WidgetWrapper';
 import { ArrowBackIosNewOutlined } from '@mui/icons-material';
@@ -31,6 +26,7 @@ import toast from 'react-hot-toast';
 import { useGetHeroDataQuery } from '@/redux/features/layout/layoutApi';
 import TabsNotification from './TabsNotification';
 import { useRouter } from 'next/navigation';
+import { useGetAllExamsQuery } from '@/redux/features/exams/examsApi';
 
 const style = {
   position: 'absolute',
@@ -45,12 +41,7 @@ const style = {
 };
 
 const AddEditExam = () => {
-  // const [examName, setExamName] = useState('');
-  // const [examDuration, setExamDuration] = useState(0);
-  // const [category, setCategory] = useState('');
-  // const [totalMarks, setTotalMarks] = useState(0);
-  // const [passingMarks, setPassingMarks] = useState(0);
-
+  const { data: exams, refetch: refetchExams } = useGetAllExamsQuery({});
   let {
     data: categories,
     isLoading,
@@ -61,11 +52,11 @@ const AddEditExam = () => {
 
   const router = useRouter();
 
-  const examName = useRef('');
-  const examDuration = useRef(0);
-  const category = useRef('');
-  const totalMarks = useRef(0);
-  const passingMarks = useRef(0);
+  const [examName, setExamName] = useState('');
+  const [examDuration, setExamDuration] = useState(0);
+  const [category, setCategory] = useState('');
+  const [totalMarks, setTotalMarks] = useState(0);
+  const [passingMarks, setPassingMarks] = useState(0);
 
   const questionName = useRef('');
   const correctOption = useRef('');
@@ -73,8 +64,13 @@ const AddEditExam = () => {
   const B = useRef('');
   const C = useRef('');
   const D = useRef('');
+  // const [questionName, setQuestionName] = useState('');
+  // const [A, setA] = useState('');
+  // const [B, setB] = useState('');
+  // const [C, setC] = useState('');
+  // const [D, setD] = useState('');
 
-  const [selectedQuestion, setSelectedQuestion] = useState();
+  const [selectedQuestion, setSelectedQuestion] = useState<any>();
 
   const [examData, setExamData] = useState<any>();
 
@@ -100,7 +96,7 @@ const AddEditExam = () => {
     e.preventDefault();
     if (selectedQuestion) {
       const response = await fetch(
-        `http://localhost:8000/api/v1/edit-exam-by-id`,
+        `http://localhost:8000/api/v1/edit-question-to-exam`,
         {
           method: 'POST',
           headers: {
@@ -116,11 +112,13 @@ const AddEditExam = () => {
               D: D.current,
             },
             examId: params?.id,
+            questionId: selectedQuestion?._id,
           }),
         }
       );
       const data = await response.json();
       if (data.success) {
+        refetchExams();
         router.push('/admin/exams', {
           scroll: false,
         });
@@ -158,6 +156,7 @@ const AddEditExam = () => {
       );
       const data = await response.json();
       if (data.success) {
+        refetchExams();
         router.push('/admin/exams', {
           scroll: false,
         });
@@ -180,6 +179,10 @@ const AddEditExam = () => {
     e.preventDefault();
 
     if (params?.id) {
+      const idCategory = categories?.layout?.categories?.filter(
+        (categoryL: any) => categoryL?.title == category
+      );
+
       const response = await fetch(
         `http://localhost:8000/api/v1/edit-exam-by-id`,
         {
@@ -189,22 +192,17 @@ const AddEditExam = () => {
           },
           body: JSON.stringify({
             examId: params?.id,
-            // name: examName,
-            // duration: examDuration,
-            // category,
-            // totalMarks,
-            // passingMarks,
-
-            name: examName.current,
-            duration: examDuration.current,
-            category: category.current,
-            totalMarks: totalMarks.current,
-            passingMarks: passingMarks.current,
+            name: examName,
+            duration: examDuration,
+            category: idCategory[0]?._id || category,
+            totalMarks: totalMarks,
+            passingMarks: passingMarks,
           }),
         }
       );
       const data = await response.json();
       if (data.success) {
+        refetchExams();
         router.push('/admin/exams', {
           scroll: false,
         });
@@ -217,27 +215,26 @@ const AddEditExam = () => {
         return;
       }
     } else {
+      const idCategory = categories?.layout?.categories?.filter(
+        (categoryL: any) => categoryL?.title == category
+      );
+
       const response = await fetch(`http://localhost:8000/api/v1/add-exam`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          // name: examName,
-          // duration: examDuration,
-          // category,
-          // totalMarks,
-          // passingMarks,
-
-          name: examName.current,
-          duration: examDuration.current,
-          category: category.current,
-          totalMarks: totalMarks.current,
-          passingMarks: passingMarks.current,
+          name: examName,
+          duration: examDuration,
+          category: idCategory[0]?._id || category,
+          totalMarks: totalMarks,
+          passingMarks: passingMarks,
         }),
       });
       const data = await response.json();
       if (data.success) {
+        refetchExams();
         router.push('/admin/exams', {
           scroll: false,
         });
@@ -266,7 +263,13 @@ const AddEditExam = () => {
       }
     );
     const data = await response.json();
+    refetchExams();
     setExamData(data?.data);
+    setExamName(data?.data?.name);
+    setExamDuration(data?.data?.duration);
+    setCategory(data?.data?.category);
+    setTotalMarks(data?.data?.totalMarks);
+    setPassingMarks(data?.data?.passingMarks);
   };
 
   const deleteQuestion = async (questionId: string) => {
@@ -349,7 +352,7 @@ const AddEditExam = () => {
 
   const tabs = [
     {
-      name: 'ExamDetails',
+      name: 'Chi Tiết Bài Test',
       component: (
         <>
           {(examData || !params?.id) && (
@@ -370,15 +373,12 @@ const AddEditExam = () => {
                         background: '#e9e9e9',
                       },
                     }}
-                    value={examData?.name}
+                    focused
                     type='text'
-                    // label={`${examData.name ? examData.name : 'Exam Name'}`}
-                    label='Exam Name'
-                    // className='bg-red-400'
-                    // value={examData?.name || ''}
+                    label='Tên Bài Test'
+                    defaultValue={examData?.name}
                     variant='outlined'
-                    // onChange={(e) => setExamName(e.target.value)}
-                    onChange={(e: any) => (examName.current = e.target.value)}
+                    onChange={(e: any) => setExamName(e.target.value)}
                   />
                   <TextField
                     sx={{
@@ -386,49 +386,32 @@ const AddEditExam = () => {
                         background: '#e9e9e9',
                       },
                     }}
-                    value={examData?.duration}
-                    // label={`${
-                    //   examData.duration ? examData.duration : 'Exam Duration'
-                    // }`}
-                    label='Exam Duration'
+                    focused
+                    label='Thời lượng bài Test'
+                    defaultValue={examData?.duration}
                     type='number'
-                    // value={examData?.duration || ''}
                     variant='outlined'
-                    // onChange={(e) => setExamDuration(e.target.value)}
-                    onChange={(e: any) =>
-                      (examDuration.current = e.target.value)
-                    }
+                    onChange={(e: any) => setExamDuration(e.target.value)}
                   />
-                  <div
-                    className='dark:!text-white w-full bg-[#e9e9e9]'
-                    // value={category}
-                    // label='Category'
-                    // onChange={handleChange}
-                  >
+                  <div className='dark:!text-white w-full bg-[#e9e9e9]'>
                     <TextField
                       sx={{
                         input: {
                           background: '#e9e9e9',
                         },
                       }}
-                      value={getNameCategory(examData?.category)}
-                      label={`${
-                        examData?.category
-                          ? getNameCategory(examData?.category)
-                          : 'Category'
-                      }`}
+                      focused
+                      label={getNameCategory(examData?.category)}
                       select
-                      // value={examData?.category || ''}
-                      // onChange={handleChange}
-                      onChange={(e: any) => (category.current = e.target.value)}
+                      onChange={(e: any) => setCategory(e.target.value)}
                       fullWidth
                     >
-                      <MenuItem selected disabled value=''>
+                      <MenuItem disabled value=''>
                         Chọn thể loại
                       </MenuItem>
                       {categories &&
                         categories?.layout?.categories.map((category: any) => (
-                          <MenuItem value={category?.title}>
+                          <MenuItem key={category?._id} value={category?.title}>
                             {category?.title}
                           </MenuItem>
                         ))}
@@ -442,15 +425,12 @@ const AddEditExam = () => {
                       },
                     }}
                     type='number'
-                    value={examData?.totalMarks}
-                    // label={`${
-                    //   examData.totalMarks ? examData.totalMarks : 'Total Marks'
-                    // }`}
-                    label='Total Marks'
-                    // value={examData?.totalMarks || ''}
+                    // value={examData?.totalMarks}
+                    defaultValue={examData?.totalMarks}
+                    label='Tổng Điểm'
+                    focused
                     variant='outlined'
-                    // onChange={(e) => setTotalMarks(e.target.value)}
-                    onChange={(e: any) => (totalMarks.current = e.target.value)}
+                    onChange={(e: any) => setTotalMarks(e.target.value)}
                   />
                   <TextField
                     sx={{
@@ -459,19 +439,11 @@ const AddEditExam = () => {
                       },
                     }}
                     type='number'
-                    value={examData?.passingMarks}
-                    // label={`${
-                    //   examData.passingMarks
-                    //     ? examData.passingMarks
-                    //     : 'Passing Marks'
-                    // }`}
-                    label='Passing Marks'
-                    // value={examData?.passingMarks || ''}
+                    focused
+                    defaultValue={examData?.passingMarks}
+                    label='Số điểm đạt'
                     variant='outlined'
-                    // onChange={(e) => setPassingMarks(e.target.value)}
-                    onChange={(e: any) =>
-                      (passingMarks.current = e.target.value)
-                    }
+                    onChange={(e: any) => setPassingMarks(e.target.value)}
                   />
                 </div>
                 <Box
@@ -494,19 +466,18 @@ const AddEditExam = () => {
                       })
                     }
                   >
-                    Cancel
+                    Hủy Bỏ
                   </Button>
                   <Button
                     type='submit'
                     sx={{
                       display: 'flex',
                       width: '200px',
-                      // marginLeft: 'auto',
                       backgroundColor: '#009FBD',
                       color: 'white',
                     }}
                   >
-                    Save
+                    Lưu
                   </Button>
                 </Box>
               </form>
@@ -517,10 +488,10 @@ const AddEditExam = () => {
     },
 
     {
-      name: 'Questions',
+      name: 'Câu Hỏi',
       component: (
         <>
-          <h1>Câu hỏi</h1>
+          {/* <h1>Câu hỏi</h1> */}
 
           <Box
             sx={{
@@ -543,13 +514,12 @@ const AddEditExam = () => {
                 })
               }
             >
-              Cancel
+              Hủy Bỏ
             </Button>
             <Button
               sx={{
                 display: 'flex',
                 width: '200px',
-                // marginLeft: 'auto',
                 backgroundColor: '#009FBD',
                 color: 'white',
               }}
@@ -578,9 +548,7 @@ const AddEditExam = () => {
                     <TextField
                       type='text'
                       label='Question Name'
-                      // value={examData?.name || ''}
                       variant='outlined'
-                      // onChange={(e) => setExamName(e.target.value)}
                       onChange={(e: any) =>
                         (questionName.current = e.target.value)
                       }
@@ -588,9 +556,7 @@ const AddEditExam = () => {
                     <TextField
                       type='text'
                       label='Correct Option'
-                      // value={examData?.duration || ''}
                       variant='outlined'
-                      // onChange={(e) => setExamDuration(e.target.value)}
                       onChange={(e: any) =>
                         (correctOption.current = e.target.value)
                       }
@@ -599,33 +565,25 @@ const AddEditExam = () => {
                     <TextField
                       type='text'
                       label='Option A'
-                      // value={examData?.totalMarks || ''}
                       variant='outlined'
-                      // onChange={(e) => setTotalMarks(e.target.value)}
                       onChange={(e: any) => (A.current = e.target.value)}
                     />
                     <TextField
                       type='text'
                       label='Option B'
-                      // value={examData?.totalMarks || ''}
                       variant='outlined'
-                      // onChange={(e) => setTotalMarks(e.target.value)}
                       onChange={(e: any) => (B.current = e.target.value)}
                     />
                     <TextField
                       type='text'
                       label='Option C'
-                      // value={examData?.totalMarks || ''}
                       variant='outlined'
-                      // onChange={(e) => setTotalMarks(e.target.value)}
                       onChange={(e: any) => (C.current = e.target.value)}
                     />
                     <TextField
                       type='text'
                       label='Option D'
-                      // value={examData?.totalMarks || ''}
                       variant='outlined'
-                      // onChange={(e) => setTotalMarks(e.target.value)}
                       onChange={(e: any) => (D.current = e.target.value)}
                     />
                   </Box>
@@ -647,19 +605,18 @@ const AddEditExam = () => {
                       }}
                       onClick={() => handleClose()}
                     >
-                      Cancel
+                      Hủy Bỏ
                     </Button>
                     <Button
                       type='submit'
                       sx={{
                         display: 'flex',
                         width: '200px',
-                        // marginLeft: 'auto',
                         backgroundColor: '#009FBD',
                         color: 'white',
                       }}
                     >
-                      Save
+                      Lưu
                     </Button>
                   </Box>
                 </form>
@@ -673,20 +630,20 @@ const AddEditExam = () => {
   ];
 
   return (
-    <div className='w-full px-2 gap-5 justify-center items-center dark:!text-white'>
+    <div className='w-full min-h-[100vh] px-2 gap-5 justify-center items-center dark:!text-white'>
       <div>
         <WidgetWrapper>
           <div className='flex items-center gap-5 mb-2'>
-            <Button
+            {/* <Button
               className=' cursor-pointer px-5 py-3'
               onClick={() =>
-                router.push('/admin/exams/add', {
+                router.push('/admin/exams', {
                   scroll: false,
                 })
               }
             >
               <ArrowBackIosNewOutlined />
-            </Button>
+            </Button> */}
             <PageTitle title={params?.id ? 'Sửa Bài Test' : 'Thêm Bài Test'} />
           </div>
           <Divider sx={{ marginBottom: 2 }}></Divider>

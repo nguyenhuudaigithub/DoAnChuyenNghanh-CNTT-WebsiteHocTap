@@ -8,11 +8,11 @@ type Props = {};
 
 const page = (props: Props) => {
   const [open, setOpen] = useState(false);
-  const [activeItem, setActiveItem] = useState(5);
+  const [activeItem, setActiveItem] = useState(3);
   const [route, setRoute] = useState('Login');
 
   return (
-    <div className='h-[100vh] w-full overflow-hidden'>
+    <div className='h-[100vh] w-full overflow-y-auto'>
       <Heading
         title='About us - Netskilld'
         description='Netskilld is a learning management system for helping programers.'

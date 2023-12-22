@@ -105,17 +105,11 @@ export const addQuestionToExam = async (
   next: NextFunction
 ) => {
   try {
-    // add question to Questions collection
     const newQuestion = new Question(req.body);
     const question = await newQuestion.save();
 
-    //  add question to exam
     const exam = await Exam.findById(req.body.exam);
-    // console.log('body ', req.body);
-    // console.log('question ', JSON.stringify(question._id));
-    // await exam.questions.push(JSON.stringify(question._id));
     const questionFind = await Question.findById(question._id);
-    // await exam.questions.push('1234');
     await Exam.findByIdAndUpdate(
       { _id: req.body.exam },
       {
@@ -124,7 +118,6 @@ export const addQuestionToExam = async (
         },
       }
     );
-    // await exam.save();
 
     return res.status(201).send({
       success: true,

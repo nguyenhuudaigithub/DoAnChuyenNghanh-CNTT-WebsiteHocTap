@@ -3,12 +3,19 @@ import Link from 'next/link';
 import React from 'react';
 import Ratings from '../utils/Ratings';
 import { format } from 'timeago.js';
+import Image from 'next/image';
 
 const CourseCardHistory = ({ course }: { course: any }) => {
   return (
-    <div className='flex flex-row rounded overflow-hidden shadow-lg justify-around my-4'>
-      <div className='w-[300px] h-full rounded-lg my-auto'>
-        <img
+    <div
+      className='flex flex-row rounded overflow-auto shadow-lg justify-around my-4 dark:!text-white text-black'
+      style={{ overflowY: 'auto' }}
+    >
+      <div className='rounded-lg my-auto'>
+        <Image
+          height={250}
+          width={350}
+          objectFit='cover'
           src={course?.thumbnail?.url}
           alt={course?.name}
           className='w-full h-full object-cover rounded-lg'
