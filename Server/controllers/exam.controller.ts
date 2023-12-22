@@ -89,7 +89,22 @@ export const deleteExamById = async (
   next: NextFunction
 ) => {
   try {
-    await Exam.findByIdAndDelete(req.body.examId);
+    // await Exam.findByIdAndDelete(req.body.examId);
+    const examId = req.body.examId;
+
+    const exam = await Exam.findById(examId);
+
+    if (!exam) {
+      return next(new ErrorHandler('Exam not found', 404));
+    }
+
+    const questionIds = exam.questions.map((questionId) =>
+      questionId.toString()
+    );
+    await Question.deleteMany({ _id: { $in: questionIds } });
+
+    await Exam.findByIdAndDelete(examId);
+
     return res.status(200).send({
       success: true,
       message: 'Exam deleted successfully',

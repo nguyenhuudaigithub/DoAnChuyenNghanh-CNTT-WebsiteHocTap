@@ -54,8 +54,8 @@ const Exams = () => {
                 <TableCell align='center'>Thời lượng</TableCell>
                 <TableCell align='center'>Thể loại</TableCell>
                 <TableCell align='center'>Tổng điểm</TableCell>
-                <TableCell align='center'>Điểm đạt</TableCell>
-                <TableCell align='center'>Chỉnh</TableCell>
+                <TableCell align='center'>Điểm để đạt</TableCell>
+                <TableCell align='center'>Lựa chọn Action</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>

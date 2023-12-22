@@ -58,17 +58,18 @@ const AddEditExam = () => {
   const [totalMarks, setTotalMarks] = useState(0);
   const [passingMarks, setPassingMarks] = useState(0);
 
-  const questionName = useRef('');
-  const correctOption = useRef('');
-  const A = useRef('');
-  const B = useRef('');
-  const C = useRef('');
-  const D = useRef('');
-  // const [questionName, setQuestionName] = useState('');
-  // const [A, setA] = useState('');
-  // const [B, setB] = useState('');
-  // const [C, setC] = useState('');
-  // const [D, setD] = useState('');
+  // const questionName = useRef('');
+  // const correctOption = useRef('');
+  // const A = useRef('');
+  // const B = useRef('');
+  // const C = useRef('');
+  // const D = useRef('');
+  const [questionName, setQuestionName] = useState('');
+  const [correctOption, setCorrectOption] = useState('');
+  const [A, setA] = useState('');
+  const [B, setB] = useState('');
+  const [C, setC] = useState('');
+  const [D, setD] = useState('');
 
   const [selectedQuestion, setSelectedQuestion] = useState<any>();
 
@@ -103,13 +104,13 @@ const AddEditExam = () => {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            name: questionName.current,
-            correctOption: correctOption.current,
+            name: questionName || selectedQuestion?.name,
+            correctOption: correctOption || selectedQuestion?.correctOption,
             options: {
-              A: A.current,
-              B: B.current,
-              C: C.current,
-              D: D.current,
+              A: A || selectedQuestion?.options?.A,
+              B: B || selectedQuestion?.options?.B,
+              C: C || selectedQuestion?.options?.C,
+              D: D || selectedQuestion?.options?.D,
             },
             examId: params?.id,
             questionId: selectedQuestion?._id,
@@ -119,7 +120,7 @@ const AddEditExam = () => {
       const data = await response.json();
       if (data.success) {
         refetchExams();
-        router.push('/admin/exams', {
+        router.push('/admin/exams/edit', {
           scroll: false,
         });
         toast(`${data.message}`);
@@ -142,13 +143,13 @@ const AddEditExam = () => {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            name: questionName.current,
-            correctOption: correctOption.current,
+            name: questionName,
+            correctOption: correctOption,
             options: {
-              A: A.current,
-              B: B.current,
-              C: C.current,
-              D: D.current,
+              A: A,
+              B: B,
+              C: C,
+              D: D,
             },
             exam: params?.id,
           }),
@@ -302,9 +303,9 @@ const AddEditExam = () => {
           <TableHead>
             <TableRow>
               <TableCell align='center'>Tên câu hỏi</TableCell>
-              <TableCell align='center'>Options</TableCell>
+              <TableCell align='center'>Các lựa chọn</TableCell>
               <TableCell align='center'>Câu đúng</TableCell>
-              <TableCell align='center'>Action</TableCell>
+              <TableCell align='center'>Tinh chỉnh</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -329,10 +330,11 @@ const AddEditExam = () => {
                   {row.correctOption} : {row.options[`${row.correctOption}`]}
                 </TableCell>
                 <TableCell align='center'>
-                  <div className='flex gap-3'>
+                  <div className='flex gap-3 justify-center'>
                     <IconButton
                       onClick={() => {
                         setSelectedQuestion(row);
+                        handleOpen();
                       }}
                     >
                       <EditOutlinedIcon />
@@ -425,7 +427,6 @@ const AddEditExam = () => {
                       },
                     }}
                     type='number'
-                    // value={examData?.totalMarks}
                     defaultValue={examData?.totalMarks}
                     label='Tổng Điểm'
                     focused
@@ -461,7 +462,7 @@ const AddEditExam = () => {
                       color: 'white',
                     }}
                     onClick={() =>
-                      router.push('/admin/exams/add', {
+                      router.push('/admin/exams', {
                         scroll: false,
                       })
                     }
@@ -535,7 +536,9 @@ const AddEditExam = () => {
               aria-describedby='modal-modal-description'
             >
               <Box sx={style}>
-                <h2>{selectedQuestion ? 'Sửa câu hỏi' : 'Thêm câu hỏi'} </h2>
+                <h2 className='dark:text-white text-black'>
+                  {selectedQuestion ? 'Sửa câu hỏi' : 'Thêm câu hỏi'}{' '}
+                </h2>
                 <form onSubmit={onSubmitQuestion}>
                   <Box
                     sx={{
@@ -547,44 +550,64 @@ const AddEditExam = () => {
                   >
                     <TextField
                       type='text'
-                      label='Question Name'
+                      label='Tên câu hỏi'
                       variant='outlined'
-                      onChange={(e: any) =>
-                        (questionName.current = e.target.value)
+                      focused
+                      defaultValue={
+                        selectedQuestion ? selectedQuestion?.name : ''
                       }
+                      onChange={(e: any) => setQuestionName(e.target.value)}
                     />
                     <TextField
                       type='text'
-                      label='Correct Option'
+                      label='Lựa chọn đúng'
                       variant='outlined'
-                      onChange={(e: any) =>
-                        (correctOption.current = e.target.value)
+                      focused
+                      defaultValue={
+                        selectedQuestion ? selectedQuestion?.correctOption : ''
                       }
+                      onChange={(e: any) => setCorrectOption(e.target.value)}
                     />
 
                     <TextField
                       type='text'
-                      label='Option A'
+                      label='Câu A'
                       variant='outlined'
-                      onChange={(e: any) => (A.current = e.target.value)}
+                      focused
+                      defaultValue={
+                        selectedQuestion ? selectedQuestion?.options.A : ''
+                      }
+                      onChange={(e: any) => setA(e.target.value)}
                     />
                     <TextField
                       type='text'
-                      label='Option B'
+                      label='Câu B'
                       variant='outlined'
-                      onChange={(e: any) => (B.current = e.target.value)}
+                      focused
+                      defaultValue={
+                        selectedQuestion ? selectedQuestion?.options.B : ''
+                      }
+                      onChange={(e: any) => setB(e.target.value)}
                     />
                     <TextField
                       type='text'
-                      label='Option C'
+                      label='Câu C'
                       variant='outlined'
-                      onChange={(e: any) => (C.current = e.target.value)}
+                      focused
+                      defaultValue={
+                        selectedQuestion ? selectedQuestion?.options.C : ''
+                      }
+                      onChange={(e: any) => setC(e.target.value)}
                     />
                     <TextField
                       type='text'
-                      label='Option D'
+                      label='Câu D'
                       variant='outlined'
-                      onChange={(e: any) => (D.current = e.target.value)}
+                      focused
+                      defaultValue={
+                        selectedQuestion ? selectedQuestion?.options.D : ''
+                      }
+                      onChange={(e: any) => setD(e.target.value)}
                     />
                   </Box>
 
