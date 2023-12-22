@@ -9,7 +9,7 @@ const TimerTest = ({
   calculateResult: any;
   selectedOptions: any;
 }) => {
-  const [timeTest, setTimeTest] = useState(examData?.duration || 0);
+  const [timeTest, setTimeTest] = useState(examData?.duration * 60 || 0);
 
   useEffect(() => {
     const timer = setInterval(() => {
