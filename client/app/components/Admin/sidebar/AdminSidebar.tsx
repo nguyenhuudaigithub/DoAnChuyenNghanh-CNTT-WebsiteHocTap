@@ -15,8 +15,8 @@ import {
   QuizIcon,
   WysiwygIcon,
   ManageHistoryIcon,
-  SettingsIcon,
   ExitToAppIcon,
+  ChatBubbleIcon,
 } from './Icon';
 import { Box, IconButton, Typography } from '@mui/material';
 import { ProSidebar, Menu, MenuItem } from 'react-pro-sidebar';
@@ -319,13 +319,13 @@ const AdminSidebar = () => {
               {!isCollapsed && 'Tiện Ích'}
             </Typography>
 
-            {/* <Item
-              title='Cài Đặt'
-              to='/admin/settings'
-              icon={<SettingsIcon />}
+            <Item
+              title='Tư Vấn'
+              to='/admin/chat'
+              icon={<ChatBubbleIcon />}
               selected={selected}
               setSelected={setSelected}
-            /> */}
+            />
             <div onClick={logoutHandler}>
               <Item
                 title='Thoát'

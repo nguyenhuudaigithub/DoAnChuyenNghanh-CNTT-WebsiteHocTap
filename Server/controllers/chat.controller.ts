@@ -2,30 +2,60 @@ import { NextFunction, Request, Response } from "express";
 import { CatchAsyncError } from "../middleware/catchAsyncErrors";
 import ErrorHandler from "../utils/ErrorHandler";
 import cloudinary from "cloudinary";
-import { createChat, getAllChatService } from "../services/chat.service";
-import NotificationModel from "../models/notificationModel";
+import { createChat } from "../services/chat.service";
 import ChatModel from "../models/chat.model";
+import userModel from "../models/user.model";
 
 export const newChat = CatchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const members = req.body.group || [];
-      const nameGroup =
-        members.length === 1
-          ? members[0].user.name + "-" + req.user?.name
-          : members.map((user: any) => user.user.name).join(",") +
-            "," +
-            req.user?.name;
+      const chatAdmin = req.body?.chatAdmin;
+      const email = req.body?.email || [];
+      const userCheck = await userModel.findOne({ email }).lean();
+      const userMe = req.user;
 
-      const data: any = {
-        nameGroup: nameGroup,
-        group: [
-          ...members.map((user: any) => ({ user: user.user })),
-          { user: req.user },
-        ],
-      };
+      function findCommonObjects(array1: any, array2: any) {
+        if (array1 && array2) {
+          return array1.filter((obj1: any) =>
+            array2.some((obj2: any) => obj1.chatId === obj2.chatId)
+          );
+        } else return false;
+      }
+    
+      if (userCheck && !chatAdmin) {
+        // old chat - email input and user login, chatAdmin false, userCheck(email) 
+        const groupId = findCommonObjects(userCheck?.chats, userMe?.chats);
+        // console.log(groupId);
 
-      await createChat(data, res, next);
+        if (groupId) {
+          res.status(401).json({
+            error: true,
+            message: "Chuyển tới cửa sổ trò chuyện!",
+            groupId,
+          });
+        } else {
+          // new chat  - userCheck(email) true and chatAdmin false
+          const data: any = {
+            nameGroup: "Trò Chuyện",
+            group: [{ user: userCheck }, { user: userMe }],
+            chatAdmin: false,
+          };
+          await createChat(data, res, next);
+        }
+      } else if (!userCheck && !chatAdmin) {
+        res.status(400).json({
+          error: true,
+          message: "Không tìm thấy người dùng!",
+        });
+      } else if (!userCheck && chatAdmin) {
+        //chatAdmin- chatAdmin true and email null
+        const data: any = {
+          nameGroup: "Tư Vấn",
+          group: { user: userMe },
+          chatAdmin: true,
+        };
+        await createChat(data, res, next);
+      }
     } catch (error: any) {
       next(new ErrorHandler(error.message, 500));
     }
@@ -78,7 +108,25 @@ export const replyChat = CatchAsyncError(
 export const getAllChat = CatchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      getAllChatService(res);
+      const chatAdmin = req.body.chatAdmin;
+
+      if (chatAdmin) {
+        const userCheck = await ChatModel.find({ chatAdmin });
+        res.status(200).json({
+          success: true,
+          data: userCheck,
+        });
+      } else {
+        const userChats = req.user?.chats || [];
+
+        const chatIds = userChats.map((chat: any) => chat._id);
+        const chatsFromModel = await ChatModel.find({ _id: { $in: chatIds } });
+
+        res.status(200).json({
+          success: true,
+          data: chatsFromModel,
+        });
+      }
     } catch (error: any) {
       return next(new ErrorHandler(error.message, 400));
     }

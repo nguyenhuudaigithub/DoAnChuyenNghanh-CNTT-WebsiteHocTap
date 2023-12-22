@@ -15,6 +15,7 @@ import ManageHistoryIcon from '@mui/icons-material/ManageHistory';
 import SettingsIcon from '@mui/icons-material/Settings';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
+import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
 
 export {
   HomeOutlinedIcon,
@@ -34,4 +35,5 @@ export {
   SettingsIcon,
   ExitToAppIcon,
   AddCircleIcon,
+  ChatBubbleIcon,
 };

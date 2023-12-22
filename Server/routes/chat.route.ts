@@ -8,7 +8,7 @@ chatRouter.post("/create-chat", isAutheticated, newChat);
 
 chatRouter.put("/chat/:id", isAutheticated, replyChat);
 
-chatRouter.get("/get-all-chat", isAutheticated, getAllChat);
+chatRouter.post("/get-all-chat", isAutheticated, getAllChat);
 
 chatRouter.get("/chat/:id", isAutheticated, getSingleChat);
 

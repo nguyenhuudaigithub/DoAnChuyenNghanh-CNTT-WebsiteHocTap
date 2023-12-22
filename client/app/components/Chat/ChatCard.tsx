@@ -5,9 +5,10 @@ type Props = {
   item: any;
   isProfile?: boolean;
   id: string;
+  isAdmin: boolean;
 };
 
-const ChatCard: FC<Props> = ({ item, isProfile, id }) => {
+const ChatCard: FC<Props> = ({ item, isProfile, id, isAdmin }) => {
   let nameChat = item?.nameGroup;
   let avatar =
     "https://res.cloudinary.com/dshp9jnuy/image/upload/v1665822253/avatars/nrxsg8sd9iy10bbsoenn.png";
@@ -18,17 +19,28 @@ const ChatCard: FC<Props> = ({ item, isProfile, id }) => {
       avatar = foundUser.user.avatar.url;
     }
     nameChat = foundUser?.user?.name;
+  } else if (item.chatAdmin && isAdmin == false) {
+    avatar = "https://img.icons8.com/?size=256&id=7hmHYH5hPLfG&format=png";
+  } else {
+    avatar = item?.group[0]?.user?.avatar?.url;
+    nameChat = item?.group[0]?.user?.name;
   }
+
   const chat = item.message[item.message.length - 1];
 
   let chatNew = chat?.message;
-  
+
   if (chat?.image) {
     chatNew = "Hình ảnh.";
   }
 
+  let link = `/chat/${item?._id}`;
+
+  if (isAdmin) {
+    link = `/admin/chat/${item?._id}`;
+  }
   return (
-    <Link href={!isProfile ? `/chat/${item?._id}` : `/chat/${item._id}`}>
+    <Link href={!isProfile ? `${link}` : `${link}`}>
       <div className="flex items-center mb-4 cursor-pointer hover:bg-gray-100 text-black dark:text-white p-2 rounded-md">
         <div className="w-12 h-12 bg-gray-300 rounded-full mr-3">
           <img

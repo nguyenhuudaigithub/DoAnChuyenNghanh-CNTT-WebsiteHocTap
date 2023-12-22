@@ -1,14 +1,12 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
 import { useLoadUserQuery } from "@/redux/features/api/apiSlice";
-import { useGetAllChatQuery } from "@/redux/features/chat/chatApi";
 import Header from "@/app/components/Header";
 import Heading from "@/app/utils/Heading";
 import Loader from "@/app/components/Loader/Loader";
 import Chat from "@/app/components/Chat/Chat";
-import Footer from "@/app/components/Route/Footer";
+
 import MainChat from "@/app/components/Chat/MainChat";
 
 type Props = {
@@ -19,7 +17,7 @@ function page({ params }: Props) {
   const id = params.id;
   const [route, setRoute] = useState("Login");
   const [open, setOpen] = useState(false);
-
+  const isAdmin = false;
   const { isLoading, data } = useLoadUserQuery(undefined, {});
   return (
     <>
@@ -41,8 +39,8 @@ function page({ params }: Props) {
         ) : (
           <>
             <div className="flex h-screen overflow-hidden">
-              <Chat data ={data} />
-              <MainChat data={data} id={id}/>
+              <Chat data ={data} isAdmin={false}/>
+              <MainChat data={data} id={id} isAdmin={isAdmin}/>
             </div>
           </>
         )}
