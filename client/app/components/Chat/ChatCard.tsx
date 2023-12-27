@@ -12,20 +12,19 @@ const ChatCard: FC<Props> = ({ item, isProfile, id, isAdmin }) => {
   let nameChat = item?.nameGroup;
   let avatar =
     "https://res.cloudinary.com/dshp9jnuy/image/upload/v1665822253/avatars/nrxsg8sd9iy10bbsoenn.png";
-  if (item.group?.length == 2) {
+  if (item.group?.length == 2) { // chat 2
     const foundUser = item.group.find((user: any) => user.user._id != id);
 
     if (foundUser?.user?.avatar?.url) {
       avatar = foundUser.user.avatar.url;
     }
     nameChat = foundUser?.user?.name;
-  } else if (item.chatAdmin && isAdmin == false) {
+  } else if (item.chatAdmin && isAdmin == false) { // chat admin
     avatar = "https://img.icons8.com/?size=256&id=7hmHYH5hPLfG&format=png";
   } else {
-    avatar = item?.group[0]?.user?.avatar?.url;
-    nameChat = item?.group[0]?.user?.name;
+    avatar = item?.avatarGroup?.url || "https://img.icons8.com/?size=256&id=110193&format=png"; 
   }
-
+  
   const chat = item.message[item.message.length - 1];
 
   let chatNew = chat?.message;

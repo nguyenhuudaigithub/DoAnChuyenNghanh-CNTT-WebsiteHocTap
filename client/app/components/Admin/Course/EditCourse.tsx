@@ -28,8 +28,6 @@ const EditCourse: FC<Props> = ({ id }) => {
 
   // const questions = editCourseData?.courseData?.questions;
 
-  // console.log(editCourseData.courseData);
-
   const [active, setActive] = useState(0);
 
   useEffect(() => {

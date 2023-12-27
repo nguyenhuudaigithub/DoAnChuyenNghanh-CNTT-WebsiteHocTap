@@ -18,12 +18,11 @@ const AddFriend = (props: Props) => {
 
     if (error) {
       const errorData = error as any;
-      console.log(errorData);
       if (errorData?.status == 400) {
         toast.error(errorData?.data?.message);
       } else if (errorData?.status == 401) {
         toast.success(errorData?.data?.message);
-        router.push("/chat/" + errorData?.data?.groupId[0]?._id);
+        router.push("/chat/" + errorData?.data?.idCheck);
       }
     }
   }, [isSuccess, error, data]);

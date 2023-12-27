@@ -32,8 +32,6 @@ const CourseDetails = ({ data, clientSecret, stripePromise }: Props) => {
 
   const [createOrderFree] = useCreateOrderFreeMutation();
 
-  // console.log(data);
-
   const isPurchased =
     user && user?.courses?.find((item: any) => item?._id === data?._id);
     const handleOrder = async (e: any) => {

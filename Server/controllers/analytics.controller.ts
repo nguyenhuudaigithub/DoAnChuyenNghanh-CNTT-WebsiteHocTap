@@ -26,7 +26,6 @@ export const getCoursesAnalytics = CatchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const courses = await generateLast12MonthsData(CourseModel);
-      // console.log(courses);
 
       res.status(200).json({
         success: true,

@@ -20,7 +20,7 @@ export const chatApi = apiSlice.injectEndpoints({
     }),
 
     getAllChat: builder.mutation({
-      query: ({chatAdmin}) => ({
+      query: ({ chatAdmin }) => ({
         url: "/get-all-chat",
         method: "POST",
         body: chatAdmin,
@@ -35,6 +35,23 @@ export const chatApi = apiSlice.injectEndpoints({
         credentials: "include" as const,
       }),
     }),
+
+    rename: builder.mutation({
+      query: ({ id, data }) => ({
+        url: `edit-name-group/${id}`,
+        method: "PUT",
+        body: data,
+        credentials: "include" as const,
+      }),
+    }),
+
+    outGroup: builder.mutation({
+      query: ({ id }) => ({
+        url: `/out-group/${id}`,
+        method: "POST",
+        credentials: "include" as const,
+      }),
+    }),
   }),
 });
 export const {
@@ -42,4 +59,6 @@ export const {
   useReplyChatMutation,
   useGetAllChatMutation,
   useGetSingleChatQuery,
+  useRenameMutation,
+  useOutGroupMutation,
 } = chatApi;

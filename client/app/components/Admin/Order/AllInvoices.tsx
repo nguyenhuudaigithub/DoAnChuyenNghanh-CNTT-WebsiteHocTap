@@ -21,14 +21,6 @@ function AllInvoices({ isDashboard }: Props) {
 
   const [orderData, setOrderData] = useState<any>([]);
 
-  // console.log('orderData', orderData);
-  // console.log('data', data);
-  // console.log('usersData', usersData);
-  // console.log('coursesData', coursesData);
-  // console.log(
-  //   coursesData?.courses?.find((course: any) => course?._id === item?.courseId)
-  // );
-
   useEffect(() => {
     if (data) {
       const temp = data?.orders?.map((item: any) => {

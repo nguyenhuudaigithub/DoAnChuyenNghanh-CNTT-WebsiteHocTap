@@ -1,5 +1,7 @@
 import {
   useGetSingleChatQuery,
+  useOutGroupMutation,
+  useRenameMutation,
   useReplyChatMutation,
 } from "@/redux/features/chat/chatApi";
 import React, { useState, useEffect } from "react";
@@ -12,6 +14,22 @@ const socket = socketIO(ENDPOINT, { transports: ["websocket"] });
 import SettingsIcon from "@mui/icons-material/Settings";
 import { IoMdExit } from "react-icons/io";
 import { FiUsers } from "react-icons/fi";
+import { MdDriveFileRenameOutline } from "react-icons/md";
+import { AvatarGroup, Box, Button, Modal, TextField } from "@mui/material";
+import { FaImage } from "react-icons/fa";
+import { useRouter } from "next/navigation";
+
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 500,
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  boxShadow: 24,
+  p: 4,
+};
 
 type Message = {
   sender: string;
@@ -27,8 +45,9 @@ type Props = {
 };
 
 function MainChat({ data, id, isAdmin }: Props) {
-  const me = data.user._id;
-  const user = data.user;
+  const me = data?.user._id;
+  const user = data?.user;
+  const router = useRouter();
 
   const {
     data: dataChat,
@@ -49,7 +68,10 @@ function MainChat({ data, id, isAdmin }: Props) {
   const playerNotificationSound = () => {
     audio.play();
   };
-  const [replyChat, { isSuccess }] = useReplyChatMutation();
+  const [replyChat, { isSuccess, error, data: dataReply }] =
+    useReplyChatMutation();
+
+  const [rename, { isSuccess: isSuccessNG }] = useRenameMutation();
 
   useEffect(() => {
     if (dataMessage && dataMessage.message) {
@@ -108,7 +130,11 @@ function MainChat({ data, id, isAdmin }: Props) {
         content: message,
       });
     }
-  }, [isSuccess]);
+    if (error) {
+      const errorData = error as any;
+      toast.error(errorData?.data?.message);
+    }
+  }, [isSuccess, error, dataReply]);
 
   useEffect(() => {
     socket.on("newChat", (dataM) => {
@@ -163,14 +189,56 @@ function MainChat({ data, id, isAdmin }: Props) {
     fileReader.readAsDataURL(e.target.files[0]);
   };
   const [isDropdownVisible, setDropdownVisibility] = useState(false);
-
   const handleButtonClick = () => {
     setDropdownVisibility(!isDropdownVisible);
   };
-  const [dropDownGroup, setDropDownGroup] = useState(false);
-  const handleDownGroup = () => {
-    setDropDownGroup(!dropDownGroup);
+
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const [questionEmail, setQuestionEmail] = useState("");
+  const handleClose = () => {
+    setOpen(false);
   };
+  const [active, setActive] = useState(false);
+  const [avatarGroup, setAvatarGroup] = useState(false);
+  const onSubmit = async (e: any) => {
+    if (active || avatarGroup) {
+      if (active) {
+        toast.success(questionEmail);
+        rename({
+          id: id,
+          data: {
+            nameGroup: questionEmail,
+          },
+        });
+      } else {
+        // image
+      }
+    } else {
+      replyChat({
+        id: id,
+        data: {
+          email: questionEmail,
+        },
+      });
+    }
+  };
+
+  const [outGroup, { isSuccess: isSuccessOutGroup }] = useOutGroupMutation();
+
+  useEffect(() => {
+    if (isSuccessOutGroup) {
+      router.push("/chat");
+      toast.success("Rời nhóm thành công!");
+    }
+  }, [isSuccessOutGroup]);
+
+  const handleOutGroup = () => {
+    outGroup({
+      id: id,
+    });
+  };
+
   return (
     <>
       {isLoading ? (
@@ -196,7 +264,7 @@ function MainChat({ data, id, isAdmin }: Props) {
                   }`}
                 >
                   <ul className="py-2 px-3">
-                    <li className="flex items-center">
+                    <li className="flex items-center" onClick={handleOutGroup}>
                       <IoMdExit size={20} />
                       <a
                         href="#"
@@ -208,17 +276,173 @@ function MainChat({ data, id, isAdmin }: Props) {
 
                     <li
                       className="flex items-center"
-                      onClick={() => handleDownGroup()}
+                      onClick={() => {
+                        handleOpen();
+                        setActive(false);
+                        setAvatarGroup(false);
+                      }}
                     >
                       <FiUsers size={20} />
                       <a className="relative block px-4 py-2 text-gray-800 hover:text-gray-400">
-                        Tạo nhóm.
+                        {dataMessage?.group?.length > 2
+                          ? `Thêm thành viên.`
+                          : "Tạo nhóm."}
                       </a>
                     </li>
+                    {dataMessage?.group?.length > 2 && (
+                      <>
+                        <li
+                          className="flex items-center"
+                          onClick={() => {
+                            handleOpen();
+                            setActive(false);
+                            setAvatarGroup(true);
+                          }}
+                        >
+                          <FaImage size={20} />
+                          <a
+                            href="#"
+                            className="relative block px-4 py-2 text-gray-800 hover:text-gray-400"
+                          >
+                            Đổi ảnh đại diện nhóm.
+                          </a>
+                        </li>
+                        <li
+                          className="flex items-center"
+                          onClick={() => {
+                            handleOpen();
+                            setActive(true);
+                            setAvatarGroup(false);
+                          }}
+                        >
+                          <MdDriveFileRenameOutline size={20} />
+                          <a
+                            href="#"
+                            className="relative block px-4 py-2 text-gray-800 hover:text-gray-400"
+                          >
+                            Đổi tên nhóm.
+                          </a>
+                        </li>
+                      </>
+                    )}
                   </ul>
                 </div>
               </div>
             </header>
+
+            {
+              <Modal
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+              >
+                <Box
+                  sx={style}
+                  className="dark:bg-slate-600 bg-slate-100 dark:text-white text-black"
+                >
+                  <>
+                    <form onSubmit={onSubmit}>
+                      {active || avatarGroup ? (
+                        <>
+                          {active && avatarGroup == false ? (
+                            <>
+                              <h1>Đổi Tên Nhóm </h1>
+                              <Box
+                                sx={{
+                                  display: "grid",
+                                  gridTemplateColumns: "auto auto",
+                                  gap: "20px",
+                                  marginTop: 3,
+                                }}
+                              >
+                                <TextField
+                                  type="text"
+                                  label="Nhập tên nhóm"
+                                  variant="outlined"
+                                  focused
+                                  className="dark:text-white text-black"
+                                  onChange={(e: any) =>
+                                    setQuestionEmail(e.target.value)
+                                  }
+                                  required
+                                />
+                              </Box>
+                            </>
+                          ) : (
+                            <>
+                              <h1>Đổi Ảnh Đại Diện Nhóm </h1>
+                              <Box
+                                sx={{
+                                  display: "grid",
+                                  gridTemplateColumns: "auto auto",
+                                  gap: "20px",
+                                  marginTop: 3,
+                                }}
+                              ></Box>
+                            </>
+                          )}
+                        </>
+                      ) : (
+                        <>
+                          <h1>Thêm người dùng</h1>
+                          <Box
+                            sx={{
+                              display: "grid",
+                              gridTemplateColumns: "auto auto",
+                              gap: "20px",
+                              marginTop: 3,
+                            }}
+                          >
+                            <TextField
+                              type="email"
+                              label="Email người dùng"
+                              variant="outlined"
+                              focused
+                              className="dark:text-white text-black"
+                              onChange={(e: any) =>
+                                setQuestionEmail(e.target.value)
+                              }
+                              required
+                            />
+                          </Box>
+                        </>
+                      )}
+                      <Box
+                        sx={{
+                          display: "flex",
+                          marginTop: 3,
+                        }}
+                      >
+                        <Button
+                          sx={{
+                            display: "flex",
+                            width: "200px",
+                            marginRight: 3,
+                            backgroundColor: "orange",
+                            color: "white",
+                          }}
+                          onClick={() => handleClose()}
+                        >
+                          Hủy Bỏ
+                        </Button>
+                        <Button
+                          type="submit"
+                          sx={{
+                            display: "flex",
+                            width: "200px",
+                            backgroundColor: "#009FBD",
+                            color: "white",
+                          }}
+                        >
+                          Lưu
+                        </Button>
+                      </Box>
+                    </form>
+                  </>
+                </Box>
+              </Modal>
+            }
 
             {/* Chat Messages */}
             <div className="h-4/5 overflow-y-auto p-4 pb-36">
