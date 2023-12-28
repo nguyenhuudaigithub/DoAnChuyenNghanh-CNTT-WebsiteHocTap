@@ -4,7 +4,6 @@ import AdminSidebar from "@/app/components/Admin/sidebar/AdminSidebar";
 import Heading from "@/app/utils/Heading";
 import DashboardHeader from "@/app/components/Admin/DashboardHeader";
 import AdminProtected from "../../hooks/adminProtected";
-import { useGetAllChatQuery } from "@/redux/features/chat/chatApi";
 import Loader from "@/app/components/Loader/Loader";
 import { useLoadUserQuery } from "@/redux/features/api/apiSlice";
 import Chat from "@/app/components/Chat/Chat";

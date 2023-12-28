@@ -10,10 +10,11 @@ import courseRouter from './routes/course.route';
 import orderRouter from './routes/order.route';
 import notificationRoute from './routes/notification.route';
 import notificationRouter from './routes/notification.route';
-import analyticsRouter from './routes/analytics.route copy';
+import analyticsRouter from './routes/analytics.route';
 import layoutRouter from './routes/layout.route';
 import examRouter from './routes/exam.route';
 import chatRouter from './routes/chat.route';
+import blogRouter from './routes/blog.route';
 
 app.use(express.json({ limit: '50mb' }));
 
@@ -38,6 +39,7 @@ app.use('/api/v1', analyticsRouter);
 app.use('/api/v1', layoutRouter);
 app.use('/api/v1', examRouter);
 app.use('/api/v1', chatRouter);
+app.use('/api/v1', blogRouter);
 
 app.get('/test', (req: Request, res: Response, next: NextFunction) => {
   res.status(200).json({

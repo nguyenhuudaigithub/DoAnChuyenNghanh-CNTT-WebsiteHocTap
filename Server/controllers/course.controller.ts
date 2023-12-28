@@ -87,7 +87,6 @@ export const editCourse = CatchAsyncError(
   }
 );
 
-//Nhận khóa không cần mua
 export const getSingleCourse = CatchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -119,7 +118,7 @@ export const getSingleCourse = CatchAsyncError(
   }
 );
 
-// Nhận tất cả các khóa học - mà không cần mua          4 57
+// Nhận tất cả các khóa học - mà không cần mua     
 export const getAllCourses = CatchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
