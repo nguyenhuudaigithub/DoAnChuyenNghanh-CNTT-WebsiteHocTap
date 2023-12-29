@@ -7,11 +7,15 @@ import CourseCard from '../components/Course/CourseCard';
 type Props = {};
 
 const ListCourseSearch = (props: Props) => {
-  const { data, isLoading } = useGetUserAllCoursesQuery({});
+  const { data, isLoading, refetch } = useGetUserAllCoursesQuery({});
   const [courses, setCourses] = useState([]);
   const [category, setCategory] = useState('All');
 
   const { data: categoriesData } = useGetHeroDataQuery('Categories', {});
+
+  useEffect(() => {
+    refetch();
+  }, []);
 
   useEffect(() => {
     setCourses(data?.course);
