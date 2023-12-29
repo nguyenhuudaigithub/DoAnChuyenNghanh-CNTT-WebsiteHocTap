@@ -27,7 +27,9 @@ function page({}: Props) {
           description='NETSKILLD là một nền tảng để học sinh học hỏi và nhận được sự giúp đỡ từ giáo viên'
           keywords='Học Lập Trình,MERN,Redux,Học Máy'
         />
-        <ListCourseSearch />
+        <div>
+          <ListCourseSearch />
+        </div>
         <Footer />
       </>
     </div>

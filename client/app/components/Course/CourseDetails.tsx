@@ -34,20 +34,20 @@ const CourseDetails = ({ data, clientSecret, stripePromise }: Props) => {
 
   const isPurchased =
     user && user?.courses?.find((item: any) => item?._id === data?._id);
-    const handleOrder = async (e: any) => {
-      if (user) {
-        //free
-        if (data?.price === 0) {
-          await createOrderFree({ courseId: data?._id });
-          window.location.reload();
-        } else {
-          // open pay
-          setOpen(true);
-        }
-      }else{
-        toast.error('Bạn chưa đăng nhập!');
+  const handleOrder = async (e: any) => {
+    if (user) {
+      //free
+      if (data?.price === 0) {
+        await createOrderFree({ courseId: data?._id });
+        window.location.reload();
+      } else {
+        // open pay
+        setOpen(true);
       }
-    };
+    } else {
+      toast.error('Bạn chưa đăng nhập!');
+    }
+  };
 
   return (
     <div>
@@ -285,20 +285,18 @@ const CourseDetails = ({ data, clientSecret, stripePromise }: Props) => {
                   onClick={() => setOpen(false)}
                 />
               </div>
-
-              <div className='w-full'>
-               
-            </div> {stripePromise && clientSecret && (
-                  <Elements stripe={stripePromise} options={{ clientSecret }}>
-                    <CheckOutForm
-                      setOpen={setOpen}
-                      data={data}
-                      user={user}
-                      refetch={refetch}
-                    /> 
-                  </Elements>
-                )}
-              </div>
+              <div className='w-full'></div>{' '}
+              {stripePromise && clientSecret && (
+                <Elements stripe={stripePromise} options={{ clientSecret }}>
+                  <CheckOutForm
+                    setOpen={setOpen}
+                    data={data}
+                    user={user}
+                    refetch={refetch}
+                  />
+                </Elements>
+              )}
+            </div>
           </div>
         )}
       </>

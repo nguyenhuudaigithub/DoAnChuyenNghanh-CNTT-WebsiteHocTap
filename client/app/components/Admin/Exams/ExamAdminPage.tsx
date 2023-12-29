@@ -45,7 +45,7 @@ const Exams = () => {
 
   const MuiTable = () => {
     return (
-      <div className='min-h-[80vh] px-4'>
+      <div className='min-h-[80vh] px-4 overflow-y-auto'>
         <TableContainer component={Paper}>
           <Table aria-label='simple table'>
             <TableHead>
