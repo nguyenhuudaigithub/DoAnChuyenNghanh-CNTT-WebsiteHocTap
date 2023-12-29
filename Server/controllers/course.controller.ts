@@ -1,17 +1,21 @@
-import { NextFunction, Request, Response } from "express";
-import { CatchAsyncError } from "../middleware/catchAsyncErrors";
-import ErrorHandler from "../utils/ErrorHandler";
-import cloudinary from "cloudinary";
-import { createCourse, getAllCoursesService } from "../services/course.service";
-import CourseModel from "../models/course.model";
-import { redis } from "../utils/redis";
-import mongoose from "mongoose";
-import path from "path";
-import senMail from "../utils/sendMail";
-import ejs from "ejs";
-import sendMail from "../utils/sendMail";
-import NotificationModel from "../models/notificationModel";
-import axios from "axios";
+import { NextFunction, Request, Response } from 'express';
+import { CatchAsyncError } from '../middleware/catchAsyncErrors';
+import ErrorHandler from '../utils/ErrorHandler';
+import cloudinary from 'cloudinary';
+import { createCourse, getAllCoursesService } from '../services/course.service';
+import CourseModel from '../models/course.model';
+import { redis } from '../utils/redis';
+import mongoose from 'mongoose';
+import path from 'path';
+import senMail from '../utils/sendMail';
+import ejs from 'ejs';
+import sendMail from '../utils/sendMail';
+import NotificationModel from '../models/notificationModel';
+import axios from 'axios';
+
+// const vdoCipherApiUrl = 'https://api.vdocipher.com/v2/';
+// axios.defaults.baseURL = vdoCipherApiUrl;
+// axios.defaults.headers.common['X-Forwarded-For'] = '127.0.0.1';
 
 // upload course
 export const uploadCourse = CatchAsyncError(
@@ -21,7 +25,7 @@ export const uploadCourse = CatchAsyncError(
       const thumbnail = data.thumbnail;
       if (thumbnail) {
         const myCloud = await cloudinary.v2.uploader.upload(thumbnail, {
-          folder: "courses",
+          folder: 'courses',
         });
 
         data.thumbnail = {
@@ -49,11 +53,11 @@ export const editCourse = CatchAsyncError(
 
       const courseData = (await CourseModel.findById(courseId)) as any;
 
-      if (thumbnail && !thumbnail.startsWith("https")) {
+      if (thumbnail && !thumbnail.startsWith('https')) {
         await cloudinary.v2.uploader.destroy(courseData.thumbnail.public_id);
 
         const myCloud = await cloudinary.v2.uploader.upload(thumbnail, {
-          folder: "courses",
+          folder: 'courses',
         });
 
         data.thumbnail = {
@@ -62,7 +66,7 @@ export const editCourse = CatchAsyncError(
         };
       }
 
-      if (thumbnail.startsWith("https")) {
+      if (thumbnail.startsWith('https')) {
         data.thumbnail = {
           public_id: courseData?.thumbnail.public_id,
           url: courseData?.thumbnail.url,
@@ -102,7 +106,7 @@ export const getSingleCourse = CatchAsyncError(
         });
       } else {
         const course = await CourseModel.findById(req.params.id).select(
-          "-courseData.videoUrl -courseData.suggestion -courseData.questions -courseData.links"
+          '-courseData.videoUrl -courseData.suggestion -courseData.questions -courseData.links'
         );
 
         await redis.set(courseId, JSON.stringify(course));
@@ -118,12 +122,12 @@ export const getSingleCourse = CatchAsyncError(
   }
 );
 
-// Nhận tất cả các khóa học - mà không cần mua     
+// Nhận tất cả các khóa học - mà không cần mua
 export const getAllCourses = CatchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const course = await CourseModel.find().select(
-        "-courseData.videoUrl -courseData.suggestion -courseData.questions -courseData.links"
+        '-courseData.videoUrl -courseData.suggestion -courseData.questions -courseData.links'
       );
 
       res.status(200).json({
@@ -150,7 +154,7 @@ export const getCourseByUser = CatchAsyncError(
       if (!courseExists) {
         return next(
           new ErrorHandler(
-            "Bạn không đủ điều kiện truy cập khóa học này !",
+            'Bạn không đủ điều kiện truy cập khóa học này !',
             404
           )
         );
@@ -184,7 +188,7 @@ export const addQuestion = CatchAsyncError(
       const course = await CourseModel.findById(courseId);
 
       if (!mongoose.Types.ObjectId.isValid(contentId)) {
-        return next(new ErrorHandler("Content ID không hợp lệ", 400));
+        return next(new ErrorHandler('Content ID không hợp lệ', 400));
       }
 
       const courseContent = course?.courseData?.find((item: any) =>
@@ -192,7 +196,7 @@ export const addQuestion = CatchAsyncError(
       );
 
       if (!courseContent) {
-        return next(new ErrorHandler("Content ID không hợp lệ", 400));
+        return next(new ErrorHandler('Content ID không hợp lệ', 400));
       }
 
       // Tạo một đối tượng câu hỏi mới
@@ -207,7 +211,7 @@ export const addQuestion = CatchAsyncError(
 
       await NotificationModel.create({
         user: req.user?._id,
-        title: "Câu hỏi mới",
+        title: 'Câu hỏi mới',
         message: `Bạn có một câu hỏi mới từ ${courseContent.title}`,
       });
 
@@ -240,7 +244,7 @@ export const addAnwser = CatchAsyncError(
       const course = await CourseModel.findById(courseId);
 
       if (!mongoose.Types.ObjectId.isValid(contentId)) {
-        return next(new ErrorHandler("Content ID không hợp lệ", 400));
+        return next(new ErrorHandler('Content ID không hợp lệ', 400));
       }
 
       const courseContent = course?.courseData.find((item: any) =>
@@ -248,7 +252,7 @@ export const addAnwser = CatchAsyncError(
       );
 
       if (!courseContent) {
-        return next(new ErrorHandler("Content ID không hợp lệ", 400));
+        return next(new ErrorHandler('Content ID không hợp lệ', 400));
       }
 
       const question = courseContent?.questions?.find((item: any) =>
@@ -256,7 +260,7 @@ export const addAnwser = CatchAsyncError(
       );
 
       if (!question) {
-        return next(new ErrorHandler("Question Id không hợp lệ", 400));
+        return next(new ErrorHandler('Question Id không hợp lệ', 400));
       }
 
       // Tạo đối tượng trả lời mới
@@ -276,7 +280,7 @@ export const addAnwser = CatchAsyncError(
         //Tạo thông báo
         await NotificationModel.create({
           user: req.user?._id,
-          title: "Trả lời mới.",
+          title: 'Trả lời mới.',
           message: `Bạn có một câu trả lời trong ${courseContent.title}`,
         });
       } else {
@@ -285,15 +289,15 @@ export const addAnwser = CatchAsyncError(
           title: courseContent.title,
         };
         const html = await ejs.renderFile(
-          path.join(__dirname, "../mails/question-reply.ejs"),
+          path.join(__dirname, '../mails/question-reply.ejs'),
           data
         );
 
         try {
           await sendMail({
             email: question.user.email,
-            subject: "Tra loi cau hoi",
-            template: "question-reply.ejs",
+            subject: 'Tra loi cau hoi',
+            template: 'question-reply.ejs',
             data,
           });
         } catch (error: any) {
@@ -327,13 +331,13 @@ export const deleteCourse = CatchAsyncError(
       const { id } = req.params;
       const course = await CourseModel.findById(id);
       if (!course) {
-        return next(new ErrorHandler("Course not found", 404));
+        return next(new ErrorHandler('Course not found', 404));
       }
       await course.deleteOne({ id });
       await redis.del(id);
       res.status(200).json({
         success: true,
-        message: "Course deleted successfully",
+        message: 'Course deleted successfully',
       });
     } catch (error: any) {
       return next(new ErrorHandler(error.message, 400));
@@ -361,7 +365,7 @@ export const addReview = CatchAsyncError(
       if (!courseExists) {
         return next(
           new ErrorHandler(
-            "Bạn không đủ điều kiện để truy cập khóa học này !",
+            'Bạn không đủ điều kiện để truy cập khóa học này !',
             404
           )
         );
@@ -391,11 +395,11 @@ export const addReview = CatchAsyncError(
 
       await course?.save();
 
-      await redis.set(courseId, JSON.stringify(course), "EX", 604800);
+      await redis.set(courseId, JSON.stringify(course), 'EX', 604800);
 
       await NotificationModel.create({
         user: req.user?._id,
-        title: "Đánh Giá Mới",
+        title: 'Đánh Giá Mới',
         message: `${req.user?.name} đưa ra đánh giá trong ${course?.name}`,
       });
 
@@ -426,7 +430,7 @@ export const addReplyToReview = CatchAsyncError(
       const course = await CourseModel.findById(courseId);
 
       if (!course) {
-        return next(new ErrorHandler("Không tìm thấy khóa học !", 404));
+        return next(new ErrorHandler('Không tìm thấy khóa học !', 404));
       }
 
       const review = course?.reviews?.find(
@@ -434,7 +438,7 @@ export const addReplyToReview = CatchAsyncError(
       );
 
       if (!review) {
-        return next(new ErrorHandler("Không tìm thấy đánh giá !", 404));
+        return next(new ErrorHandler('Không tìm thấy đánh giá !', 404));
       }
 
       const replyData: any = {
@@ -452,7 +456,7 @@ export const addReplyToReview = CatchAsyncError(
 
       await course?.save();
 
-      await redis.set(courseId, JSON.stringify(course), "EX", 604800);
+      await redis.set(courseId, JSON.stringify(course), 'EX', 604800);
 
       res.status(200).json({
         success: true,
@@ -474,8 +478,8 @@ export const generateVideoUrl = CatchAsyncError(
         { ttl: 300 },
         {
           headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
             Authorization: `Apisecret ${process.env.VDOCIPHER_API_SECRET}`,
           },
         }

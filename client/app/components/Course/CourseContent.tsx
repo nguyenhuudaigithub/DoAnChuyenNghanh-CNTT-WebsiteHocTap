@@ -35,7 +35,7 @@ function CourseContent({ id, user }: Props) {
             route={route}
             setRoute={setRoute}
           />
-          <div className='w-full grid 800px:grid-cols-10'>
+          <div className='w-full grid 800px:grid-cols-10 min-h-screen'>
             <Heading
               title={data ? data[activeVideo]?.title : 'video'}
               description='anything'

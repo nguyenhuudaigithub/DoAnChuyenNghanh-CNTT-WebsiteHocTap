@@ -34,20 +34,20 @@ const CourseDetails = ({ data, clientSecret, stripePromise }: Props) => {
 
   const isPurchased =
     user && user?.courses?.find((item: any) => item?._id === data?._id);
-    const handleOrder = async (e: any) => {
-      if (user) {
-        //free
-        if (data?.price === 0) {
-          await createOrderFree({ courseId: data?._id });
-          window.location.reload();
-        } else {
-          // open pay
-          setOpen(true);
-        }
-      }else{
-        toast.error('Bạn chưa đăng nhập!');
+  const handleOrder = async (e: any) => {
+    if (user) {
+      //free
+      if (data?.price === 0) {
+        await createOrderFree({ courseId: data?._id });
+        window.location.reload();
+      } else {
+        // open pay
+        setOpen(true);
       }
-    };
+    } else {
+      toast.error('Bạn chưa đăng nhập!');
+    }
+  };
 
   return (
     <div>
@@ -142,51 +142,16 @@ const CourseDetails = ({ data, clientSecret, stripePromise }: Props) => {
               </div>
               <br />
               <br />
-              {(data?.reviews && [...data.reviews].reverse()).map(
-                (item: any, index: number) => (
-                  <div className='w-full pb-4' key={index}>
-                    <div className='flex'>
-                      <div className='w-[50px] h-[50px]'>
-                        <Image
-                          src={
-                            item.user.avatar
-                              ? item.user.avatar.url
-                              : 'https://res.cloudinary.com/dshp9jnuy/image/upload/v1665822253/avatars/nrxsg8sd9iy10bbsoenn.png'
-                          }
-                          width={50}
-                          height={50}
-                          alt=''
-                          className='w-[50px] h-[50px] rounded-full object-cover'
-                        />
-                      </div>
-                      <div className='hidden md:block pl-2'>
-                        <div className='flex items-center'>
-                          <h5 className='text-lg pr-2 text-black dark:text-white'>
-                            {item?.user?.name}
-                          </h5>
-                          <Ratings rating={item.rating} />
-                        </div>
-                        <p className='text-black dark:text-white'>
-                          {item?.comment}
-                        </p>
-                        <small className=' dark:text-[#ffffff83] text-black'>
-                          {format(item?.createdAt)} •
-                        </small>
-                      </div>
-                      <div className='pl-2 flex md:hidden items-center'>
-                        <h5 className='text-lg pr-2 text-black dark:text-white'>
-                          {item?.user?.name}
-                        </h5>
-                        <Ratings rating={item?.rating} />
-                      </div>
-                    </div>
-                    {item?.commentReplies?.map((i: any, index: number) => (
-                      <div className='w-full flex 800px:ml-16 my-5'>
+              {data &&
+                (data?.reviews && [...data.reviews].reverse()).map(
+                  (item: any, index: number) => (
+                    <div className='w-full pb-4' key={index}>
+                      <div className='flex'>
                         <div className='w-[50px] h-[50px]'>
                           <Image
                             src={
-                              i?.user?.avatar
-                                ? i.user.avatar.url
+                              item.user.avatar
+                                ? item.user.avatar.url
                                 : 'https://res.cloudinary.com/dshp9jnuy/image/upload/v1665822253/avatars/nrxsg8sd9iy10bbsoenn.png'
                             }
                             width={50}
@@ -195,22 +160,58 @@ const CourseDetails = ({ data, clientSecret, stripePromise }: Props) => {
                             className='w-[50px] h-[50px] rounded-full object-cover'
                           />
                         </div>
-                        <div className='pl-2'>
+                        <div className='hidden md:block pl-2'>
                           <div className='flex items-center'>
-                            <h5 className='text-[20px]'>{i.user.name}</h5>
-                            {''}
-                            <VscVerifiedFilled className='text-[#50c750] ml-2 text-[20px]' />
+                            <h5 className='text-lg pr-2 text-black dark:text-white'>
+                              {item?.user?.name}
+                            </h5>
+                            <Ratings rating={item.rating} />
                           </div>
-                          <p>{i?.comment}</p>
-                          <small className='text-[#ffffff83]'>
-                            {format(i?.createdAt)}
+                          <p className='text-black dark:text-white'>
+                            {item?.comment}
+                          </p>
+                          <small className=' dark:text-[#ffffff83] text-black'>
+                            {format(item?.createdAt)} •
                           </small>
                         </div>
+                        <div className='pl-2 flex md:hidden items-center'>
+                          <h5 className='text-lg pr-2 text-black dark:text-white'>
+                            {item?.user?.name}
+                          </h5>
+                          <Ratings rating={item?.rating} />
+                        </div>
                       </div>
-                    ))}
-                  </div>
-                )
-              )}
+                      {item?.commentReplies?.map((i: any, index: number) => (
+                        <div className='w-full flex 800px:ml-16 my-5'>
+                          <div className='w-[50px] h-[50px]'>
+                            <Image
+                              src={
+                                i?.user?.avatar
+                                  ? i.user.avatar.url
+                                  : 'https://res.cloudinary.com/dshp9jnuy/image/upload/v1665822253/avatars/nrxsg8sd9iy10bbsoenn.png'
+                              }
+                              width={50}
+                              height={50}
+                              alt=''
+                              className='w-[50px] h-[50px] rounded-full object-cover'
+                            />
+                          </div>
+                          <div className='pl-2'>
+                            <div className='flex items-center'>
+                              <h5 className='text-[20px]'>{i.user.name}</h5>
+                              {''}
+                              <VscVerifiedFilled className='text-[#50c750] ml-2 text-[20px]' />
+                            </div>
+                            <p>{i?.comment}</p>
+                            <small className='text-[#ffffff83]'>
+                              {format(i?.createdAt)}
+                            </small>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )
+                )}
             </div>
           </div>
           <div className='w-full 800px:w-[35%] relative'>
@@ -285,20 +286,18 @@ const CourseDetails = ({ data, clientSecret, stripePromise }: Props) => {
                   onClick={() => setOpen(false)}
                 />
               </div>
-
-              <div className='w-full'>
-               
-            </div> {stripePromise && clientSecret && (
-                  <Elements stripe={stripePromise} options={{ clientSecret }}>
-                    <CheckOutForm
-                      setOpen={setOpen}
-                      data={data}
-                      user={user}
-                      refetch={refetch}
-                    /> 
-                  </Elements>
-                )}
-              </div>
+              <div className='w-full'></div>{' '}
+              {stripePromise && clientSecret && (
+                <Elements stripe={stripePromise} options={{ clientSecret }}>
+                  <CheckOutForm
+                    setOpen={setOpen}
+                    data={data}
+                    user={user}
+                    refetch={refetch}
+                  />
+                </Elements>
+              )}
+            </div>
           </div>
         )}
       </>
