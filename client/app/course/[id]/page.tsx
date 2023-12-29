@@ -1,16 +1,18 @@
 'use client';
 import Footer from '@/app/components/Route/Footer';
 import CourseDetailsPage from '../../components/Course/CourseDetailsPage';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Heading from '@/app/utils/Heading';
 import Header from '@/app/components/Header';
 import { useGetCourseDetailsQuery } from '@/redux/features/courses/coursesApi';
 const Page = ({ params }: any) => {
   const [route, setRoute] = useState('Login');
   const [open, setOpen] = useState(false);
-  const { data, isLoading } = useGetCourseDetailsQuery(params.id);
+  const { data, isLoading, refetch } = useGetCourseDetailsQuery(params.id);
 
-  //   console.log(data);
+  useEffect(() => {
+    refetch();
+  }, []);
 
   return (
     <div className='min-h-screen w-full'>
