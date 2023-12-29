@@ -457,7 +457,7 @@ function MainChat({ data, id, isAdmin }: Props) {
                     className={`w-9 h-9 rounded-full flex items-center justify-center mr-2 ${
                       msg.sender === me
                         ? "bg-indigo-500 text-white"
-                        : "bg-gray-300"
+                        : "dark:bg-gray-300 bg-[#d23939]"
                     }`}
                   >
                     <img
@@ -470,7 +470,7 @@ function MainChat({ data, id, isAdmin }: Props) {
                     className={`flex max-w-96 rounded-lg p-3 gap-3 ${
                       msg.sender === me
                         ? "bg-indigo-500 text-white"
-                        : "bg-white"
+                        : "dark:bg-white bg-[#8be3d4]"
                     }`}
                   >
                     {msg.isActive ? (

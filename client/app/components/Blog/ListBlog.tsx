@@ -19,7 +19,7 @@ const ListLayout = (props: Props) => {
         <>
           <div className="max-w-screen-xl mx-auto px-5">
             <div className="mt-16 text-center">
-              <h1 className="text-4xl lg:text-5xl font-bold lg:tracking-tight">
+              <h1 className="text-4xl lg:text-5xl dark:text-white text-black font-bold lg:tracking-tight">
                 Bài Viết
               </h1>
               <p className="text-lg mt-4 text-slate-600">

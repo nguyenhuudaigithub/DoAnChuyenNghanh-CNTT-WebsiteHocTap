@@ -235,6 +235,7 @@ export const getAllChat = CatchAsyncError(
     try {
       const chatAdmin = req.body.chatAdmin;
       const role = req.user?.role;
+      console.log(req.body.isAdmin)
 
       if (chatAdmin && role === "admin") {
         const userCheck = await ChatModel.find({ chatAdmin });

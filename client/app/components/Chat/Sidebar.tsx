@@ -13,11 +13,11 @@ function Sidebar({ data, isAdmin }: Props) {
   const [chats, setChats] = useState([]);
   const id = data?.user._id;
   const [getAllChat, { data: dataChats, isLoading: isLoadingChat }] =
-    useGetAllChatMutation();
-
+  useGetAllChatMutation();
+  console.log(isAdmin)
   useEffect(() => {
     getAllChat({
-      isAdmin: isAdmin,
+      chatAdmin: isAdmin,
     });
   }, [isAdmin]);
 

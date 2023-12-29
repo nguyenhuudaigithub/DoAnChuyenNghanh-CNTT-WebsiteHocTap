@@ -22,7 +22,7 @@ export const navItemsData = [
   },
   {
     name: "Trò Chuyện",
-    url: "/about",
+    url: "/chat",
   },
 ];
 

@@ -312,7 +312,7 @@ const CourseContentMedia = ({
               cols={40}
               rows={5}
               placeholder="Viết câu hỏi của bạn..."
-              className="outline-none bg-transparent ml-3 border dark:border-[#ffffff57] border-black 800px:w-full p-2 rounded w-[90%] 800px:text-[18px] font-Poppins"
+              className="outline-none dark:text-white text-black bg-transparent ml-3 border dark:border-[#ffffff57] border-black 800px:w-full p-2 rounded w-[90%] 800px:text-[18px] font-Poppins"
             />
           </div>
           <div className={`w-full flex justify-end`}>
@@ -394,7 +394,7 @@ const CourseContentMedia = ({
                       cols={40}
                       rows={5}
                       placeholder="Viết bình luận của bạn..."
-                      className="outline-none bg-transparent 800px:ml-3 border border-[#ffffff57] w-[95%] 800px:w-full p-2 rounded text-[18px] font-Poppins"
+                      className="outline-none dark:text-white text-black bg-transparent ml-3 border dark:border-[#ffffff57] border-black 800px:w-full p-2 rounded w-[90%] 800px:text-[18px] font-Poppins"
                     ></textarea>
                   </div>
                 </div>
