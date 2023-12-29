@@ -354,7 +354,7 @@ const AddEditExam = () => {
 
   const tabs = [
     {
-      name: 'Chi Tiết Bài Test',
+      name: 'Chi Tiết Bài Tập',
       component: (
         <>
           {(examData || !params?.id) && (
@@ -377,7 +377,7 @@ const AddEditExam = () => {
                     }}
                     focused
                     type='text'
-                    label='Tên Bài Test'
+                    label='Tên Bài Tập'
                     defaultValue={examData?.name}
                     variant='outlined'
                     onChange={(e: any) => setExamName(e.target.value)}
@@ -389,7 +389,7 @@ const AddEditExam = () => {
                       },
                     }}
                     focused
-                    label='Thời lượng bài Test'
+                    label='Thời lượng bài tập'
                     defaultValue={examData?.duration}
                     type='number'
                     variant='outlined'
@@ -667,7 +667,7 @@ const AddEditExam = () => {
             >
               <ArrowBackIosNewOutlined />
             </Button> */}
-            <PageTitle title={params?.id ? 'Sửa Bài Test' : 'Thêm Bài Test'} />
+            <PageTitle title={params?.id ? 'Sửa Bài Tập' : 'Thêm Bài Tập'} />
           </div>
           <Divider sx={{ marginBottom: 2 }}></Divider>
 

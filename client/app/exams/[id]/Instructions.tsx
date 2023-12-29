@@ -21,7 +21,7 @@ const Instructions = ({
           đạt được một mục tiêu cụ thể.
         </li>
         <li className='text-xl'>
-          Bài test phải hoàn thành{' '}
+          Bài tập phải hoàn thành{' '}
           <span className='text-yellow-400'>{examData?.duration}</span> phút và
           nó sẽ tự động nếu hết thời gian đó.
         </li>
@@ -64,7 +64,7 @@ const Instructions = ({
           className='bg-green-400'
           onClick={() => {
             if (examData?.questions?.length < 1) {
-              toast.error('Bài test hiện tại vẫn chưa có câu hỏi để làm');
+              toast.error('Bài tập hiện tại vẫn chưa có câu hỏi để làm');
             } else {
               setView('questions');
             }

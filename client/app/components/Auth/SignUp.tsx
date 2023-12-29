@@ -145,7 +145,7 @@ const SignUp: FC<Props> = ({ setRoute }) => {
           Phương thức khác
         </h5>
 
-        <div className='flex items-center justify-center my-3'>
+        <div className='flex items-center justify-center my-3 text-black dark:text-white'>
           <FcGoogle
             size={30}
             className='cursor-pointer mr-2'

@@ -119,7 +119,7 @@ const Login: FC<Props> = ({ setRoute, setOpen, refetch }) => {
         <h5 className='text-center pt-4 font-Poppins text-[14px] text-black dark:text-white'>
           Phương thức khác
         </h5>
-        <div className='flex items-center justify-center my-3'>
+        <div className='flex items-center justify-center my-3 text-black dark:text-white'>
           <FcGoogle
             size={30}
             className='cursor-pointer mr-2'
@@ -131,7 +131,7 @@ const Login: FC<Props> = ({ setRoute, setOpen, refetch }) => {
             onClick={() => signIn('github')}
           />
         </div>
-        <h5 className='text-center pt-4 font-Poppins text-[14px]'>
+        <h5 className='text-center pt-4 font-Poppins text-[14px] text-black dark:text-white'>
           Chưa có tài khoản ? {''}
           <span
             className='text-[#2190ff] ol-1 cursor-pointer'

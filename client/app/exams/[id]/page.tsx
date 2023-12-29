@@ -98,7 +98,7 @@ const ExamPage = () => {
                     className='px-8 py-4 bg-green-400 rounded-md mt-8 text-white'
                     onClick={() => (window.location.href = '/exams')}
                   >
-                    Trở lại trang Bài Test
+                    Trở lại trang Bài Tập
                   </button>
                 </div>
               </div>

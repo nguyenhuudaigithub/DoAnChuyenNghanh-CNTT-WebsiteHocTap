@@ -18,8 +18,11 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import AssignmentOutlinedIcon from '@mui/icons-material/AssignmentOutlined';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
+import BookIcon from '@mui/icons-material/Book';
+import EditNoteIcon from '@mui/icons-material/EditNote';
 
 export {
+  EditNoteIcon,
   HomeOutlinedIcon,
   ArrowForwardIosIcon,
   ArrowBackIosIcon,
@@ -31,6 +34,7 @@ export {
   OndemandVideoIcon,
   VideoCallIcon,
   WebIcon,
+  BookIcon,
   QuizIcon,
   WysiwygIcon,
   ManageHistoryIcon,

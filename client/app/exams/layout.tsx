@@ -13,7 +13,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className='h-[100vh] w-full overflow-y-auto'>
       <Heading
-        title='Bài Test - Netskilld'
+        title='Bài Tập - Netskilld'
         description='Netskilld is a learning management system for helping programers.'
         keywords='programming, mern'
       />

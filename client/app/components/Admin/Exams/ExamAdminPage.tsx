@@ -108,7 +108,7 @@ const Exams = () => {
   return (
     <>
       <div className='flex justify-between items-center mt-[6rem] ml-3 h-full'>
-        <PageTitle title={'Quản lý Bài Test'} />
+        <PageTitle title={'Quản lý Bài Tập'} />
         <Button
           className='outline-purple-500'
           onClick={() =>
@@ -117,7 +117,7 @@ const Exams = () => {
             })
           }
         >
-          Thêm Bài Test
+          Thêm Bài Tập
         </Button>
       </div>
       <Divider

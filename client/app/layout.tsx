@@ -58,5 +58,5 @@ const Custom: FC<{ children: React.ReactNode }> = ({ children }) => {
     setIsClient(true);
   }, []);
 
-  return <>{isClient && (isLoading ? <Loader /> : <>{children}</>)}</>;
+  return <>{isClient && <>{children}</>}</>;
 };
