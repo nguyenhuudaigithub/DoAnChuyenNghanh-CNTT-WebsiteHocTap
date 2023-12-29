@@ -26,6 +26,17 @@ const style = {
 };
 
 const EditBlog: FC<Props> = ({ id }) => {
+  const [blogInfo, setBlogInfo] = useState({
+    title: "",
+    tags: "",
+    description: "",
+    thumbnail: "",
+  });
+  const [detailB, setdetail] = useState({
+    detail: "",
+    display: false,
+  });
+
   const [editBlog, { isSuccess, error }] = useEditBlogMutation();
   const { data, refetch } = useGetAdminAllBlogsQuery(
     {},
@@ -33,6 +44,7 @@ const EditBlog: FC<Props> = ({ id }) => {
   );
 
   const editBlogData = data && data?.blog.find((i: any) => i._id === id);
+  console.log(editBlogData);
 
   useEffect(() => {
     if (editBlogData) {
@@ -42,32 +54,26 @@ const EditBlog: FC<Props> = ({ id }) => {
         tags: editBlogData?.tags,
         description: editBlogData?.description,
         thumbnail: editBlogData?.thumbnail?.url,
-        // detail: editBlogData?.detail,
-        // display: editBlogData?.display,
+      }));
+      setdetail((prevBlogInfo) => ({
+        detail: editBlogData?.detail,
+        display: editBlogData?.display,
       }));
     }
   }, [editBlogData]);
 
-  const [blogInfo, setBlogInfo] = useState({
-    title: "",
-    tags: "",
-    description: "",
-    thumbnail: "",
-    detail: "",
-    display: false,
-  });
-
-  console.log(blogInfo);
+  console.log(detailB);
 
   const handleSubmit = async () => {
     const data = {
-      title: blogInfo.title,
-      description: blogInfo.description,
-      tags: blogInfo.tags,
-      thumbnail: blogInfo.thumbnail,
-      detail: blogInfo.detail,
-      display: blogInfo.display,
+      title: blogInfo?.title,
+      description: blogInfo?.description,
+      tags: blogInfo?.tags,
+      thumbnail: blogInfo?.thumbnail,
+      detail: detailB?.detail,
+      display: detailB?.display,
     };
+    console.log(data);
     setBlogInfo(data);
   };
   const [dragging, setDragging] = useState(false);
@@ -115,7 +121,7 @@ const EditBlog: FC<Props> = ({ id }) => {
 
   const handleEditorChange = (event: any, editor: any) => {
     const data = editor.getData();
-    setBlogInfo({ ...blogInfo, detail: data });
+    setdetail({ ...detailB, detail: data });
   };
 
   const [open, setOpen] = React.useState(false);
@@ -129,14 +135,20 @@ const EditBlog: FC<Props> = ({ id }) => {
   const [checked, setChecked] = React.useState(false);
   const handleChange = () => {
     setChecked(!checked);
-    setBlogInfo({ ...blogInfo, display: !checked });
+    setdetail({ ...detailB, display: !checked });
   };
 
   useEffect(() => {}, []);
 
   const handleBlogEdit = async (e: any) => {
     handleSubmit();
-    await editBlog({ id: editBlogData?._id, data });
+    const dataE = {
+      ...blogInfo,
+      ...detailB,
+    };
+    console.log(dataE);
+    console.log(id)
+    await editBlog({ id: id, dataE });
   };
 
   return (
@@ -150,7 +162,7 @@ const EditBlog: FC<Props> = ({ id }) => {
               type="name"
               name=""
               required
-              value={blogInfo.title}
+              value={blogInfo?.title}
               onChange={(e: any) =>
                 setBlogInfo({ ...blogInfo, title: e.target.value })
               }
@@ -169,7 +181,7 @@ const EditBlog: FC<Props> = ({ id }) => {
                 type="text"
                 name=""
                 required
-                value={blogInfo.tags}
+                value={blogInfo?.tags}
                 onChange={(e: any) =>
                   setBlogInfo({ ...blogInfo, tags: e.target.value })
                 }
@@ -190,7 +202,7 @@ const EditBlog: FC<Props> = ({ id }) => {
                 type="text"
                 name=""
                 required
-                value={blogInfo.description}
+                value={blogInfo?.description}
                 onChange={(e: any) =>
                   setBlogInfo({ ...blogInfo, description: e.target.value })
                 }
@@ -216,7 +228,7 @@ const EditBlog: FC<Props> = ({ id }) => {
             </label>
             <CKEditor
               editor={ClassicEditor}
-              data={blogInfo.detail}
+              data={detailB?.detail}
               onChange={handleEditorChange}
               onReady={(e: any) => {
                 e.editing.view.change((w: any) => {
@@ -248,9 +260,9 @@ const EditBlog: FC<Props> = ({ id }) => {
               onDragLeave={handleDragLeave}
               onDrop={handleDrop}
             >
-              {blogInfo.thumbnail ? (
+              {blogInfo?.thumbnail ? (
                 <img
-                  src={blogInfo.thumbnail}
+                  src={blogInfo?.thumbnail}
                   alt=""
                   className="max-h-full w-full object-cover"
                 />
@@ -296,10 +308,10 @@ const EditBlog: FC<Props> = ({ id }) => {
                     style={{ fontSize: "24px", fontWeight: "bold" }}
                     className="mb-3"
                   >
-                    {blogInfo.title}
+                    {blogInfo?.title}
                   </h1>
                   <div
-                    dangerouslySetInnerHTML={{ __html: blogInfo.detail }}
+                    dangerouslySetInnerHTML={{ __html: detailB?.detail }}
                     style={{ maxHeight: "780px", overflowY: "auto" }}
                   />
                 </div>
@@ -315,7 +327,7 @@ const EditBlog: FC<Props> = ({ id }) => {
                   <div className="flex w-full mb-3 dark:bg-slate-500 dark:bg-opacity-20 backdrop-blur border dark:border-[#ffffff1d] border-[#00000015] dark:shadow-[bg-slate-700] rounded-lg p-3 shadow-sm dark:shadow-inner">
                     <div className="w-[40%]">
                       <img
-                        src={blogInfo.thumbnail}
+                        src={blogInfo?.thumbnail}
                         alt=""
                         className="max-h-full w-full object-cover"
                       />
@@ -331,7 +343,7 @@ const EditBlog: FC<Props> = ({ id }) => {
                         }}
                         className="mb-3"
                       >
-                        {blogInfo.title}
+                        {blogInfo?.title}
                       </h5>
                       <p
                         style={{
@@ -342,14 +354,14 @@ const EditBlog: FC<Props> = ({ id }) => {
                           overflowWrap: "break-word",
                         }}
                       >
-                        {blogInfo.description}
+                        {blogInfo?.description}
                       </p>
                     </div>
                   </div>
                   <div className="flex w-full mb-3 dark:bg-slate-500 dark:bg-opacity-20 backdrop-blur border dark:border-[#ffffff1d] border-[#00000015] dark:shadow-[bg-slate-700] rounded-lg p-3 shadow-sm dark:shadow-inner">
                     <div className="w-[40%]">
                       <img
-                        src={blogInfo.thumbnail}
+                        src={blogInfo?.thumbnail}
                         alt=""
                         className="max-h-full w-full object-cover"
                       />
@@ -365,7 +377,7 @@ const EditBlog: FC<Props> = ({ id }) => {
                         }}
                         className="mb-3"
                       >
-                        {blogInfo.title}
+                        {blogInfo?.title}
                       </h5>
                       <p
                         style={{
@@ -376,14 +388,14 @@ const EditBlog: FC<Props> = ({ id }) => {
                           overflowWrap: "break-word",
                         }}
                       >
-                        {blogInfo.description}
+                        {blogInfo?.description}
                       </p>
                     </div>
                   </div>
                   <div className="flex w-full mb-3 dark:bg-slate-500 dark:bg-opacity-20 backdrop-blur border dark:border-[#ffffff1d] border-[#00000015] dark:shadow-[bg-slate-700] rounded-lg p-3 shadow-sm dark:shadow-inner">
                     <div className="w-[40%]">
                       <img
-                        src={blogInfo.thumbnail}
+                        src={blogInfo?.thumbnail}
                         alt=""
                         className="max-h-full w-full object-cover"
                       />
@@ -399,7 +411,7 @@ const EditBlog: FC<Props> = ({ id }) => {
                         }}
                         className="mb-3"
                       >
-                        {blogInfo.title}
+                        {blogInfo?.title}
                       </h5>
                       <p
                         style={{
@@ -410,14 +422,14 @@ const EditBlog: FC<Props> = ({ id }) => {
                           overflowWrap: "break-word",
                         }}
                       >
-                        {blogInfo.description}
+                        {blogInfo?.description}
                       </p>
                     </div>
                   </div>
                   <div className="flex w-full mb-3 dark:bg-slate-500 dark:bg-opacity-20 backdrop-blur border dark:border-[#ffffff1d] border-[#00000015] dark:shadow-[bg-slate-700] rounded-lg p-3 shadow-sm dark:shadow-inner">
                     <div className="w-[40%]">
                       <img
-                        src={blogInfo.thumbnail}
+                        src={blogInfo?.thumbnail}
                         alt=""
                         className="max-h-full w-full object-cover"
                       />
@@ -433,7 +445,7 @@ const EditBlog: FC<Props> = ({ id }) => {
                         }}
                         className="mb-3"
                       >
-                        {blogInfo.title}
+                        {blogInfo?.title}
                       </h5>
                       <p
                         style={{
@@ -444,14 +456,14 @@ const EditBlog: FC<Props> = ({ id }) => {
                           overflowWrap: "break-word",
                         }}
                       >
-                        {blogInfo.description}
+                        {blogInfo?.description}
                       </p>
                     </div>
                   </div>
                   <div className="flex w-full dark:bg-slate-500 dark:bg-opacity-20 backdrop-blur border dark:border-[#ffffff1d] border-[#00000015] dark:shadow-[bg-slate-700] rounded-lg p-3 shadow-sm dark:shadow-inner">
                     <div className="w-[40%]">
                       <img
-                        src={blogInfo.thumbnail}
+                        src={blogInfo?.thumbnail}
                         alt=""
                         className="max-h-full w-full object-cover"
                       />
@@ -467,7 +479,7 @@ const EditBlog: FC<Props> = ({ id }) => {
                         }}
                         className="mb-3"
                       >
-                        {blogInfo.title}
+                        {blogInfo?.title}
                       </h5>
                       <p
                         style={{
@@ -478,7 +490,7 @@ const EditBlog: FC<Props> = ({ id }) => {
                           overflowWrap: "break-word",
                         }}
                       >
-                        {blogInfo.description}
+                        {blogInfo?.description}
                       </p>
                     </div>
                   </div>

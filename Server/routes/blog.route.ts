@@ -24,7 +24,7 @@ blogRouter.get("/get-all-blogs-user", isAutheticated, getAllBlog);
 blogRouter.get("/get-single-blog/:id", isAutheticated, getSingleBlog);
 
 blogRouter.put(
-  "/edit-blog/:id",
+  "/edit-blogs-id/:id",
   isAutheticated,
   authorizeRoles("admin"),
   editBlog

@@ -34,12 +34,12 @@ const CreateBlog = (props: Props) => {
 
   const handleSubmit = async () => {
     const data = {
-      title: blogInfo.title,
-      description: blogInfo.description,
-      tags: blogInfo.tags,
-      thumbnail: blogInfo.thumbnail,
-      detail: blogInfo.detail,
-      display: blogInfo.display,
+      title: blogInfo?.title,
+      description: blogInfo?.description,
+      tags: blogInfo?.tags,
+      thumbnail: blogInfo?.thumbnail,
+      detail: blogInfo?.detail,
+      display: blogInfo?.display,
     };
 
     setBlogInfo(data);
@@ -138,7 +138,7 @@ const CreateBlog = (props: Props) => {
               type="name"
               name=""
               required
-              value={blogInfo.title}
+              value={blogInfo?.title}
               onChange={(e: any) =>
                 setBlogInfo({ ...blogInfo, title: e.target.value })
               }
@@ -157,7 +157,7 @@ const CreateBlog = (props: Props) => {
                 type="text"
                 name=""
                 required
-                value={blogInfo.tags}
+                value={blogInfo?.tags}
                 onChange={(e: any) =>
                   setBlogInfo({ ...blogInfo, tags: e.target.value })
                 }
@@ -178,7 +178,7 @@ const CreateBlog = (props: Props) => {
                 type="text"
                 name=""
                 required
-                value={blogInfo.description}
+                value={blogInfo?.description}
                 onChange={(e: any) =>
                   setBlogInfo({ ...blogInfo, description: e.target.value })
                 }
@@ -204,7 +204,7 @@ const CreateBlog = (props: Props) => {
             </label>
             <CKEditor
               editor={ClassicEditor}
-              data={blogInfo.detail}
+              data={blogInfo?.detail}
               onChange={handleEditorChange}
               onReady={(e: any) => {
                 e.editing.view.change((w: any) => {
@@ -236,9 +236,9 @@ const CreateBlog = (props: Props) => {
               onDragLeave={handleDragLeave}
               onDrop={handleDrop}
             >
-              {blogInfo.thumbnail ? (
+              {blogInfo?.thumbnail ? (
                 <img
-                  src={blogInfo.thumbnail}
+                  src={blogInfo?.thumbnail}
                   alt=""
                   className="max-h-full w-full object-cover"
                 />
@@ -284,10 +284,10 @@ const CreateBlog = (props: Props) => {
                     style={{ fontSize: "24px", fontWeight: "bold" }}
                     className="mb-3"
                   >
-                    {blogInfo.title}
+                    {blogInfo?.title}
                   </h1>
                   <div
-                    dangerouslySetInnerHTML={{ __html: blogInfo.detail }}
+                    dangerouslySetInnerHTML={{ __html: blogInfo?.detail }}
                     style={{ maxHeight: "780px", overflowY: "auto" }}
                   />
                 </div>
@@ -303,7 +303,7 @@ const CreateBlog = (props: Props) => {
                   <div className="flex w-full mb-3 dark:bg-slate-500 dark:bg-opacity-20 backdrop-blur border dark:border-[#ffffff1d] border-[#00000015] dark:shadow-[bg-slate-700] rounded-lg p-3 shadow-sm dark:shadow-inner">
                     <div className="w-[40%]">
                       <img
-                        src={blogInfo.thumbnail}
+                        src={blogInfo?.thumbnail}
                         alt=""
                         className="max-h-full w-full object-cover"
                       />
@@ -319,7 +319,7 @@ const CreateBlog = (props: Props) => {
                         }}
                         className="mb-3"
                       >
-                        {blogInfo.title}
+                        {blogInfo?.title}
                       </h5>
                       <p
                         style={{
@@ -330,14 +330,14 @@ const CreateBlog = (props: Props) => {
                           overflowWrap: "break-word",
                         }}
                       >
-                        {blogInfo.description}
+                        {blogInfo?.description}
                       </p>
                     </div>
                   </div>
                   <div className="flex w-full mb-3 dark:bg-slate-500 dark:bg-opacity-20 backdrop-blur border dark:border-[#ffffff1d] border-[#00000015] dark:shadow-[bg-slate-700] rounded-lg p-3 shadow-sm dark:shadow-inner">
                     <div className="w-[40%]">
                       <img
-                        src={blogInfo.thumbnail}
+                        src={blogInfo?.thumbnail}
                         alt=""
                         className="max-h-full w-full object-cover"
                       />
@@ -353,7 +353,7 @@ const CreateBlog = (props: Props) => {
                         }}
                         className="mb-3"
                       >
-                        {blogInfo.title}
+                        {blogInfo?.title}
                       </h5>
                       <p
                         style={{
@@ -364,14 +364,14 @@ const CreateBlog = (props: Props) => {
                           overflowWrap: "break-word",
                         }}
                       >
-                        {blogInfo.description}
+                        {blogInfo?.description}
                       </p>
                     </div>
                   </div>
                   <div className="flex w-full mb-3 dark:bg-slate-500 dark:bg-opacity-20 backdrop-blur border dark:border-[#ffffff1d] border-[#00000015] dark:shadow-[bg-slate-700] rounded-lg p-3 shadow-sm dark:shadow-inner">
                     <div className="w-[40%]">
                       <img
-                        src={blogInfo.thumbnail}
+                        src={blogInfo?.thumbnail}
                         alt=""
                         className="max-h-full w-full object-cover"
                       />
@@ -387,7 +387,7 @@ const CreateBlog = (props: Props) => {
                         }}
                         className="mb-3"
                       >
-                        {blogInfo.title}
+                        {blogInfo?.title}
                       </h5>
                       <p
                         style={{
@@ -398,14 +398,14 @@ const CreateBlog = (props: Props) => {
                           overflowWrap: "break-word",
                         }}
                       >
-                        {blogInfo.description}
+                        {blogInfo?.description}
                       </p>
                     </div>
                   </div>
                   <div className="flex w-full mb-3 dark:bg-slate-500 dark:bg-opacity-20 backdrop-blur border dark:border-[#ffffff1d] border-[#00000015] dark:shadow-[bg-slate-700] rounded-lg p-3 shadow-sm dark:shadow-inner">
                     <div className="w-[40%]">
                       <img
-                        src={blogInfo.thumbnail}
+                        src={blogInfo?.thumbnail}
                         alt=""
                         className="max-h-full w-full object-cover"
                       />
@@ -421,7 +421,7 @@ const CreateBlog = (props: Props) => {
                         }}
                         className="mb-3"
                       >
-                        {blogInfo.title}
+                        {blogInfo?.title}
                       </h5>
                       <p
                         style={{
@@ -432,14 +432,14 @@ const CreateBlog = (props: Props) => {
                           overflowWrap: "break-word",
                         }}
                       >
-                        {blogInfo.description}
+                        {blogInfo?.description}
                       </p>
                     </div>
                   </div>
                   <div className="flex w-full dark:bg-slate-500 dark:bg-opacity-20 backdrop-blur border dark:border-[#ffffff1d] border-[#00000015] dark:shadow-[bg-slate-700] rounded-lg p-3 shadow-sm dark:shadow-inner">
                     <div className="w-[40%]">
                       <img
-                        src={blogInfo.thumbnail}
+                        src={blogInfo?.thumbnail}
                         alt=""
                         className="max-h-full w-full object-cover"
                       />
@@ -455,7 +455,7 @@ const CreateBlog = (props: Props) => {
                         }}
                         className="mb-3"
                       >
-                        {blogInfo.title}
+                        {blogInfo?.title}
                       </h5>
                       <p
                         style={{
@@ -466,7 +466,7 @@ const CreateBlog = (props: Props) => {
                           overflowWrap: "break-word",
                         }}
                       >
-                        {blogInfo.description}
+                        {blogInfo?.description}
                       </p>
                     </div>
                   </div>
