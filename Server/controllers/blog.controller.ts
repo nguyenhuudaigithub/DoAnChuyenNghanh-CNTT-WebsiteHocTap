@@ -2,10 +2,9 @@ import { NextFunction, Request, Response } from "express";
 import { CatchAsyncError } from "../middleware/catchAsyncErrors";
 import ErrorHandler from "../utils/ErrorHandler";
 import cloudinary from "cloudinary";
-import { createBlog } from "../services/blog.service";
+import { createBlog, getAllBlogsService } from "../services/blog.service";
 import BlogModel from "../models/blog.model";
 import { redis } from "../utils/redis";
-import mongoose from "mongoose";
 import NotificationModel from "../models/notificationModel";
 import ejs from "ejs";
 import sendMail from "../utils/sendMail";
@@ -78,6 +77,8 @@ export const editBlog = CatchAsyncError(
         { new: true }
       );
 
+      await redis.set(blogId, JSON.stringify(blog));
+
       res.status(201).json({
         success: true,
         blog,
@@ -87,11 +88,11 @@ export const editBlog = CatchAsyncError(
     }
   }
 );
-
+//get all blog - user
 export const getAllBlog = CatchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const blog = await BlogModel.find().select(
+      const blog = await BlogModel.find({ display: true }).select(
         "title description thumbnail tags updatedAt"
       );
 
@@ -105,6 +106,38 @@ export const getAllBlog = CatchAsyncError(
   }
 );
 
+// get all blog -- only for admin
+export const getAdminAllBlog = CatchAsyncError(
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      getAllBlogsService(res);
+    } catch (error: any) {
+      return next(new ErrorHandler(error.message, 400));
+    }
+  }
+);
+
+// detele blog -- only for admin
+export const deleteBlog = CatchAsyncError(
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { id } = req.params;
+      const blog = await BlogModel.findById(id);
+      if (!blog) {
+        return next(new ErrorHandler("Bài viết không hợp lệ!", 404));
+      }
+      await blog.deleteOne({ id });
+      await redis.del(id);
+      res.status(200).json({
+        success: true,
+        message: "Xóa bài viết thành công!",
+      });
+    } catch (error: any) {
+      return next(new ErrorHandler(error.message, 400));
+    }
+  }
+);
+
 export const getSingleBlog = CatchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -114,7 +147,7 @@ export const getSingleBlog = CatchAsyncError(
 
       if (isCacheExist) {
         const blog = JSON.parse(isCacheExist);
-        res.status(200).json({
+        return res.status(200).json({
           success: true,
           blog,
         });
@@ -144,8 +177,10 @@ export const addQuestionBlog = CatchAsyncError(
     try {
       const { question, blogId }: IAddQuestionData = req.body;
       const idUser = req.user?._id;
-      
-      const user = await userModel.findById(idUser).select("_id name email avatar")
+
+      const user = await userModel
+        .findById(idUser)
+        .select("_id name email avatar");
       const blog = await BlogModel.findById(blogId);
 
       const newQuestion: any = {
@@ -167,6 +202,8 @@ export const addQuestionBlog = CatchAsyncError(
 
         await blog?.save();
 
+        await redis.set(blogId, JSON.stringify(blog));
+
         res.status(200).json({
           success: true,
           blog,
@@ -178,87 +215,78 @@ export const addQuestionBlog = CatchAsyncError(
   }
 );
 
-// interface IAddAnswerData {
-//   answer: string;
-//   blogId: string;
-//   contentId: string;
-//   questionId: string;
-// }
+interface IAddAnswerData {
+  answer: string;
+  blogId: string;
+  questionId: string;
+}
 
-// export const addAnwser = CatchAsyncError(
-//   async (req: Request, res: Response, next: NextFunction) => {
-//     try {
-//       const { answer, blogId, contentId, questionId }: IAddAnswerData =
-//         req.body;
-//       const blog = await BlogModel.findById(blogId);
+export const addAnwserBlog = CatchAsyncError(
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { answer, blogId, questionId }: IAddAnswerData = req.body;
+      const idUser = req.user?._id;
 
-//       if (!mongoose.Types.ObjectId.isValid(contentId)) {
-//         return next(new ErrorHandler("Content ID không hợp lệ", 400));
-//       }
+      const user = await userModel
+        .findById(idUser)
+        .select("_id name email avatar");
+      const blog = await BlogModel.findById(blogId);
 
-//       const blogContent = blog?.blogData.find((item: any) =>
-//         item._id.equals(contentId)
-//       );
+      const question = blog?.questions?.find((item: any) =>
+        item._id.equals(questionId)
+      );
 
-//       if (!blogContent) {
-//         return next(new ErrorHandler("Content ID không hợp lệ", 400));
-//       }
+      if (!question) {
+        return next(new ErrorHandler("Không tìm thấy bình luận!", 400));
+      }
 
-//       const question = blogContent?.questions?.find((item: any) =>
-//         item._id.equals(questionId)
-//       );
+      const newAnswer: any = {
+        user: user,
+        answer,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      };
 
-//       if (!question) {
-//         return next(new ErrorHandler("Question Id không hợp lệ", 400));
-//       }
+      question.questionReplies?.push(newAnswer);
 
-//       // Tạo đối tượng trả lời mới
-//       const newAnswer: any = {
-//         user: req.user,
-//         answer,
-//         createdAt: new Date().toISOString(),
-//         updatedAt: new Date().toISOString(),
-//       };
+      await blog?.save();
 
-//       //  Thêm câu trả lời này vào nội dung khóa học của chúng tôi
-//       question.questionReplies?.push(newAnswer);
+      await redis.set(blogId, JSON.stringify(blog));
 
-//       await blog?.save();
+      if (idUser === question.user._id) {
+        await NotificationModel.create({
+          user: req.user?._id,
+          title: "Trả lời mới.",
+          message: `Bạn có một câu trả lời trong bài viết ${blog?.title}`,
+        });
+      } else {
+        const data = {
+          name: question.user.name,
+          title: blog?.title,
+        };
+        console.log(data);
+        const html = await ejs.renderFile(
+          path.join(__dirname, "../mails/question-reply-blog.ejs"),
+          data
+        );
 
-//       if (req.user?._id === question.user._id) {
-//         //Tạo thông báo
-//         await NotificationModel.create({
-//           user: req.user?._id,
-//           title: "Trả lời mới.",
-//           message: `Bạn có một câu trả lời trong ${blogContent.title}`,
-//         });
-//       } else {
-//         const data = {
-//           name: question.user.name,
-//           title: blogContent.title,
-//         };
-//         const html = await ejs.renderFile(
-//           path.join(__dirname, "../mails/question-reply.ejs"),
-//           data
-//         );
-
-//         try {
-//           await sendMail({
-//             email: question.user.email,
-//             subject: "Tra loi cau hoi",
-//             template: "question-reply.ejs",
-//             data,
-//           });
-//         } catch (error: any) {
-//           return next(new ErrorHandler(error.message, 500));
-//         }
-//       }
-//       res.status(200).json({
-//         success: true,
-//         blog,
-//       });
-//     } catch (error: any) {
-//       return next(new ErrorHandler(error.message, 500));
-//     }
-//   }
-// );
+        try {
+          await sendMail({
+            email: question.user.email,
+            subject: "Trả lời câu hỏi",
+            template: "question-reply-blog.ejs",
+            data,
+          });
+        } catch (error: any) {
+          return next(new ErrorHandler(error.message, 500));
+        }
+      }
+      res.status(200).json({
+        success: true,
+        blog,
+      });
+    } catch (error: any) {
+      return next(new ErrorHandler(error.message, 500));
+    }
+  }
+);

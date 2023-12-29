@@ -40,7 +40,7 @@ const CourseContentMedia = ({
   setActiveVideo,
   user,
   refetch,
-}: Props) => {
+}: Props) => { 
   const [activeBar, setActiveBar] = useState(0);
   const [question, setQuestion] = useState("");
   const [review, setReview] = useState("");
@@ -550,6 +550,8 @@ const CommentItem = ({
   answerCreationLoading,
 }: any) => {
   const [replyActive, setreplyActive] = useState(false);
+ 
+
   return (
     <>
       <div className="my-4">
