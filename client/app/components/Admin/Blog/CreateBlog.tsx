@@ -123,7 +123,6 @@ const CreateBlog = (props: Props) => {
   const handleBlogCreate = async (e: any) => {
     const data = blogInfo;
     if (!isLoading) {
-      console.log(data)
       await createBlog(data);
     }
   };

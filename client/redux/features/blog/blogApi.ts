@@ -10,6 +10,22 @@ export const blogApi = apiSlice.injectEndpoints({
         credentials: "include" as const,
       }),
     }),
+
+    getUserAllBlogs: builder.query({
+      query: () => ({
+        url: `get-all-blogs-user`,
+        method: "GET",
+        credentials: "include" as const,
+      }),
+    }),
+ 
+    getSingleBlog: builder.query({
+      query: (id) => ({
+        url: `get-single-blog/${id}`,
+        method: "GET",
+        credentials: "include" as const,
+      }),
+    }),
   }),
 });
-export const { useCreateBlogMutation } = blogApi;
+export const { useCreateBlogMutation,useGetUserAllBlogsQuery, useGetSingleBlogQuery } = blogApi;

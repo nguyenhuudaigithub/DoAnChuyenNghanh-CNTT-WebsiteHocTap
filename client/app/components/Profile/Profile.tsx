@@ -29,19 +29,8 @@ const Profile: FC<Props> = ({ user }) => {
   const logOutHandler = async () => {
     signOut();
     await setLogout(true);
-    // window.location.href = '/';
     redirect('/');
   };
-
-  // if (typeof window !== 'undefined') {
-  //   window.addEventListener('scroll', () => {
-  //     if (window.scrollY > 85) {
-  //       setScroll(true);
-  //     } else {
-  //       setScroll(false);
-  //     }
-  //   });
-  // }
   useEffect(() => {
     if (data) {
       const filteredCourses = user.courses
