@@ -7,11 +7,15 @@ import CourseCard from '../components/Course/CourseCard';
 type Props = {};
 
 const ListCourseSearch = (props: Props) => {
-  const { data, isLoading } = useGetUserAllCoursesQuery({});
+  const { data, isLoading, refetch } = useGetUserAllCoursesQuery({});
   const [courses, setCourses] = useState([]);
   const [category, setCategory] = useState('All');
 
   const { data: categoriesData } = useGetHeroDataQuery('Categories', {});
+
+  useEffect(() => {
+    refetch();
+  }, []);
 
   useEffect(() => {
     setCourses(data?.course);
@@ -36,7 +40,7 @@ const ListCourseSearch = (props: Props) => {
   const categories = categoriesData?.layout?.categories;
 
   return (
-    <div className='w-[95%] 800px:w-[85%] mx-auto min-h-[78.25vh]'>
+    <div className='w-[95%] 800px:w-[85%] mx-auto min-h-full'>
       <br />
       <div className='w-full flex items-center flex-wrap'>
         <div

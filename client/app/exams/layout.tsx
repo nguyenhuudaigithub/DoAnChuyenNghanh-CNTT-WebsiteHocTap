@@ -7,7 +7,7 @@ import Footer from '../components/Route/Footer';
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const [open, setOpen] = useState(false);
-  const [activeItem, setActiveItem] = useState(2);
+  const [activeItem, setActiveItem] = useState(3);
   const [route, setRoute] = useState('Login');
 
   return (
@@ -24,7 +24,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         setRoute={setRoute}
         route={route}
       />
-      <div className='min-h-[74vh] w-full grid grid-cols-1 grid-rows-1 my-5'>
+      <div className='min-h-[77vh] w-full grid grid-cols-1 grid-rows-1 my-5'>
         {children}
       </div>
       <Footer />

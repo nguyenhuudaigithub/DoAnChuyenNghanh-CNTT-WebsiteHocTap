@@ -23,7 +23,7 @@ const page = (props: Props) => {
           <div className='1500px:w-[16%] w-1/5'>
             <AdminSidebar />
           </div>
-          <div className='w-[85%]'>
+          <div className='w-[85%] min-h-screen'>
             <DashboardHeader open={open} setOpen={setOpen} />;
             <AllBlogs />
           </div>

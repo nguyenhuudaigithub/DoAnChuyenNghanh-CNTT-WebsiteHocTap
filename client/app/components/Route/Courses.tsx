@@ -8,6 +8,10 @@ const Courses = (props: Props) => {
   const [courses, setCourses] = useState<any[]>([]);
 
   useEffect(() => {
+    refetch();
+  }, []);
+
+  useEffect(() => {
     setCourses(data?.course);
   }, [data]);
 
