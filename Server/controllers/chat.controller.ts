@@ -52,7 +52,7 @@ export const newChat = CatchAsyncError(
           number == 2 &&
           idCheck
         ) {
-          console.log(idCheck);
+          // console.log(idCheck);
           res.status(401).json({
             error: true,
             message: "Chuyển tới cửa sổ trò chuyện!",
@@ -112,6 +112,10 @@ export const replyChat = CatchAsyncError(
     try {
       const chatId = req.params.id;
       const userId = req.user?._id;
+      const data = req.body;
+      
+      // console.log(chatId)
+      // console.log()
 
       const chat = await ChatModel.findById(chatId);
       const userIds = chat?.group.map((chat: any) =>
@@ -129,8 +133,10 @@ export const replyChat = CatchAsyncError(
       }
       //check user login - (null not invalid - user login is not in group chat), checkUser.length > 0 true
       else if (checkUser.length > 0) {
-        const data = req.body;
+        
+       
         const email = req.body?.email;
+        const chatAdmin = chat.chatAdmin
         //check add new user in group or rep message
         if (email) {
           // select data - email add chatk
@@ -189,7 +195,7 @@ export const replyChat = CatchAsyncError(
               message: "Người dùng không tồn tại!",
             });
           }
-        } else {
+        }  else {
           const image = data.image;
 
           if (image) {
@@ -213,11 +219,40 @@ export const replyChat = CatchAsyncError(
 
           res.status(201).json({
             error: false,
-            message: "Thêm mới thanh viên thành công",
+            message: "......",
             chat,
           });
         }
-      } else {
+      } 
+      // if(chat?.chatAdmin == true && req.user?.role == "admin") {
+      //   const image = data.image;
+
+      //     if (image) {
+      //       const myCloud = await cloudinary.v2.uploader.upload(image, {
+      //         folder: "chat",
+      //       });
+      //       data.image = myCloud.secure_url;
+      //     }
+
+      //     const newMessage: any = {
+      //       user: req.user?._id,
+      //       message: data.message,
+      //       image: data.image,
+      //       createdAt: new Date().toISOString(),
+      //       updatedAt: new Date().toISOString(),
+      //     };
+
+      //     chat.message.push(newMessage);
+
+      //     await chat.save();
+
+      //     res.status(201).json({
+      //       error: false,
+      //       message: "......",
+      //       chat,
+      //     });
+      // } 
+      else {
         res.status(201).json({
           error: true,
           message: "Bạn không thuộc nhóm chat!",
@@ -228,34 +263,81 @@ export const replyChat = CatchAsyncError(
     }
   }
 );
-
-// get all chat - admin and user
-export const getAllChat = CatchAsyncError(
+export const replyChatAdmin = CatchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const chatAdmin = req.body.chatAdmin;
-      const role = req.user?.role;
-      console.log(req.body.isAdmin)
+      const chatId = req.params.id;
+      const data = req.body;
+      const chat = await ChatModel.findById(chatId);
+      
+      if(chat?.chatAdmin == true && req.user?.role == "admin") {
+        const image = data.image;
 
-      if (chatAdmin && role === "admin") {
-        const userCheck = await ChatModel.find({ chatAdmin });
-        res.status(200).json({
-          success: true,
-          data: userCheck,
-        });
-      } else {
-        const userChats = req.user?.chats || [];
+          if (image) {
+            const myCloud = await cloudinary.v2.uploader.upload(image, {
+              folder: "chat",
+            });
+            data.image = myCloud.secure_url;
+          }
 
-        const chatIds = userChats.map((chat: any) => chat._id);
-        const chatsFromModel = await ChatModel.find({ _id: { $in: chatIds } });
+          const newMessage: any = {
+            user: req.user?._id,
+            message: data.message,
+            image: data.image,
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
+          };
 
-        res.status(200).json({
-          success: true,
-          data: chatsFromModel,
-        });
-      }
+          chat.message.push(newMessage);
+
+          await chat.save();
+
+          res.status(201).json({
+            error: false,
+            message: "......",
+            chat,
+          });
+      } 
+      
+    } catch (error: any) {
+      return next(new ErrorHandler(error.message, 500));
+    }
+  }
+);
+
+// get all chat
+export const getAllChatUser = CatchAsyncError(
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const userChats = req.user?.chats || [];
+
+      const chatIds = userChats.map((chat: any) => chat._id);
+      const chatsFromModel = await ChatModel.find({ _id: { $in: chatIds } });
+
+      res.status(200).json({
+        success: true,
+        data: chatsFromModel,
+      });
     } catch (error: any) {
       return next(new ErrorHandler(error.message, 400));
+    }
+  }
+);
+// admin and user
+export const getAllChatAdmin = CatchAsyncError(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const chatAdmin = true;
+    try {
+      const userCheck = await ChatModel.find({ chatAdmin });
+      res.status(200).json({
+        success: true,
+        data: userCheck,
+      });
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: "Internal Server Error",
+      });
     }
   }
 );
@@ -310,24 +392,26 @@ export const outGroup = CatchAsyncError(
     try {
       const chatId = req.params.id.toString();
       const idUser = req.user?._id.toString();
-      
+
       const user = await userModel.findById(idUser);
-      
+
       if (user) {
         user.chats = user.chats.filter((chat: any) => chat._id != chatId);
-        console.log(user.chats);
+        // console.log(user.chats);
         const chat = await ChatModel.findById(chatId);
 
         if (chat) {
-          chat.group = chat.group.filter((group: any) => group.user._id.toString() !== idUser);
+          chat.group = chat.group.filter(
+            (group: any) => group.user._id.toString() !== idUser
+          );
           await chat.save();
         }
-        
+
         await redis.set(idUser, JSON.stringify(user));
         await user.save();
 
         await user.save();
-        
+
         return res.status(200).json({
           success: true,
           message: "Rời nhóm chat thành công!",
@@ -343,4 +427,3 @@ export const outGroup = CatchAsyncError(
     }
   }
 );
-

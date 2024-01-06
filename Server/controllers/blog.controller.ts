@@ -18,7 +18,7 @@ export const createNewBlog = CatchAsyncError(
       const data = req.body;
       const thumbnail = data.thumbnail;
 
-      console.log(data);
+      // console.log(data);
       if (thumbnail) {
         const myCloud = await cloudinary.v2.uploader.upload(thumbnail, {
           folder: "blog",
@@ -264,7 +264,7 @@ export const addAnwserBlog = CatchAsyncError(
           name: question.user.name,
           title: blog?.title,
         };
-        console.log(data);
+        // console.log(data);
         const html = await ejs.renderFile(
           path.join(__dirname, "../mails/question-reply-blog.ejs"),
           data

@@ -22,7 +22,7 @@ const style = {
   p: 4,
 };
 
-const CreateBlog = (props: Props) => {
+const CreateNewBlog = (props: Props) => {
   const [blogInfo, setBlogInfo] = useState({
     title: "",
     tags: "",
@@ -202,9 +202,9 @@ const CreateBlog = (props: Props) => {
             <label className={`${styles.label}`} htmlFor="email">
               Chi Tiết
             </label>
-            <CKEditor
+            {/* <CKEditor
               editor={ClassicEditor}
-              data={blogInfo?.detail}
+              data={blogInfo && blogInfo.detail}
               onChange={handleEditorChange}
               onReady={(e: any) => {
                 e.editing.view.change((w: any) => {
@@ -215,7 +215,7 @@ const CreateBlog = (props: Props) => {
                   );
                 });
               }}
-            />
+            /> */}
           </div>
           <br />
 
@@ -480,4 +480,4 @@ const CreateBlog = (props: Props) => {
   );
 };
 
-export default CreateBlog;
+export default CreateNewBlog;

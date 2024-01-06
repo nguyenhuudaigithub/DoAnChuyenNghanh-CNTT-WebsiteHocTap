@@ -12,7 +12,7 @@ const CardExam = ({ exam, category }: any) => {
       <h4>
         <span className='flex justify-between flex-col'>
           <span className='text-white'>
-            Thể loại: <span>{category.title}</span>
+            Thể loại: <span>{category?.title}</span>
           </span>
           <span className='text-white '>
             Thời lượng: <span>{exam.duration} phút</span>

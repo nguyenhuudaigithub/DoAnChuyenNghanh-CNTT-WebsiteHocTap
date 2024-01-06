@@ -2,6 +2,7 @@ import {
   useGetSingleChatQuery,
   useOutGroupMutation,
   useRenameMutation,
+  useReplyChatAdminMutation,
   useReplyChatMutation,
 } from "@/redux/features/chat/chatApi";
 import React, { useState, useEffect } from "react";
@@ -71,6 +72,11 @@ function MainChat({ data, id, isAdmin }: Props) {
   const [replyChat, { isSuccess, error, data: dataReply }] =
     useReplyChatMutation();
 
+  const [
+    replyChatAdmin,
+    { isSuccess: isSuccessAdmin, error: errorAdmin, data: dataReplyAdmin },
+  ] = useReplyChatAdminMutation();
+
   const [rename, { isSuccess: isSuccessNG }] = useRenameMutation();
 
   useEffect(() => {
@@ -130,6 +136,14 @@ function MainChat({ data, id, isAdmin }: Props) {
         content: message,
       });
     }
+    if (isSuccessAdmin) {
+      toast.success("Gửi tin nhắn thành công cho user");
+      socket.emit("newMessage", {
+        idChat: id,
+        sender: user._id,
+        content: message,
+      });
+    }
     if (error) {
       const errorData = error as any;
       toast.error(errorData?.data?.message);
@@ -156,12 +170,21 @@ function MainChat({ data, id, isAdmin }: Props) {
         isActive: false,
       };
       setMessages((prevMessages) => [...prevMessages, newMessage]);
-      replyChat({
-        id: id,
-        data: {
-          message: newMessage.content,
-        },
-      });
+      if (isAdmin) {
+        replyChatAdmin({
+          id: id,
+          data: {
+            message: newMessage.content,
+          },
+        });
+      } else {
+        replyChat({
+          id: id,
+          data: {
+            message: newMessage.content,
+          },
+        });
+      }
       setMessage("");
     }
   };
@@ -178,12 +201,21 @@ function MainChat({ data, id, isAdmin }: Props) {
     fileReader.onload = () => {
       if (fileReader.readyState === 2) {
         const image = fileReader.result;
-        replyChat({
-          id: id,
-          data: {
-            image: image,
-          },
-        });
+        if (isAdmin) {
+          replyChatAdmin({
+            id: id,
+            data: {
+              image: image,
+            },
+          });
+        } else {
+          replyChat({
+            id: id,
+            data: {
+              image: image,
+            },
+          });
+        }
       }
     };
     fileReader.readAsDataURL(e.target.files[0]);
@@ -204,7 +236,7 @@ function MainChat({ data, id, isAdmin }: Props) {
   const onSubmit = async (e: any) => {
     if (active || avatarGroup) {
       if (active) {
-        toast.success(questionEmail);
+        // toast.success(questionEmail);
         rename({
           id: id,
           data: {

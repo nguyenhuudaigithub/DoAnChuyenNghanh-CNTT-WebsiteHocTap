@@ -19,11 +19,27 @@ export const chatApi = apiSlice.injectEndpoints({
       }),
     }),
 
-    getAllChat: builder.mutation({
-      query: ({ chatAdmin }) => ({
-        url: "/get-all-chat",
-        method: "POST",
-        body: chatAdmin,
+    replyChatAdmin: builder.mutation({
+      query: ({ id, data }) => ({
+        url: `chat-admin/${id}`,
+        method: "PUT",
+        body: data,
+        credentials: "include" as const,
+      }),
+    }),
+
+    getAllChatUser: builder.query({
+      query: () => ({
+        url: "/get-all-chat-user",
+        method: "GET",
+        credentials: "include" as const,
+      }),
+    }),
+    
+    getAllChatAdmin: builder.query({
+      query: () => ({
+        url: "/get-all-chat-admin",
+        method: "GET",
         credentials: "include" as const,
       }),
     }),
@@ -57,8 +73,10 @@ export const chatApi = apiSlice.injectEndpoints({
 export const {
   useCreateChatMutation,
   useReplyChatMutation,
-  useGetAllChatMutation,
+  useReplyChatAdminMutation,
   useGetSingleChatQuery,
   useRenameMutation,
   useOutGroupMutation,
+  useGetAllChatAdminQuery,
+  useGetAllChatUserQuery,
 } = chatApi;

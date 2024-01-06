@@ -67,7 +67,7 @@ const ListExam = () => {
         {categoryChange !== ''
           ? exams?.map((exam: any) => {
               if (exam.category == categoryChange) {
-                const category = categories.find(
+                const category = categories?.find(
                   (category: any) => category?._id == exam.category
                 );
                 return (

@@ -13,8 +13,10 @@ const AddFriend = (props: Props) => {
   useEffect(() => {
     if (isSuccess) {
       toast.success("Tạo nhóm chat mới thành công!");
-      router.push("/chat/" + data?.chat?._id);
+      window.location.reload();
+      window.location.href = "/chat/" + data?.chat?._id;
     }
+    
 
     if (error) {
       const errorData = error as any;

@@ -261,13 +261,13 @@ const AdminSidebar = () => {
               setSelected={setSelected}
             />
 
-            {/* <Item
+            <Item
               title="Thêm Bài Viết"
               to="/admin/create-blog"
               icon={<EditNoteIcon />}
               selected={selected}
               setSelected={setSelected}
-            /> */}
+            />
 
             <Typography
               variant='h5'

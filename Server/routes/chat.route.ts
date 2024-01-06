@@ -2,13 +2,15 @@ import express from "express";
 import {
   replyChat,
   newChat,
-  getAllChat,
   getSingleChat,
   editImage,
   nameGroup,
   outGroup,
+  getAllChatUser,
+  getAllChatAdmin,
+  replyChatAdmin,
 } from "../controllers/chat.controller";
-import { isAutheticated } from "../middleware/auth";
+import { authorizeRoles, isAutheticated } from "../middleware/auth";
 
 const chatRouter = express.Router();
 
@@ -16,7 +18,16 @@ chatRouter.post("/create-chat", isAutheticated, newChat);
 
 chatRouter.put("/chat/:id", isAutheticated, replyChat);
 
-chatRouter.post("/get-all-chat", isAutheticated, getAllChat);
+chatRouter.put("/chat-admin/:id", isAutheticated,authorizeRoles("admin"), replyChatAdmin);
+
+chatRouter.get("/get-all-chat-user", isAutheticated, getAllChatUser);
+
+chatRouter.get(
+  "/get-all-chat-admin",
+  isAutheticated,
+  authorizeRoles("admin"),
+  getAllChatAdmin
+);
 
 chatRouter.get("/chat/:id", isAutheticated, getSingleChat);
 

@@ -13,7 +13,7 @@ export const initSocketServer = (server: http.Server) => {
     });
 
     socket.on("newMessage", (dataM:any) => {
-      console.log("oke",dataM)
+      // console.log("oke",dataM)
       io.emit("newChat", dataM); 
     });
 

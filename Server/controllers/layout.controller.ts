@@ -118,7 +118,7 @@ export const editLayout = CatchAsyncError(
             };
           })
         );
-        console.log(categoriesData);
+        // console.log(categoriesData);
         await LayoutModel.findByIdAndUpdate(categoriesData?._id, {
           type: 'Categories',
           categories: categoriesItems,

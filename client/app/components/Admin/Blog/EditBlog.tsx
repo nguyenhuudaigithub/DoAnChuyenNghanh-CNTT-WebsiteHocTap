@@ -8,8 +8,6 @@ import {
   useEditBlogMutation,
   useGetAdminAllBlogsQuery,
 } from "@/redux/features/blog/blogApi";
-import toast from "react-hot-toast";
-import { redirect } from "next/navigation";
 
 type Props = { id: any };
 const style = {
@@ -44,7 +42,7 @@ const EditBlog: FC<Props> = ({ id }) => {
   );
 
   const editBlogData = data && data?.blog.find((i: any) => i._id === id);
-  console.log(editBlogData);
+  // console.log(editBlogData);
 
   useEffect(() => {
     if (editBlogData) {
@@ -62,7 +60,7 @@ const EditBlog: FC<Props> = ({ id }) => {
     }
   }, [editBlogData]);
 
-  console.log(detailB);
+  // console.log(detailB);
 
   const handleSubmit = async () => {
     const data = {
@@ -73,7 +71,7 @@ const EditBlog: FC<Props> = ({ id }) => {
       detail: detailB?.detail,
       display: detailB?.display,
     };
-    console.log(data);
+    // console.log(data);
     setBlogInfo(data);
   };
   const [dragging, setDragging] = useState(false);
@@ -146,8 +144,8 @@ const EditBlog: FC<Props> = ({ id }) => {
       ...blogInfo,
       ...detailB,
     };
-    console.log(dataE);
-    console.log(id)
+    // console.log(dataE);
+    // console.log(id)
     await editBlog({ id: id, dataE });
   };
 

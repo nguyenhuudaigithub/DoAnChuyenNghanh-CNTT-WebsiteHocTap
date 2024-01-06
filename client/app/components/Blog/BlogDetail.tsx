@@ -58,9 +58,9 @@ const BlogDetail: FC<Props> = ({ id, user }) => {
     },
   ] = useAddAnswerInQuestionBlogMutation();
   const handleAnswerSubmit = () => {
-    console.log(answer)
-    console.log(id)
-    console.log(questionId)
+    // console.log(answer)
+    // console.log(id)
+    // console.log(questionId)
 
     addAnswerInQuestionBlog({
       answer,
