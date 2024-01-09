@@ -52,9 +52,10 @@ const CheckOutForm = ({ setOpen, data, user, refetch }: Props) => {
       createOrder({ courseId: data._id, payment_info: paymentIntent });
       toast.success('Order thanh cong');
       fetchUser();
-      setLoadUser(true);
+      setLoadUser(true); 
       // redirect(`/course-access/${data?._id}`);
-      window.location.href = `/course-access/${data?._id}`;
+      // window.location.href = `/course-access/${data?._id}`;
+      window.location.reload();
     }
   };
 

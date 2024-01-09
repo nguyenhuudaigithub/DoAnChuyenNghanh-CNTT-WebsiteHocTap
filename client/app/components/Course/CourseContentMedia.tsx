@@ -20,9 +20,9 @@ import { format } from "timeago.js";
 import { BiMessage } from "react-icons/bi";
 import { VscVerifiedFilled } from "react-icons/vsc";
 import Ratings from "@/app/utils/Ratings";
-import socketIO from 'socket.io-client';
-const ENDPOINT = process.env.NEXT_PUBLIC_SOCKET_SERVER_URI || '';
-const socketId = socketIO(ENDPOINT, { transports: ['websocket'] });
+import socketIO from "socket.io-client";
+const ENDPOINT = process.env.NEXT_PUBLIC_SOCKET_SERVER_URI || "";
+const socketId = socketIO(ENDPOINT, { transports: ["websocket"] });
 
 type Props = {
   data: any;
@@ -40,7 +40,7 @@ const CourseContentMedia = ({
   setActiveVideo,
   user,
   refetch,
-}: Props) => { 
+}: Props) => {
   const [activeBar, setActiveBar] = useState(0);
   const [question, setQuestion] = useState("");
   const [review, setReview] = useState("");
@@ -107,9 +107,9 @@ const CourseContentMedia = ({
       setQuestion("");
       refetch();
       toast.success("Thêm câu hỏi thành công.");
-      socketId.emit("notification",{
-        title: "New Question Received",
-        message:`You have a new question in ${data[activeVideo].title}`,
+      socketId.emit("notification", {
+        title: "Câu hỏi mới",
+        message: `Bạn có câu hỏi mới từ ${data[activeVideo].title}`,
         userId: user._id,
       });
     }
@@ -117,10 +117,10 @@ const CourseContentMedia = ({
       setAnswer("");
       refetch();
       toast.success("Thêm câu trả lời thành công.");
-      if(user.role !== "admin"){
-        socketId.emit("notification",{
-          title: "New Reply Received",
-          message:`You have a new question reply in question ${data[activeVideo].title}`,
+      if (user.role !== "admin") {
+        socketId.emit("notification", {
+          title: "Câu trả lời",
+          message: `Bạn có câu trả lời mới từ ${data[activeVideo].title}`,
           userId: user._id,
         });
       }
@@ -145,9 +145,9 @@ const CourseContentMedia = ({
       courseRefetch();
       toast.success("Thêm đánh giá thành công.");
 
-      socketId.emit("notification",{
+      socketId.emit("notification", {
         title: "Đánh giá mới",
-        message:`Bạn có đánh giá mới từ ${data?.course?.name}`,
+        message: `Bạn có đánh giá mới từ ${data?.course?.name}`,
         userId: user._id,
       });
     }
@@ -417,50 +417,19 @@ const CourseContentMedia = ({
             <br />
             <div className="w-full h-[1px] dark:bg-[#ffffff3b] bg-black"></div>
             <div className="w-full">
-              {(course?.reviews && [...course.reviews].reverse()).map(
-                (item: any, index: number) => (
-                  <div className="w-full my-5">
-                    <div className="w-full flex">
-                      <div>
-                        <Image
-                          src={
-                            item.user?.avatar
-                              ? item.user.avatar.url
-                              : "https://res.cloudinary.com/dshp9jnuy/image/upload/v1665822253/avatars/nrxsg8sd9iy10bbsoenn.png"
-                          }
-                          width={50}
-                          height={50}
-                          alt=""
-                          className="w-[50px] h-[50px] rounded-full object-cover"
-                        />
-                      </div>
-                      <div className="ml-2 dark:text-white text-black">
-                        <h1 className="text-[18px] ">{item?.user.name}</h1>
-                        <Ratings rating={item.rating} />
-                        <p>{item.comment}</p>
-                        <small className=" dark:text-[#ffffff83] text-black">
-                          {format(item.createdAt)} •
-                        </small>
-                      </div>
-                    </div>
-                    {user.role === "admin" && (
-                      <span
-                        className={`${styles.label} ml-10 cursor-pointer`}
-                        onClick={() => {
-                          setIsReviewReply(true);
-                          setReviewId(item._id);
-                        }}
-                      >
-                        Trả lời
-                      </span>
-                    )}
-                    {item.commentReplies.map((i: any, index: number) => (
-                      <div className="w-full flex 800px:ml-16 my-5">
-                        <div className="w-[50px] h-[50px]">
+              {(course?.reviews && [...course.reviews].reverse())?.map(
+                (item: any, index: number) => {
+                  return (
+                    <div
+                      className="w-full my-5 dark:text-white text-black"
+                      key={index}
+                    >
+                      <div className="w-full flex">
+                        <div>
                           <Image
                             src={
-                              i.user.avatar
-                                ? i.user.avatar.url
+                              item.user?.avatar
+                                ? item.user.avatar.url
                                 : "https://res.cloudinary.com/dshp9jnuy/image/upload/v1665822253/avatars/nrxsg8sd9iy10bbsoenn.png"
                             }
                             width={50}
@@ -469,39 +438,78 @@ const CourseContentMedia = ({
                             className="w-[50px] h-[50px] rounded-full object-cover"
                           />
                         </div>
-                        <div className="pl-2">
-                          <div className="flex items-center">
-                            <h5 className="text-[20px]">{i.user.name}</h5>
-                            {""}
-                            <VscVerifiedFilled className="text-[#50c750] ml-2 text-[20px]" />
-                          </div>
-                          <p>{i.comment}</p>
-                          <small className="text-[#ffffff83]">
-                            {format(i.createdAt)}
+                        <div className="ml-2 dark:text-white text-black">
+                          <h1 className="text-[18px] ">{item?.user.name}</h1>
+                          <Ratings rating={item.rating} />
+                          <p>{item.comment}</p>
+                          <small className=" dark:text-[#ffffff83] text-black">
+                            {format(item.createdAt)} •
                           </small>
                         </div>
                       </div>
-                    ))}
-                    {isReviewReply && (
-                      <div className="w-full flex relative">
-                        <input
-                          type="text"
-                          placeholder="Nhập câu trả lời của bạn..."
-                          value={reply}
-                          onChange={(e: any) => setReply(e.target.value)}
-                          className="block 800px:ml-12 mt-2 outline-none bg-transparent border-b border-[#00000027] dark:text-white text-black dark:border-[#fff] p-[5px] w-[95%]"
-                        />
-                        <button
-                          type="submit"
-                          className="absolute right-0 bottom-1"
-                          onClick={handleReviewReplySubmit}
+                      {user.role === "admin" && (
+                        <span
+                          className={`${styles.label} ml-10 cursor-pointer`}
+                          onClick={() => {
+                            setIsReviewReply(true);
+                            setReviewId(item._id);
+                          }}
                         >
-                          Lưu
-                        </button>
-                      </div>
-                    )}
-                  </div>
-                )
+                          Trả lời
+                        </span>
+                      )}
+                      {item.commentReplies.map((i: any, index: number) => (
+                        <div
+                          className="w-full flex 800px:ml-16 my-5"
+                          key={index}
+                        >
+                          <div className="w-[50px] h-[50px]">
+                            <Image
+                              src={
+                                i.user.avatar
+                                  ? i.user.avatar.url
+                                  : "https://res.cloudinary.com/dshp9jnuy/image/upload/v1665822253/avatars/nrxsg8sd9iy10bbsoenn.png"
+                              }
+                              width={50}
+                              height={50}
+                              alt=""
+                              className="w-[50px] h-[50px] rounded-full object-cover"
+                            />
+                          </div>
+                          <div className="pl-2">
+                            <div className="flex items-center">
+                              <h5 className="text-[20px]">{i.user.name}</h5>
+                              {""}
+                              <VscVerifiedFilled className="text-[#50c750] ml-2 text-[20px]" />
+                            </div>
+                            <p>{i.comment}</p>
+                            <small className="text-[#ffffff83]">
+                              {format(i.createdAt)}
+                            </small>
+                          </div>
+                        </div>
+                      ))}
+                      {isReviewReply && (
+                        <div className="w-full flex relative">
+                          <input
+                            type="text"
+                            placeholder="Nhập câu trả lời của bạn..."
+                            value={reply}
+                            onChange={(e: any) => setReply(e.target.value)}
+                            className="block 800px:ml-12 mt-2 outline-none bg-transparent border-b border-[#00000027] dark:text-white text-black dark:border-[#fff] p-[5px] w-[95%]"
+                          />
+                          <button
+                            type="submit"
+                            className="absolute right-0 bottom-1"
+                            onClick={handleReviewReplySubmit}
+                          >
+                            Lưu
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  );
+                }
               )}
             </div>
             <br />
@@ -550,7 +558,6 @@ const CommentItem = ({
   answerCreationLoading,
 }: any) => {
   const [replyActive, setreplyActive] = useState(false);
- 
 
   return (
     <>
@@ -602,7 +609,10 @@ const CommentItem = ({
       {replyActive && (
         <>
           {item.questionReplies.map((item: any) => (
-            <div className="w-full flex 800px:ml-16 my-5 text-black dark:text-white">
+            <div
+              className="w-full flex 800px:ml-16 my-5 text-black dark:text-white"
+              key={item._id}
+            >
               <div>
                 <Image
                   src={

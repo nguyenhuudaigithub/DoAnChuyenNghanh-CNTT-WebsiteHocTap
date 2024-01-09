@@ -53,7 +53,7 @@ const CoursePlayer: FC<Props> = ({ videoUrl }) => {
     playbackInfo: '',
   });
 
-  console.log(videoUrl);
+  // console.log(videoUrl);
 
   useEffect(() => {
     axios
@@ -71,7 +71,8 @@ const CoursePlayer: FC<Props> = ({ videoUrl }) => {
     >
       {videoData.otp && videoData.playbackInfo !== '' && (
         <iframe
-          src={`https://player.vdocipher.com/v2/?otp=${videoData?.otp}&playbackInfo=${videoData.playbackInfo}&player=DXPtblVpwgQQCTBX`}
+          // src={`https://player.vdocipher.com/v2/?otp=${videoData?.otp}&playbackInfo=${videoData.playbackInfo}&player=DXPtblVpwgQQCTBX`}
+          src={`https://player.vdocipher.com/v2/?otp=${videoData?.otp}&playbackInfo=${videoData.playbackInfo}&player=wh4BiR4dv9wTgxE9`}
           style={{
             border: 0,
             width: '100%',

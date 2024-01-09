@@ -19,9 +19,9 @@ blogRouter.post(
   authorizeRoles("admin"),
   createNewBlog
 );
-blogRouter.get("/get-all-blogs-user", isAutheticated, getAllBlog);
+blogRouter.get("/get-all-blogs-user", getAllBlog);
 
-blogRouter.get("/get-single-blog/:id", isAutheticated, getSingleBlog);
+blogRouter.get("/get-single-blog/:id", getSingleBlog);
 
 blogRouter.put(
   "/edit-blogs-id/:id",

@@ -49,6 +49,9 @@ const CourseDetails = ({ data, clientSecret, stripePromise }: Props) => {
     }
   };
 
+  // console.log("stripePromise:",stripePromise)
+  // console.log("clientSecret:",clientSecret)
+
   return (
     <div>
       <div className='w-[90%] 800px:w-[90%] m-auto py-5'>
@@ -181,7 +184,7 @@ const CourseDetails = ({ data, clientSecret, stripePromise }: Props) => {
                       </div>
                     </div>
                     {item?.commentReplies?.map((i: any, index: number) => (
-                      <div className='w-full flex 800px:ml-16 my-5'>
+                      <div className='w-full flex 800px:ml-16 my-5' key={index}>
                         <div className='w-[50px] h-[50px]'>
                           <Image
                             src={

@@ -199,18 +199,18 @@ export const addQuestion = CatchAsyncError(
 
       // Tạo một đối tượng câu hỏi mới
       const newQuestion: any = {
-        user: req.user,
+        user: req?.user,
         question,
         questionReplies: [],
       };
 
       //Thêm câu hỏi này vào nội dung khóa học của chúng tôi
-      courseContent.questions.push(newQuestion);
+      courseContent?.questions.push(newQuestion);
 
       await NotificationModel.create({
         user: req.user?._id,
         title: 'Câu hỏi mới',
-        message: `Bạn có một câu hỏi mới từ ${courseContent.title}`,
+        message: `Câu hỏi mới từ khóa học ${course?.name} video ${courseContent?.title}`,
       });
 
       //Lưu khóa học cập nhật
@@ -279,12 +279,12 @@ export const addAnwser = CatchAsyncError(
         await NotificationModel.create({
           user: req.user?._id,
           title: 'Trả lời mới.',
-          message: `Bạn có một câu trả lời trong ${courseContent.title}`,
+          message: `Bạn có một câu trả lời từ khóa học ${course?.name} video ${courseContent?.title}`,
         });
       } else {
         const data = {
           name: question.user.name,
-          title: courseContent.title,
+          title: courseContent?.title,
         };
         const html = await ejs.renderFile(
           path.join(__dirname, '../mails/question-reply.ejs'),
