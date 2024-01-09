@@ -1,34 +1,34 @@
-import mongoose, { Document, Model, Schema } from "mongoose";
+import mongoose, { Document, Model, Schema } from 'mongoose';
 
 export interface INotification extends Document {
-    title: string;
-    message: string;
-    status: string;
-    userId: string;
+  title: string;
+  message: string;
+  status: string;
+  userId: string;
 }
 
 const notificationSchema = new Schema<INotification>(
-    {
-        title: {
-            type: String,
-            required: true
-        },
-        message: {
-            type: String,
-            required: true
-        },
-        status: {
-            type: String,
-            required: true,
-            default: "unread"
-        },
+  {
+    title: {
+      type: String,
+      required: true,
     },
-    { timestamps: true }
+    message: {
+      type: String,
+      required: true,
+    },
+    status: {
+      type: String,
+      required: true,
+      default: 'unread',
+    },
+  },
+  { timestamps: true, expireAfterSeconds: 60 * 60 * 24 }
 );
 
 const NotificationModel: Model<INotification> = mongoose.model(
-    "Notification",
-    notificationSchema
+  'Notification',
+  notificationSchema
 );
 
 export default NotificationModel;
