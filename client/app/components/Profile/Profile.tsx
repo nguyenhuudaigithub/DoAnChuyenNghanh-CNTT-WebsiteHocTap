@@ -20,7 +20,7 @@ const Profile: FC<Props> = ({ user }) => {
   const [avatar, setAvatar] = useState(null);
   const [logout, setLogout] = useState(false);
   const [courses, setCourses] = useState([]);
-  const { data, isLoading } = useGetAllCoursesQuery(undefined, {});
+  const {data, isLoading } = useGetAllCoursesQuery(undefined, {});
   const {} = useLogOutQuery(undefined, {
     skip: !logout ? true : false,
   });
