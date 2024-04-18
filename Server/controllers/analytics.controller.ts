@@ -1,10 +1,10 @@
-import { Request, Response, NextFunction } from "express";
-import ErrorHandler from "../utils/ErrorHandler";
-import { CatchAsyncError } from "../middleware/catchAsyncErrors";
-import { generateLast12MonthsData } from "../utils/analytics.generator";
-import userModel from "../models/user.model";
-import CourseModel from "../models/course.model";
-import OrderModel from "../models/orderModel";
+import { Request, Response, NextFunction } from 'express';
+import ErrorHandler from '../utils/ErrorHandler';
+import { CatchAsyncError } from '../middleware/catchAsyncErrors';
+import { generateLast12MonthsData } from '../utils/analytics.generator';
+import userModel from '../models/user.model';
+import CourseModel from '../models/course.model';
+import OrderModel from '../models/orderModel';
 
 //getusers users analytics - only admin
 export const getUsersAnalytics = CatchAsyncError(
@@ -26,6 +26,7 @@ export const getCoursesAnalytics = CatchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const courses = await generateLast12MonthsData(CourseModel);
+
       res.status(200).json({
         success: true,
         courses,

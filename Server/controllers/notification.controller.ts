@@ -11,7 +11,7 @@ cron.schedule("0 0 0 * * *", async () => {
     status: "read",
     createdAt: { $lt: thirtyDaysAgo },
   });
-  console.log("Delete rea botifications");
+  // console.log("Delete rea botifications");
 });
 
 //  Nhận tất cả thông báo -- chỉ quản trị viên

@@ -16,6 +16,7 @@ export interface IUser extends Document {
   role: string;
   isVerified: boolean;
   courses: Array<{ courseId: string }>;
+  chats: Array<{ chatId: string }>;
   comparePassword: (password: string) => Promise<boolean>;
   SignAccessToken: () => string;
   SignRefreshToken: () => string;
@@ -25,7 +26,7 @@ const userSchema: Schema<IUser> = new mongoose.Schema(
   {
     name: {
       type: String,
-      required: [true, "Vui long nhap ten !"],
+      required: [true, "Vui lòng nhập tên !"],
     },
     email: {
       type: String,
@@ -58,6 +59,11 @@ const userSchema: Schema<IUser> = new mongoose.Schema(
     courses: [
       {
         courseId: String,
+      },
+    ],
+    chats: [
+      {
+        chatId: String,
       },
     ],
   },
